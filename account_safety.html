@@ -50,8 +50,7 @@
   .header {
     text-align: center;
     margin-bottom: 56px;
-    opacity: 0;
-    animation: fadeUp 0.8s ease forwards;
+    animation: fadeUp 0.8s ease both;
   }
   .header-badge {
     display: inline-block;
@@ -80,8 +79,7 @@
   }
   .section {
     margin-bottom: 20px;
-    opacity: 0;
-    animation: fadeUp 0.7s ease forwards;
+    animation: fadeUp 0.7s ease both;
   }
   .section:nth-child(2) { animation-delay: 0.15s; }
   .section:nth-child(3) { animation-delay: 0.25s; }
@@ -272,4 +270,111 @@
     line-height: 1.9;
   }
   @keyframes fadeUp {
-    from { opacity: 0; tr
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  strong { color: var(--text); font-weight: 500; }
+  em { color: var(--accent); font-style: normal; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="header-badge">ご利用前にお読みください</div>
+    <h1>口座番号のご提供について</h1>
+    <p class="header-sub">EA配布に際し、口座番号をお尋ねする理由と安全性をご説明します</p>
+  </div>
+  <div class="section">
+    <div class="section-label">01 — Why</div>
+    <div class="card card-accent">
+      <h2>なぜ口座番号が必要なのか？</h2>
+      <p>本EAは、<strong>正規にお渡しした方のみ</strong>がご利用いただけるよう、口座認証システムを採用しています。</p>
+      <p>口座番号は、お渡しするEAファイルに「このMT4／MT5口座でのみ動作する」という制限をかけるために使用します。</p>
+      <div class="why-steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div>開発・配布した EA が<strong>無断コピーされて第三者に拡散する</strong>ことを防ぎます</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-label">02 — Scope</div>
+    <div class="card">
+      <h2>口座番号でできること・できないこと</h2>
+      <p>口座番号は「認証キー」としてのみ使用します。以下をご確認ください。</p>
+      <div class="compare-grid">
+        <div class="compare-box ng">
+          <div class="compare-title">⛔ できないこと</div>
+          <div class="compare-item"><span class="icon">✗</span>MT4／MT5へのログイン・アクセス</div>
+          <div class="compare-item"><span class="icon">✗</span>残高・取引履歴の閲覧</div>
+          <div class="compare-item"><span class="icon">✗</span>注文・発注の操作</div>
+          <div class="compare-item"><span class="icon">✗</span>個人情報の取得</div>
+        </div>
+        <div class="compare-box ok">
+          <div class="compare-title">✅ できること</div>
+          <div class="compare-item"><span class="icon">✓</span>EA の動作可否の認証のみ</div>
+          <div class="compare-item"><span class="icon">✓</span>不正コピーの検知</div>
+          <div class="compare-item"><span class="icon">✓</span>利用停止・更新の管理</div>
+        </div>
+      </div>
+      <p style="margin-top:16px; font-size:13px;">MT4／MT5の<strong>パスワードとは全く異なるもの</strong>です。口座番号だけでは口座へのアクセスは一切できません。</p>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-label">03 — Safety</div>
+    <div class="card card-green">
+      <h2>安全性について</h2>
+      <div class="safety-list">
+        <div class="safety-item">
+          <div class="safety-icon">🔒</div>
+          <div>口座番号は<strong>認証用途のみ</strong>に使用し、第三者への提供・開示は一切行いません</div>
+        </div>
+        <div class="safety-item">
+          <div class="safety-icon">🛡</div>
+          <div>認証システムは外部の専用サービスを通じて管理しており、口座番号は<strong>暗号化されて保存</strong>されます</div>
+        </div>
+        <div class="safety-item">
+          <div class="safety-icon">📋</div>
+          <div>口座番号はFX業者から届いたメールや MT4／MT5 の画面で確認できる<strong>数字のみの番号</strong>です。パスワードや個人情報とは異なります</div>
+        </div>
+        <div class="safety-item">
+          <div class="safety-icon">✉️</div>
+          <div>ご不明な点があればいつでもお問い合わせください。<strong>納得いただいた上</strong>でのご提供をお願いしています</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-label">04 — How To</div>
+    <div class="card">
+      <h2>口座番号の確認方法（MT4 / MT5）</h2>
+      <div class="flow">
+        <div class="flow-item">
+          <div class="flow-line"><div class="flow-dot"></div><div class="flow-connector"></div></div>
+          <div>口座開設時にFX業者から届いた<strong>メール</strong>をご確認ください</div>
+        </div>
+        <div class="flow-item">
+          <div class="flow-line"><div class="flow-dot"></div></div>
+          <div>メール内に記載されている <em>ログインID（口座番号）</em> の数字をそのままお知らせください<br><span style="font-size:12px;color:var(--text-dim)">※パスワードは不要です。番号のみで構いません。</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-label">05 — Notice</div>
+    <div class="card card-warn">
+      <h2>ご注意事項</h2>
+      <p>・口座番号は<strong>EA を稼働させたい MT4／MT5 の口座のもの</strong>をお知らせください。複数口座をお持ちの場合は、実際に使用する口座の番号をご指定ください。</p>
+      <p>・登録後に口座を変更したい場合は、事前にご連絡いただければ対応いたします。</p>
+      <p>・デモ口座・リアル口座のどちらでもご利用いただけます。</p>
+    </div>
+  </div>
+  <div class="section">
+    <div class="summary-card">
+      <p>口座番号は、EA を<strong>正規にご利用いただく方だけにお届けする</strong>ための仕組みです。<br>ログイン情報（パスワード）は一切不要で、口座への<strong>アクセスは技術的に不可能</strong>です。<br>安心してご提供いただけますよう、何かご不明点がございましたらお気軽にご相談ください。</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

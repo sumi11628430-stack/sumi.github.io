@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EA運用で最低限必要な資金管理</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #64b4ff;
+    --accent-soft: rgba(100,180,255,0.12);
+    --accent2: #10b981;
+    --warn: #f59e0b;
+    --warn-soft: rgba(245,158,11,0.1);
+    --danger: #ef4444;
+    --danger-soft: rgba(239,68,68,0.1);
+    --text: #e2e8f0;
+    --text-muted: #94a3b8;
+    --text-dim: #64748b;
+    --border: rgba(100,180,255,0.1);
+    --card-bg: rgba(6,10,15,0.82);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#060a0f; color:var(--text); font-family:'Noto Sans JP',sans-serif; font-weight:300; line-height:1.8; min-height:100vh; overflow-x:hidden; }
+  #bg { position:fixed; inset:0; z-index:0; }
+  .container { position:relative; z-index:1; max-width:720px; margin:0 auto; padding:60px 24px 80px; }
+
+  /* ヘッダー */
+  .header { text-align:center; margin-bottom:56px; animation:fadeUp 0.8s ease both; }
+  .header-badge { display:inline-block; background:rgba(6,10,15,0.85); border:1px solid rgba(100,180,255,0.25); color:var(--accent); font-size:11px; letter-spacing:0.15em; padding:5px 14px; border-radius:20px; margin-bottom:24px; font-family:'Noto Serif JP',serif; text-shadow:0 1px 4px rgba(0,0,0,0.9); }
+  h1 { font-family:'Noto Serif JP',serif; font-weight:600; font-size:clamp(18px,4vw,26px); line-height:1.6; letter-spacing:0.05em; margin-bottom:16px; text-shadow:0 2px 12px rgba(0,0,0,0.95); }
+  .header-sub { color:#94a3b8; font-size:14px; letter-spacing:0.03em; text-shadow:0 1px 6px rgba(0,0,0,0.9); }
+
+  /* セクション */
+  .section { margin-bottom:20px; animation:fadeUp 0.7s ease both; }
+  .section:nth-child(2){animation-delay:0.10s}
+  .section:nth-child(3){animation-delay:0.18s}
+  .section:nth-child(4){animation-delay:0.26s}
+  .section:nth-child(5){animation-delay:0.34s}
+  .section:nth-child(6){animation-delay:0.42s}
+  .section:nth-child(7){animation-delay:0.50s}
+
+  .section-label { display:flex; align-items:center; gap:10px; font-size:11px; letter-spacing:0.15em; color:var(--accent); text-transform:uppercase; margin-bottom:14px; font-weight:500; }
+  .section-label::after { content:''; flex:1; height:1px; background:var(--border); }
+
+  .card { background:var(--card-bg); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border:1px solid var(--border); border-radius:12px; padding:28px 32px; transition:border-color 0.3s; }
+  .card:hover { border-color:rgba(100,180,255,0.2); }
+  .card-blue  { border-left:3px solid var(--accent); }
+  .card-warn  { border-left:3px solid var(--warn); }
+  .card-red   { border-left:3px solid var(--danger); }
+  .card-green { border-left:3px solid var(--accent2); }
+  .card-dim   { border-left:3px solid #475569; }
+
+  h2 { font-family:'Noto Serif JP',serif; font-size:17px; font-weight:600; margin-bottom:12px; letter-spacing:0.03em; color:var(--text); }
+  p { font-size:14px; color:var(--text-muted); margin-bottom:10px; }
+  p:last-child { margin-bottom:0; }
+
+  /* ポイントリスト */
+  .point-list { display:flex; flex-direction:column; gap:10px; margin-top:8px; }
+  .point-item { display:flex; align-items:flex-start; gap:12px; font-size:14px; color:var(--text-muted); }
+  .point-icon { flex-shrink:0; width:26px; height:26px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:12px; margin-top:2px; }
+  .icon-blue  { background:var(--accent-soft); border:1px solid rgba(100,180,255,0.2); color:var(--accent); }
+  .icon-warn  { background:var(--warn-soft); border:1px solid rgba(245,158,11,0.2); color:var(--warn); }
+  .icon-red   { background:var(--danger-soft); border:1px solid rgba(239,68,68,0.2); color:var(--danger); }
+  .icon-green { background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.2); color:var(--accent2); }
+
+  /* ESCAPE口座ボックス */
+  .escape-box { background:rgba(100,180,255,0.06); border:1px solid rgba(100,180,255,0.15); border-radius:8px; padding:16px 20px; margin-top:12px; }
+  .escape-title { font-size:13px; font-weight:500; color:var(--accent); margin-bottom:6px; letter-spacing:0.05em; }
+  .escape-desc { font-size:13px; color:var(--text-muted); line-height:1.7; }
+
+  /* 警告ボックス */
+  .warn-box { background:rgba(245,158,11,0.06); border:1px solid rgba(245,158,11,0.2); border-radius:8px; padding:14px 18px; margin-top:10px; font-size:13px; color:#fcd34d; line-height:1.7; }
+  .danger-box { background:rgba(239,68,68,0.06); border:1px solid rgba(239,68,68,0.2); border-radius:8px; padding:14px 18px; margin-top:10px; font-size:13px; color:#fca5a5; line-height:1.7; }
+
+  /* まとめタグ */
+  .tag-row { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
+  .tag { font-size:12px; padding:4px 12px; border-radius:20px; background:var(--accent-soft); border:1px solid rgba(100,180,255,0.2); color:#93c5fd; }
+
+  /* ハイライト文 */
+  .highlight-text { background:rgba(100,180,255,0.07); border:1px solid rgba(100,180,255,0.15); border-radius:8px; padding:16px 20px; margin:12px 0; font-size:14px; color:var(--text); line-height:1.8; font-family:'Noto Serif JP',serif; }
+
+  /* まとめカード */
+  .summary-card { background:var(--card-bg); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border:1px solid rgba(100,180,255,0.2); border-radius:12px; padding:28px 32px; text-align:center; }
+  .summary-card p { font-size:15px; color:var(--text); line-height:1.9; }
+
+  @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+  strong { color:var(--text); font-weight:500; }
+  em { color:#93c5fd; font-style:normal; }
+
+  @media(max-width:500px){ .card{padding:20px 18px} }
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+<div class="container">
+
+  <!-- ヘッダー -->
+  <div class="header">
+    <div class="header-badge">Risk Management</div>
+    <h1>EA運用で最低限必要な資金管理</h1>
+    <p class="header-sub">長期で生き残るための4つの原則</p>
+  </div>
+
+  <!-- 01 ロット -->
+  <div class="section">
+    <div class="section-label">01 — Lot Size</div>
+    <div class="card card-blue">
+      <h2>ロットを上げすぎない</h2>
+      <p>ロットが重すぎると<strong>一度の逆行で崩れます。</strong></p>
+      <div class="point-list">
+        <div class="point-item">
+          <div class="point-icon icon-blue">⚓</div>
+          <div>推奨証拠金に対して適切なロットサイズを維持してください。少ないロットで長く稼ぎ続ける方が、大きなロットで一瞬稼ぐより遥かに価値があります。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 DD -->
+  <div class="section">
+    <div class="section-label">02 — Drawdown</div>
+    <div class="card card-warn">
+      <h2>許容ドローダウンを先に決める（含み損を軽視しない）</h2>
+      <div class="point-list">
+        <div class="point-item">
+          <div class="point-icon icon-warn">📋</div>
+          <div>「どこまで含み損を抱えたら損切りして離脱するか」を<strong>決めずに運用すると、判断が感情任せ</strong>になります。</div>
+        </div>
+        <div class="point-item">
+          <div class="point-icon icon-warn">⚠️</div>
+          <div>EA運用では、<strong>最大許容DDを事前に決めること</strong>が必須です。</div>
+        </div>
+      </div>
+      <div class="escape-box">
+        <div class="escape-title">※ ESCAPE口座（エスケープ・避難）について</div>
+        <div class="escape-desc">
+          予め<strong>ESCAPE口座</strong>なるものを作成して、決めた日数で＋になった利益はESCAPE口座へ避難させる習慣を徹底する。<br>
+          そして<strong>ESCAPE口座資金を守ること</strong>。勢いで着手すると気持ちが雪崩れてしまいます。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 03 停止ルール -->
+  <div class="section">
+    <div class="section-label">03 — Stop Rules</div>
+    <div class="card card-red">
+      <h2>停止ルールを持つ</h2>
+      <p><strong>危険なのは負けることではなく、止め時がないことです。</strong><br>（ESCAPE口座に着手し始める前兆にもなりうる）</p>
+      <div class="point-list">
+        <div class="point-item">
+          <div class="point-icon icon-red">🛑</div>
+          <div>以下の状況では即座に稼働を停止する基準を明確にしておく必要があります。</div>
+        </div>
+      </div>
+      <div class="tag-row">
+        <span class="tag">DD拡大</span>
+        <span class="tag">維持率低下</span>
+        <span class="tag">相場急変時</span>
+        <span class="tag">重要指標</span>
+      </div>
+      <div class="danger-box">
+        ⚠️ よく見かける「あ〜停止しなくても大丈夫だったなぁ」<br>
+        → 結果論です、ダメ！絶対！「稼働しとけばよかったなぁ」は危険道へまっしぐらです
+      </div>
+    </div>
+  </div>
+
+  <!-- 04 継続優先 -->
+  <div class="section">
+    <div class="section-label">04 — Continuity</div>
+    <div class="card card-green">
+      <h2>利益より継続を優先する（初心忘るべからず）</h2>
+      <p>「EA運用」で重要なのは、<strong>一時的な爆益ではなく長く生き残る事。</strong></p>
+      <div class="highlight-text">
+        EAの成績は、ロジックより資金管理で壊れます。<br>
+        勝つことより、まず退場しないこと。<br>
+        それが長期運用の前提です。
+      </div>
+      <div class="point-list">
+        <div class="point-item"><div class="point-icon icon-green">🌸</div><div>ロットを抑えること</div></div>
+        <div class="point-item"><div class="point-icon icon-green">🌸</div><div>含み損を軽視しないこと</div></div>
+        <div class="point-item"><div class="point-icon icon-green">🌸</div><div>停止ルールを持つこと</div></div>
+        <div class="point-item"><div class="point-icon icon-green">🌸</div><div>初心忘るべからず</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- まとめ -->
+  <div class="section">
+    <div class="summary-card">
+      <p>資金管理は EA 運用の<strong>根幹</strong>です。<br>どれだけ優れたロジックでも、資金管理が崩れれば成績は壊れます。<br>ご不明な点は<strong>公式 LINE</strong> までお気軽にご相談ください。</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const canvas = document.getElementById('bg');
+const ctx = canvas.getContext('2d');
+function resize(){
+  canvas.width = window.innerWidth;
+  canvas.height = Math.max(window.innerHeight, document.body.scrollHeight);
+}
+resize();
+window.addEventListener('resize', resize);
+
+class ChainLink {
+  constructor(x, y, angle, speed, phase){
+    this.x = x; this.y = y;
+    this.baseAngle = angle; this.angle = angle;
+    this.speed = speed; this.phase = phase;
+    this.brightness = 0.35 + Math.random() * 0.45;
+  }
+  update(t){
+    this.angle = this.baseAngle + Math.sin(t * this.speed + this.phase) * 0.12;
+  }
+  draw(ctx, t){
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.rotate(this.angle);
+    const w=28, h=14, r=7;
+    const glow = 0.35 + Math.sin(t * 0.001 + this.phase) * 0.18;
+    ctx.strokeStyle = `rgba(100,180,255,${glow * this.brightness * 0.35})`;
+    ctx.lineWidth = 6;
+    ctx.beginPath();
+    ctx.moveTo(-w/2+r,-h/2); ctx.lineTo(w/2-r,-h/2);
+    ctx.arcTo(w/2,-h/2,w/2,-h/2+r,r); ctx.lineTo(w/2,h/2-r);
+    ctx.arcTo(w/2,h/2,w/2-r,h/2,r); ctx.lineTo(-w/2+r,h/2);
+    ctx.arcTo(-w/2,h/2,-w/2,h/2-r,r); ctx.lineTo(-w/2,-h/2+r);
+    ctx.arcTo(-w/2,-h/2,-w/2+r,-h/2,r); ctx.closePath();
+    ctx.stroke();
+    ctx.strokeStyle = `rgba(160,210,255,${glow * this.brightness * 0.75})`;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.restore();
+  }
+}
+
+const chains = [];
+const W = window.innerWidth, H = window.innerHeight;
+for(let line=0; line<9; line++){
+  const startX = (line/8)*W*1.5 - W*0.25;
+  const linkCount = Math.ceil(H/32)+6;
+  for(let i=0; i<linkCount; i++){
+    const isH = i%2===0;
+    chains.push(new ChainLink(
+      startX + i*7,
+      -60 + i*32,
+      isH ? 0 : Math.PI/2,
+      0.0003 + Math.random()*0.0003,
+      Math.random()*Math.PI*2
+    ));
+  }
+}
+
+function drawPadlock(ctx, x, y, t){
+  const glow = 0.55 + Math.sin(t*0.0007)*0.25;
+  const s = 1 + Math.sin(t*0.0004)*0.025;
+  ctx.save();
+  ctx.translate(x,y); ctx.scale(s,s);
+  ctx.strokeStyle = `rgba(100,180,255,${glow*0.5})`;
+  ctx.lineWidth = 7;
+  ctx.beginPath(); ctx.arc(0,-12,20,Math.PI,0,false); ctx.stroke();
+  ctx.strokeStyle = `rgba(80,160,255,${glow*0.45})`;
+  ctx.lineWidth = 9; ctx.strokeRect(-24,0,48,38);
+  ctx.fillStyle = 'rgba(6,10,15,0.92)'; ctx.fillRect(-21,3,42,32);
+  ctx.strokeStyle = `rgba(160,210,255,${glow*0.85})`;
+  ctx.lineWidth = 2; ctx.strokeRect(-24,0,48,38);
+  ctx.strokeStyle = `rgba(160,210,255,${glow*0.7})`;
+  ctx.lineWidth = 4;
+  ctx.beginPath(); ctx.arc(0,-12,20,Math.PI,0,false); ctx.stroke();
+  ctx.fillStyle = `rgba(120,190,255,${glow})`;
+  ctx.beginPath(); ctx.arc(0,16,6,0,Math.PI*2); ctx.fill();
+  ctx.fillRect(-2.5,19,5,9);
+  ctx.restore();
+}
+
+let st=null;
+function loop(ts){
+  if(!st) st=ts;
+  const t=ts-st;
+  const w=canvas.width, h=canvas.height;
+  ctx.fillStyle='#060a0f'; ctx.fillRect(0,0,w,h);
+  for(const link of chains){ link.update(t); link.draw(ctx,t); }
+  drawPadlock(ctx, w/2, h*0.15, t);
+  const fog=ctx.createRadialGradient(w/2,h/2,0,w/2,h/2,Math.max(w,h)*0.75);
+  fog.addColorStop(0,'rgba(6,10,15,0.25)');
+  fog.addColorStop(1,'rgba(6,10,15,0.6)');
+  ctx.fillStyle=fog; ctx.fillRect(0,0,w,h);
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>

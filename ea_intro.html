@@ -55,6 +55,9 @@
   .type-box { background: rgba(59,130,246,0.07); border: 1px solid rgba(59,130,246,0.15); border-radius: 8px; padding: 16px 20px; margin-top: 8px; }
   .type-title { font-size: 15px; font-weight: 500; color: var(--text); margin-bottom: 6px; font-family: 'Noto Serif JP', serif; }
   .type-desc { font-size: 13px; color: var(--text-muted); line-height: 1.7; }
+  .type-desc p { font-size: 13px; color: var(--text-muted); margin-bottom: 10px; }
+  .type-desc p:last-child { margin-bottom: 0; }
+  .type-desc .warning-line { color: #fbbf24; font-size: 13px; font-weight: 500; }
   .type-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
   .type-tag { font-size: 11px; padding: 2px 9px; border-radius: 20px; background: var(--accent-soft); border: 1px solid rgba(59,130,246,0.25); color: #93c5fd; }
   .deposit-grid { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
@@ -102,7 +105,13 @@
       <h2>EA タイプ・戦略概要</h2>
       <div class="type-box">
         <div class="type-title">長期運用想定ナンピン EA</div>
-        <div class="type-desc">継承仕様・インターバル零式を採用した、長期での安定運用を目的としたナンピン型 EA です。短期の値動きに振り回されず、じっくりと利益を積み上げていくことを想定した設計になっています。</div>
+        <div class="type-desc">
+          <p>継承仕様・インターバル零式を採用した、長期運用を想定したナンピン型EAです。</p>
+          <p>GOLDは元々ボラティリティの大きい銘柄ですが、2025年後半以降はその水準が過去と比較にならないほど拡大しています。従来のロジックのみでは、この異常ボラティリティと過去の値動き、両方の相場環境への対応を両立することは困難です。このEAは独自のアプローチにより、<strong>昨今の急激な相場環境と過去の値動き、双方への対応</strong>を設計の核に置いています。</p>
+          <p class="warning-line">⚠ ただし、EAはロジックに従って自動で動くシステムです。自動売買に限らず言えることですが、相場もまた生き物であり、『確実・絶対・100％』は存在しません。</p>
+          <p>含み損を抱える局面もありますが、場合によっては数日間ポジションを保有しながら、長期的な利益積み上げを目指す設計です。</p>
+          <p>EAはロジックに従って淡々と動く性質上、<strong>適切な管理・監視は必要不可欠</strong>です。</p>
+        </div>
         <div class="type-tags">
           <span class="type-tag">ナンピン</span>
           <span class="type-tag">継承仕様</span>

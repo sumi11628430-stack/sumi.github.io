@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EA詳細 | ちまちま安定型（？）としての私ですが、なにか？ver.3</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent:#2563eb;--accent-soft:rgba(37,99,235,0.12);
+    --accent2:#059669;--accent2-soft:rgba(5,150,105,0.10);
+    --accent3:#d97706;
+    --text:#1e293b;--text-muted:#475569;--text-dim:#94a3b8;
+    --border:rgba(0,0,0,0.08);--card-bg:rgba(255,255,255,0.72);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#f5f3ee;color:var(--text);font-family:'Noto Sans JP',sans-serif;font-weight:300;line-height:1.8;min-height:100vh;overflow-x:hidden;}
+  #bg{position:fixed;inset:0;z-index:0;}
+  .container{position:relative;z-index:1;max-width:720px;margin:0 auto;padding:60px 24px 80px;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--text-muted);font-size:13px;text-decoration:none;border-bottom:none;margin-bottom:40px;opacity:0.7;transition:opacity 0.2s;}
+  .back-link:hover{opacity:1;}
+  .header{text-align:center;margin-bottom:56px;animation:fadeUp 0.8s ease both;}
+  .header-badge{display:inline-block;background:rgba(255,255,255,0.85);border:1px solid rgba(0,0,0,0.12);color:var(--text-muted);font-size:11px;letter-spacing:0.15em;padding:5px 14px;border-radius:20px;margin-bottom:24px;font-family:'Noto Serif JP',serif;}
+  h1{font-family:'Noto Serif JP',serif;font-weight:600;font-size:clamp(18px,4vw,26px);line-height:1.6;letter-spacing:0.05em;margin-bottom:16px;color:var(--text);text-shadow:0 1px 4px rgba(255,255,255,0.8);}
+  .header-sub{color:var(--text-muted);font-size:14px;letter-spacing:0.03em;}
+  .section{margin-bottom:20px;animation:fadeUp 0.7s ease both;}
+  .section:nth-child(2){animation-delay:0.10s}.section:nth-child(3){animation-delay:0.18s}
+  .section:nth-child(4){animation-delay:0.26s}.section:nth-child(5){animation-delay:0.34s}
+  .section:nth-child(6){animation-delay:0.42s}.section:nth-child(7){animation-delay:0.50s}
+  .section:nth-child(8){animation-delay:0.58s}
+  .card{background:var(--card-bg);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,0.9);border-radius:12px;padding:28px 32px;transition:border-color 0.3s;box-shadow:0 2px 12px rgba(0,0,0,0.07);}
+  .card:hover{border-color:rgba(37,99,235,0.25);}
+  .card-accent{border-left:3px solid var(--accent);}
+  .card-green{border-left:3px solid var(--accent2);}
+  .card-gold{border-left:3px solid var(--accent3);}
+  .card-dim{border-left:3px solid #cbd5e1;}
+  .section-label{display:flex;align-items:center;gap:10px;font-size:11px;letter-spacing:0.15em;color:var(--accent);text-transform:uppercase;margin-bottom:14px;font-weight:500;}
+  .section-label::after{content:'';flex:1;height:1px;background:var(--border);}
+  h2{font-family:'Noto Serif JP',serif;font-size:17px;font-weight:600;margin-bottom:14px;letter-spacing:0.03em;color:var(--text);}
+  p{font-size:14px;color:var(--text-muted);margin-bottom:10px;}
+  p:last-child{margin-bottom:0;}
+  .info-table{width:100%;border-collapse:collapse;font-size:14px;}
+  .info-table tr{border-bottom:1px solid var(--border);}
+  .info-table tr:last-child{border-bottom:none;}
+  .info-table td{padding:10px 4px;vertical-align:top;line-height:1.7;}
+  .info-table td:first-child{color:var(--text-muted);width:38%;font-size:13px;padding-right:16px;white-space:nowrap;}
+  .badge-row{display:flex;gap:8px;flex-wrap:wrap;}
+  .badge{display:inline-block;padding:3px 10px;border-radius:4px;font-size:12px;font-weight:500;}
+  .badge-blue{background:var(--accent-soft);border:1px solid rgba(37,99,235,0.2);color:#1d4ed8;}
+  .badge-green{background:var(--accent2-soft);border:1px solid rgba(5,150,105,0.2);color:#047857;}
+  .type-box{background:rgba(37,99,235,0.06);border:1px solid rgba(37,99,235,0.15);border-radius:8px;padding:16px 20px;margin-top:8px;}
+  .type-title{font-size:15px;font-weight:500;color:var(--text);margin-bottom:6px;font-family:'Noto Serif JP',serif;}
+  .type-desc p{font-size:13px;color:var(--text-muted);margin-bottom:10px;line-height:1.7;}
+  .type-desc p:last-child{margin-bottom:0;}
+  .type-desc .warning-line{color:#b45309;font-size:13px;font-weight:500;}
+  .type-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
+  .type-tag{font-size:11px;padding:2px 9px;border-radius:20px;background:var(--accent-soft);border:1px solid rgba(37,99,235,0.2);color:#1d4ed8;}
+  .deposit-grid{display:flex;flex-direction:column;gap:10px;margin-top:4px;}
+  .deposit-item{display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,0.03);border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-size:14px;}
+  .deposit-label{color:var(--text-muted);font-size:13px;}
+  .deposit-value{color:var(--text);font-weight:500;text-align:right;}
+  .deposit-note{font-size:11px;color:#2563eb;margin-top:2px;}
+  .placeholder{border:1px dashed rgba(0,0,0,0.12);border-radius:8px;padding:24px;text-align:center;color:var(--text-dim);font-size:13px;margin-top:8px;}
+  .placeholder-icon{font-size:24px;margin-bottom:8px;}
+  .dist-list{display:flex;flex-direction:column;gap:10px;margin-top:4px;}
+  .dist-item{display:flex;align-items:flex-start;gap:12px;font-size:14px;color:var(--text-muted);}
+  .dist-icon{flex-shrink:0;width:28px;height:28px;border-radius:6px;background:var(--accent-soft);border:1px solid rgba(37,99,235,0.2);color:#1d4ed8;display:flex;align-items:center;justify-content:center;font-size:13px;margin-top:2px;}
+  a{color:#2563eb;text-decoration:none;border-bottom:1px solid rgba(37,99,235,0.3);transition:border-color 0.2s;}
+  a:hover{border-color:#2563eb;}
+  .summary-card{background:var(--card-bg);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(37,99,235,0.2);border-radius:12px;padding:28px 32px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,0.07);}
+  .summary-card p{font-size:15px;color:var(--text);line-height:1.9;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+  strong{color:var(--text);font-weight:500;}
+  @media(max-width:500px){.card{padding:20px 18px}.deposit-item{flex-direction:column;gap:4px}}
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+<div class="container">
+  <a href="ea_intro.html" class="back-link">← EA一覧へ戻る</a>
+  <div class="header">
+    <div class="header-badge">EA 詳細ページ</div>
+    <h1>ちまちま安定型（？）としての私ですが、なにか？ver.3</h1>
+    <p class="header-sub">長期運用を見据えたナンピン EA のご紹介</p>
+  </div>
+  <div class="section">
+    <div class="section-label">01 — Basic Info</div>
+    <div class="card card-accent">
+      <h2>基本情報</h2>
+      <table class="info-table">
+        <tr><td>EA 名</td><td><strong>ちまちま安定型（？）としての私ですが、なにか？ver.3</strong></td></tr>
+        <tr><td>対応プラットフォーム</td><td><div class="badge-row"><span class="badge badge-blue">MT4</span><span class="badge badge-green">MT5</span></div></td></tr>
+        <tr><td>対応通貨ペア</td><td>全通貨ペア対応</td></tr>
+        <tr><td>対応時間足</td><td>全時間足対応</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-label">02 — EA Type</div>
+    <div class="card">
+      <h2>EA タイプ・戦略概要</h2>
+      <div class="type-box">
+        <div class="type-title">長期運用想定ナンピン EA</div>
+        <div class="type-desc">
+          <p>継承仕様・インターバル零式を採用した、長期運用を想定したナンピン型EAです。</p>
+          <p>GOLDは元々ボラティリティの大きい銘柄ですが、2025年後半以降はその水準が過去と比較にならないほど拡大しています。従来のロジックのみでは、この異常ボラティリティと過去の値動き、両方の相場環境への対応を両立することは困難です。このEAは独自のアプローチにより、<strong>昨今の急激な相場環境と過去の値動き、双方への対応</strong>を設計の核に置いています。</p>
+          <p class="warning-line">⚠ ただし、EAはロジックに従って自動で動くシステムです。自動売買に限らず言えることですが、相場もまた生き物であり、『確実・絶対・100％』は存在しません。</p>
+          <p>含み損を抱える局面もありますが、場合によっては数日間ポジションを保有しながら、長期的な利益積み上げを目指す設計です。</p>
+          <p>EAはロジックに従って淡々と動く性質上、<strong>適切な管理・監視は必要不可欠</strong>です。</p>
+        </div>
+        <div class="type-tags">
+          <span class="type-tag">ナンピン</span>
+          <span class="type-tag">継承仕様</span>
+          <span class="type-tag">インターバル零式</span>
+          <span class="type-tag">長期運用想定</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-label">03 — Deposit</div>
+    <div class="card card-gold">
+      <h2>推奨証拠金</h2>
+      <div class="deposit-grid">
+        <div class="deposit-item"><div class="deposit-label">スタンダード口座</div><div class="deposit-value">100万円 / 0.01ロット</div></div>
+        <div class="deposit-item"><div class="deposit-label">マイクロ口座</div><div class="deposit-value">10万円 / 0.1ロット</div></div>
+        <div class="deposit-item"><div class="deposit-label">MT4 限定</div><div class="deposit-value">1万円 / 0.01ロット<div class="deposit-note">※ MT4 のみ対応</div></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-label">04 — Risk</div>
+    <div class="card card-dim">
+      <h2>リスク管理</h2>
+      <div class="placeholder">
+        <div class="placeholder-icon">🛡</div>
+        <p style="margin-bottom:10px;">資金管理の重要性については<a href="risk_management.html">こちらのページ</a>をご覧ください</p>
+        <p>指標は<a href="https://jp.investing.com/economic-calendar/" target="_blank">こちらのページ（経済指標カレンダー）</a>をご覧ください</p>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-label">05 — Performance</div>
+    <div class="card card-dim">
+      <h2>実績・バックテスト結果</h2>
+      <div class="placeholder"><div class="placeholder-icon">📊</div>各 EA・期間別のテスト画像を準備中です</div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-label">06 — Parameters</div>
+    <div class="card card-dim">
+      <h2>パラメータ説明</h2>
+      <div class="placeholder"><div class="placeholder-icon">⚙️</div>パラメータ画面・一覧・各項目の説明・チャート画面は別ページにて準備中です</div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-label">07 — Distribution</div>
+    <div class="card card-green">
+      <h2>配布・利用条件</h2>
+      <div class="dist-list">
+        <div class="dist-item"><div class="dist-icon">🎁</div><div><strong>無料配布</strong>にて提供しています</div></div>
+        <div class="dist-item"><div class="dist-icon">🔐</div><div>不正コピー防止のため<strong>口座縛り</strong>を採用しています。口座番号をご提供いただく理由と安全性については<a href="account_safety.html">こちらのページ</a>をご確認ください</div></div>
+        <div class="dist-item"><div class="dist-icon">💬</div><div>ご質問・配布のお申し込みは<strong>公式 LINE</strong> までお気軽にどうぞ</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="summary-card">
+      <p>このEAは<strong>長期での安定運用</strong>を目指して開発した作品です。<br>ご不明な点やご要望があれば、<strong>公式 LINE</strong> よりお気軽にご連絡ください。</p>
+    </div>
+  </div>
+</div>
+<script>
+const canvas=document.getElementById('bg');
+const ctx=canvas.getContext('2d');
+function resize(){canvas.width=window.innerWidth;canvas.height=Math.max(window.innerHeight,document.body.scrollHeight);}
+resize();window.addEventListener('resize',resize);
+
+const gold='#b8922a',goldL='#e8c84a',goldD='#7a5a10';
+const gc=['rgba(0,170,200,0.30)','rgba(60,170,215,0.25)','rgba(120,200,230,0.22)','rgba(180,220,240,0.18)','rgba(210,235,248,0.14)','rgba(255,255,255,0.30)'];
+
+function pt(cx,cy,r,deg){const a=(deg-90)*Math.PI/180;return[cx+Math.cos(a)*r,cy+Math.sin(a)*r];}
+function gls(fn,color){ctx.beginPath();fn();ctx.fillStyle=color;ctx.fill();ctx.save();ctx.beginPath();fn();ctx.clip();const gl=ctx.createLinearGradient(-30,-30,15,15);gl.addColorStop(0,'rgba(255,255,255,0.35)');gl.addColorStop(1,'rgba(255,255,255,0)');ctx.fillStyle=gl;ctx.fill();ctx.restore();}
+function ld(fn,w=2.0){ctx.beginPath();fn();ctx.strokeStyle=gold;ctx.lineWidth=w;ctx.lineJoin='round';ctx.lineCap='round';ctx.stroke();}
+function gd(x,y,r=3.5){ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);const g=ctx.createRadialGradient(x-r*.3,y-r*.3,0,x,y,r);g.addColorStop(0,goldL);g.addColorStop(1,goldD);ctx.fillStyle=g;ctx.fill();}
+
+function motif(cx,cy,R,flip,t,row,col){
+  const pulse=1.0+Math.sin(t*0.0008+row*0.7+col*0.5)*0.055;
+  const rot=Math.sin(t*0.0004+row*0.3+col*0.4)*3.5;
+  const Rp=R*pulse;const c=flip?[...gc].reverse():gc;const ir=Rp*.14,FR=Rp*.93;
+  ctx.save();ctx.translate(cx,cy);ctx.rotate(rot*Math.PI/180);ctx.translate(-cx,-cy);
+  const hex6=(ox,oy,r,rt)=>()=>{for(let i=0;i<6;i++){const[x,y]=pt(ox,oy,r,rt+i*60);i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);}ctx.closePath();};
+  gls(hex6(cx,cy,ir,30),c[0]);ld(hex6(cx,cy,ir,30),2.0);gd(cx,cy,4.0);
+  for(let i=0;i<6;i++){const a=i*60+30;const[ox,oy]=pt(cx,cy,Rp*.27,a);gls(hex6(ox,oy,Rp*.10,a),c[1]);ld(hex6(ox,oy,Rp*.10,a),1.6);gd(ox,oy,3.2);}
+  for(let i=0;i<6;i++){const a=i*60+30;const tip=pt(cx,cy,Rp*.52,a),sl=pt(cx,cy,Rp*.20,a-32),sr=pt(cx,cy,Rp*.20,a+32),base=pt(cx,cy,Rp*.06,a+180);gls(()=>{ctx.moveTo(...tip);ctx.lineTo(...sl);ctx.lineTo(...base);ctx.lineTo(...sr);ctx.closePath();},i%2===0?c[0]:c[1]);ld(()=>{ctx.moveTo(...tip);ctx.lineTo(...sl);ctx.lineTo(...base);ctx.lineTo(...sr);ctx.closePath();},1.8);gd(...tip,3.2);}
+  for(let i=0;i<6;i++){const a=i*60+60;gls(()=>{ctx.moveTo(...pt(cx,cy,Rp*.20,a-18));ctx.lineTo(...pt(cx,cy,Rp*.50,a));ctx.lineTo(...pt(cx,cy,Rp*.20,a+18));ctx.closePath();},c[3]);ld(()=>{ctx.moveTo(...pt(cx,cy,Rp*.20,a-18));ctx.lineTo(...pt(cx,cy,Rp*.50,a));ctx.lineTo(...pt(cx,cy,Rp*.20,a+18));ctx.closePath();},1.4);gd(...pt(cx,cy,Rp*.50,a),2.8);}
+  for(let i=0;i<6;i++){const a=i*60+60;const[ox,oy]=pt(cx,cy,Rp*.74,a);const dr=Rp*.11;gls(()=>{ctx.moveTo(...pt(ox,oy,dr,a));ctx.lineTo(...pt(ox,oy,dr,a+90));ctx.lineTo(...pt(ox,oy,dr,a+180));ctx.lineTo(...pt(ox,oy,dr,a+270));ctx.closePath();},c[2]);ld(()=>{ctx.moveTo(...pt(ox,oy,dr,a));ctx.lineTo(...pt(ox,oy,dr,a+90));ctx.lineTo(...pt(ox,oy,dr,a+180));ctx.lineTo(...pt(ox,oy,dr,a+270));ctx.closePath();},1.6);gd(ox,oy,3.2);}
+  for(let i=0;i<6;i++){const a=i*60+30;gls(()=>{ctx.moveTo(...pt(cx,cy,Rp*.52,a));ctx.lineTo(...pt(cx,cy,FR,a-18));ctx.lineTo(...pt(cx,cy,FR,a+18));ctx.closePath();},c[4]);ld(()=>{ctx.moveTo(...pt(cx,cy,Rp*.52,a));ctx.lineTo(...pt(cx,cy,FR,a-18));ctx.lineTo(...pt(cx,cy,FR,a+18));ctx.closePath();},1.4);}
+  for(let i=0;i<6;i++){const a=i*60+60;gls(()=>{ctx.moveTo(...pt(cx,cy,Rp*.50,a));ctx.lineTo(...pt(cx,cy,Rp*.74,a-25));ctx.lineTo(...pt(cx,cy,FR,a));ctx.lineTo(...pt(cx,cy,Rp*.74,a+25));ctx.closePath();},c[5]);ld(()=>{ctx.moveTo(...pt(cx,cy,Rp*.50,a));ctx.lineTo(...pt(cx,cy,Rp*.74,a-25));ctx.lineTo(...pt(cx,cy,FR,a));ctx.lineTo(...pt(cx,cy,Rp*.74,a+25));ctx.closePath();},1.2);}
+  for(let i=0;i<6;i++){ld(()=>{ctx.moveTo(...pt(cx,cy,ir*.9,i*60+30));ctx.lineTo(...pt(cx,cy,Rp*.50,i*60+30));},1.4);ld(()=>{ctx.moveTo(...pt(cx,cy,ir*.9,i*60+60));ctx.lineTo(...pt(cx,cy,Rp*.46,i*60+60));},1.0);}
+  ctx.beginPath();for(let i=0;i<6;i++){const[x,y]=pt(cx,cy,FR,i*60);i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);}ctx.closePath();ctx.strokeStyle=gold;ctx.lineWidth=3.5;ctx.stroke();
+  for(let i=0;i<6;i++) gd(...pt(cx,cy,FR,i*60),4.0);
+  ctx.restore();
+}
+
+function draw(t){
+  const W=canvas.width,H=canvas.height;
+  const bg=ctx.createLinearGradient(0,0,W,H);
+  bg.addColorStop(0,'#f8f5ef');bg.addColorStop(0.5,'#f2eeea');bg.addColorStop(1,'#f8f5ef');
+  ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+  const TILE=300,cols=Math.ceil(W/TILE)+1,rows=Math.ceil(H/TILE)+1;
+  for(let row=0;row<rows;row++){for(let col=0;col<cols;col++){
+    const cx2=col*TILE+TILE/2+Math.sin(t*0.00012+row*.4)*8;
+    const cy2=row*TILE+TILE/2+Math.cos(t*0.00010+col*.5)*8;
+    motif(cx2,cy2,TILE*.46,(row+col)%2===1,t,row,col);
+  }}
+  ctx.fillStyle='rgba(248,245,239,0.38)';ctx.fillRect(0,0,W,H);
+}
+
+let st=null;
+function loop(ts){if(!st)st=ts;draw(ts-st);requestAnimationFrame(loop);}
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>

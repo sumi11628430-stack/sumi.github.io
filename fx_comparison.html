@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>国内FXと海外FXのメリット・デメリット</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent:#2563eb;--accent-soft:rgba(37,99,235,0.10);
+    --accent2:#059669;--accent2-soft:rgba(5,150,105,0.10);
+    --accent3:#d97706;--accent3-soft:rgba(217,119,6,0.10);
+    --danger:#dc2626;--danger-soft:rgba(220,38,38,0.08);
+    --text:#1e293b;--text-muted:#475569;--text-dim:#94a3b8;
+    --border:rgba(0,0,0,0.08);--card-bg:rgba(255,255,255,0.72);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#f5f3ee;color:var(--text);font-family:'Noto Sans JP',sans-serif;font-weight:300;line-height:1.8;min-height:100vh;overflow-x:hidden;}
+  #bg{position:fixed;inset:0;z-index:0;}
+  .container{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:60px 24px 80px;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--text-muted);font-size:13px;text-decoration:none;border-bottom:none;margin-bottom:40px;opacity:0.7;transition:opacity 0.2s;}
+  .back-link:hover{opacity:1;}
+
+  /* ヘッダー */
+  .header{text-align:center;margin-bottom:56px;animation:fadeUp 0.8s ease both;}
+  .header-badge{display:inline-block;background:rgba(255,255,255,0.85);border:1px solid rgba(0,0,0,0.12);color:var(--text-muted);font-size:11px;letter-spacing:0.15em;padding:5px 14px;border-radius:20px;margin-bottom:24px;font-family:'Noto Serif JP',serif;}
+  h1{font-family:'Noto Serif JP',serif;font-weight:600;font-size:clamp(17px,3.5vw,24px);line-height:1.6;letter-spacing:0.04em;margin-bottom:12px;color:var(--text);}
+  .header-sub{color:var(--text-muted);font-size:13px;letter-spacing:0.03em;}
+
+  /* セクション共通 */
+  .section{margin-bottom:22px;animation:fadeUp 0.7s ease both;}
+  .section:nth-child(2){animation-delay:0.08s}.section:nth-child(3){animation-delay:0.16s}
+  .section:nth-child(4){animation-delay:0.24s}.section:nth-child(5){animation-delay:0.32s}
+  .section:nth-child(6){animation-delay:0.40s}.section:nth-child(7){animation-delay:0.48s}
+  .section:nth-child(8){animation-delay:0.56s}.section:nth-child(9){animation-delay:0.64s}
+  .section:nth-child(10){animation-delay:0.72s}
+  .section-label{display:flex;align-items:center;gap:10px;font-size:11px;letter-spacing:0.15em;color:var(--accent);text-transform:uppercase;margin-bottom:14px;font-weight:500;}
+  .section-label::after{content:'';flex:1;height:1px;background:var(--border);}
+  .card{background:var(--card-bg);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,0.9);border-radius:14px;padding:26px 30px;box-shadow:0 2px 14px rgba(0,0,0,0.07);transition:border-color 0.3s;}
+  .card:hover{border-color:rgba(37,99,235,0.2);}
+  .card-blue  {border-left:3px solid var(--accent);}
+  .card-green {border-left:3px solid var(--accent2);}
+  .card-amber {border-left:3px solid var(--accent3);}
+  .card-red   {border-left:3px solid var(--danger);}
+  .card-gray  {border-left:3px solid #cbd5e1;}
+  h2{font-family:'Noto Serif JP',serif;font-size:17px;font-weight:600;margin-bottom:14px;letter-spacing:0.03em;color:var(--text);}
+  h3{font-family:'Noto Serif JP',serif;font-size:15px;font-weight:600;margin-bottom:10px;color:var(--text);}
+  p{font-size:14px;color:var(--text-muted);margin-bottom:10px;line-height:1.8;}
+  p:last-child{margin-bottom:0;}
+  strong{color:var(--text);font-weight:500;}
+
+  /* 向いている人リスト */
+  .fit-list{display:flex;flex-direction:column;gap:8px;margin-top:4px;}
+  .fit-item{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--text-muted);line-height:1.7;}
+  .fit-icon{flex-shrink:0;margin-top:2px;font-size:15px;}
+
+  /* メリット・デメリット */
+  .merit-demerit-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:6px;}
+  @media(max-width:540px){.merit-demerit-grid{grid-template-columns:1fr;}}
+  .md-box{border-radius:10px;padding:16px 18px;}
+  .md-box.merit {background:rgba(5,150,105,0.07);border:1px solid rgba(5,150,105,0.2);}
+  .md-box.demerit{background:rgba(220,38,38,0.06);border:1px solid rgba(220,38,38,0.18);}
+  .md-label{font-size:11px;font-weight:500;letter-spacing:0.1em;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+  .md-label.m{color:#047857;}.md-label.d{color:#b91c1c;}
+  .md-items{display:flex;flex-direction:column;gap:6px;}
+  .md-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--text-muted);line-height:1.7;}
+  .md-dot{flex-shrink:0;width:6px;height:6px;border-radius:50%;margin-top:7px;}
+  .md-dot.m{background:#059669;}.md-dot.d{background:#dc2626;}
+
+  /* 用語解説 */
+  .term-list{display:flex;flex-direction:column;gap:14px;margin-top:4px;}
+  .term-item{background:rgba(37,99,235,0.05);border:1px solid rgba(37,99,235,0.12);border-radius:10px;padding:14px 18px;}
+  .term-title{font-size:13px;font-weight:500;color:var(--accent);margin-bottom:6px;letter-spacing:0.02em;}
+  .term-desc{font-size:13px;color:var(--text-muted);line-height:1.75;}
+
+  /* 注意ボックス */
+  .warn-box{background:rgba(217,119,6,0.07);border:1px solid rgba(217,119,6,0.25);border-radius:10px;padding:16px 20px;margin-top:10px;display:flex;gap:12px;align-items:flex-start;}
+  .warn-icon{flex-shrink:0;font-size:18px;margin-top:1px;}
+  .warn-text{font-size:13px;color:#92400e;line-height:1.75;}
+
+  /* まとめカード */
+  .summary-card{background:var(--card-bg);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(37,99,235,0.18);border-radius:14px;padding:28px 32px;text-align:center;box-shadow:0 2px 14px rgba(0,0,0,0.07);}
+  .summary-card p{font-size:14px;color:var(--text-muted);line-height:1.9;}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+  @media(max-width:500px){.card{padding:20px 18px}}
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+<div class="container">
+  <a href="index.html" class="back-link">← トップへ戻る</a>
+
+  <div class="header">
+    <div class="header-badge">FX 基礎知識</div>
+    <h1>国内FXと海外FXのメリット・デメリット</h1>
+    <p class="header-sub">海外FXはホントに危険❔　双方の特徴をわかりやすく解説します</p>
+  </div>
+
+  <!-- 海外FXに向いている人 -->
+  <div class="section">
+    <div class="section-label">01 — 海外FX</div>
+    <div class="card card-blue">
+      <h2>海外FXに向いている人</h2>
+      <div class="fit-list">
+        <div class="fit-item"><div class="fit-icon">☝️</div><div>少資金からでも稼ぎたい人</div></div>
+        <div class="fit-item"><div class="fit-icon">☝️</div><div><strong>ゼロカット</strong>で追証リスクを避けたい人</div></div>
+        <div class="fit-item"><div class="fit-icon">☝️</div><div>MT4・MT5でEAを使った自動売買をしたい人</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 海外FX メリット・デメリット -->
+  <div class="section">
+    <div class="section-label">02 — 海外FX メリット・デメリット</div>
+    <div class="card">
+      <div class="merit-demerit-grid">
+        <div class="md-box merit">
+          <div class="md-label m">✦ メリット</div>
+          <div class="md-items">
+            <div class="md-item"><div class="md-dot m"></div><div>少資金から参入しやすい</div></div>
+            <div class="md-item"><div class="md-dot m"></div><div>ゼロカットで追証なし</div></div>
+            <div class="md-item"><div class="md-dot m"></div><div>MT4・MT5でEA自動売買が可能</div></div>
+            <div class="md-item"><div class="md-dot m"></div><div>高レバレッジ対応</div></div>
+          </div>
+        </div>
+        <div class="md-box demerit">
+          <div class="md-label d">✦ デメリット</div>
+          <div class="md-items">
+            <div class="md-item"><div class="md-dot d"></div><div>スプレッドが広い</div></div>
+            <div class="md-item"><div class="md-dot d"></div><div>出金時の手数料</div></div>
+            <div class="md-item"><div class="md-dot d"></div><div>税金が高くなることがある</div></div>
+            <div class="md-item"><div class="md-dot d"></div><div>悪質な業者が存在する</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="warn-box">
+        <div class="warn-icon">⚠️</div>
+        <div class="warn-text">悪質な業者については、Web検索やAIに確認すれば危険性の判断はほぼできると思います。事前のリサーチを忘れずに。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 国内FXに向いている人 -->
+  <div class="section">
+    <div class="section-label">03 — 国内FX</div>
+    <div class="card card-green">
+      <h2>国内FXに向いている人</h2>
+      <div class="fit-list">
+        <div class="fit-item"><div class="fit-icon">☝️</div><div>コスト重視で長期運用やスワップ狙いをしたい人</div></div>
+        <div class="fit-item"><div class="fit-icon">☝️</div><div>高額所得者や税率を抑えたい人</div></div>
+        <div class="fit-item"><div class="fit-icon">☝️</div><div>日本語サポートや電話対応の安心感を求める人<br><span style="font-size:12px;color:var(--text-dim);">※ 今では海外FXも日本語サポートが充実しています</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 国内FX メリット・デメリット -->
+  <div class="section">
+    <div class="section-label">04 — 国内FX メリット・デメリット</div>
+    <div class="card">
+      <div class="merit-demerit-grid">
+        <div class="md-box merit">
+          <div class="md-label m">✦ メリット</div>
+          <div class="md-items">
+            <div class="md-item"><div class="md-dot m"></div><div>スプレッドが狭くコストが低い</div></div>
+            <div class="md-item"><div class="md-dot m"></div><div>申告分離課税で税率が一定</div></div>
+            <div class="md-item"><div class="md-dot m"></div><div>日本語サポートが充実</div></div>
+            <div class="md-item"><div class="md-dot m"></div><div>金融庁の規制で安心感がある</div></div>
+          </div>
+        </div>
+        <div class="md-box demerit">
+          <div class="md-label d">✦ デメリット</div>
+          <div class="md-items">
+            <div class="md-item"><div class="md-dot d"></div><div>取扱通貨ペアが少ない</div></div>
+            <div class="md-item"><div class="md-dot d"></div><div>MT4対応業者は一部あるが少なく、MT5対応はごくわずか。自動売買環境の選択肢が海外と比べて限られる</div></div>
+            <div class="md-item"><div class="md-dot d"></div><div>約定拒否の可能性</div></div>
+            <div class="md-item"><div class="md-dot d"></div><div>追証のリスクがある</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 用語解説：ゼロカット・ロスカット -->
+  <div class="section">
+    <div class="section-label">05 — 用語解説</div>
+    <div class="card card-amber">
+      <h2>知っておきたい用語</h2>
+      <div class="term-list">
+
+        <div class="term-item">
+          <div class="term-title">🔹 ゼロカットとは</div>
+          <div class="term-desc">ロスカットにより口座残高がマイナスになった時、業者側で補填してくれるシステムです。まさに「救世主」的な仕組みで、海外FXの大きな魅力のひとつです。</div>
+        </div>
+
+        <div class="term-item">
+          <div class="term-title">🔹 ロスカットとは</div>
+          <div class="term-desc">主に<strong>「証拠金維持率（有効証拠金 ÷ 必要証拠金 × 100）」</strong>が業者ごとに定められた水準を下回ったときに発動します。<br><br>
+          例として XM の場合、証拠金維持率が <strong>20%</strong> を下回ったときに発動します。万が一ロスカットが間に合わず残高がマイナスになっても、そのマイナス分はゼロカット（XMが補填）してくれます。</div>
+        </div>
+
+        <div class="warn-box" style="margin-top:0;">
+          <div class="warn-icon">🚨</div>
+          <div class="warn-text">
+            <strong>ロスカット直後の入金は待って！</strong><br>
+            ロスカット直後は口座残高がほぼ確実にマイナスになっています。この状態で入金するとマイナス分が差し引かれます。時間経過でゼロカット（補填）が働いて残高が『0』になってから入金するようにしてください。
+          </div>
+        </div>
+
+        <div class="term-item">
+          <div class="term-title">🔹 スプレッドとは</div>
+          <div class="term-desc">「買値」と「売値」の2つの価格の差がスプレッドで、手数料のような役割を果たします。スプレッドが広いほどトレードコストが高くなります。</div>
+        </div>
+
+        <div class="term-item">
+          <div class="term-title">🔹 約定とは</div>
+          <div class="term-desc">売買の「注文が成立すること」を指します。株式やFXなどの金融商品の取引で使われる言葉で、「注文が成立した状態」や「売買が成立したこと」そのものを意味します。</div>
+        </div>
+
+        <div class="term-item">
+          <div class="term-title">🔹 追証（おいしょう）とは</div>
+          <div class="term-desc">証拠金維持率が一定の比率（維持率）を下回った場合、定められた期日までに証拠金を追加で預け入れる必要があります。これが追加保証金「追証」です。<br><br>
+          <strong style="color:#b91c1c;">注意：</strong>その後相場が回復して維持率が上がっても、一度発生した追証は自然に解消されません。必ず対応が必要です。</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- EAと自動売買を使う場合 -->
+  <div class="section">
+    <div class="section-label">06 — EA・自動売買を使う場合</div>
+    <div class="card card-red">
+      <h2>EAで自動売買をするなら海外FXの方が安全な理由</h2>
+      <p>EAは24時間ロジックに従って自動で動き続けます。裁量トレードと違い、<strong>寝ている間・目を離した隙の急変動にも自動でポジションを取り続けます。</strong>そこで重要になるのが「相場急変時に何が起きるか」です。</p>
+
+      <div class="term-list" style="margin-top:14px;">
+
+        <div class="term-item" style="background:rgba(220,38,38,0.06);border-color:rgba(220,38,38,0.18);">
+          <div class="term-title" style="color:#b91c1c;">⚠ 国内FXでEAを動かした場合のリスク</div>
+          <div class="term-desc">国内FXにはゼロカットシステムがありません。これは<strong>金融商品取引法で損失補填が禁止されているため</strong>、法律上どの国内業者も導入できません。<br><br>
+          そのため、相場の急変動でロスカットが間に合わなかった場合、<strong>口座残高がマイナスになり追証（借金）が発生します。</strong>EAが自動でポジションを積み上げていた場合、その損失は大きくなる可能性があります。</div>
+        </div>
+
+        <div class="term-item" style="background:rgba(5,150,105,0.07);border-color:rgba(5,150,105,0.2);">
+          <div class="term-title" style="color:#047857;">✅ 海外FX（ゼロカット対応業者）でEAを動かした場合</div>
+          <div class="term-desc">ゼロカット対応の海外FX業者であれば、相場が急変してロスカットが間に合わず口座残高がマイナスになっても、<strong>業者がそのマイナス分を補填してくれます。</strong>トレーダーが負う最大損失は口座に入金した金額までです。<br><br>
+          EAで自動売買を行う場合、この「借金リスクがない」という点は非常に重要です。</div>
+        </div>
+
+      </div>
+
+      <div class="warn-box" style="margin-top:14px;">
+        <div class="warn-icon">💡</div>
+        <div class="warn-text">
+          <strong>結論：EAで自動売買をするなら、ゼロカット対応の海外FX業者が安全です。</strong><br>
+          国内でMT4対応業者を利用できたとしても、追証リスクは残ります。急変動時に借金を負わないためにも、自動売買には海外FXの活用を検討されることをおすすめします。<br><br>
+          業者選びは慎重に。たとえば <strong>XM・HFM</strong> はいずれも運営歴が長く複数の金融ライセンスを保有、ゼロカット対応・分別管理・民事賠償保険加入（HFM）など安全性の裏付けが揃った信頼できる業者の代表例です。特にHFMは2025年2月よりGOLDを含む主要銘柄のストップレベルが0になり、EA運用環境としてもさらに使いやすくなっています。<br><br>
+          また、<strong>初心者ほどこの恩恵は大きくなります。</strong>経験が少ないうちはリスク管理も手探りで、想定外の損失が発生しやすいです。そんな時に「最悪でも口座に入れた金額以上は失わない」というゼロカットの安心感は、精神的な余裕にも直結します。余裕があるからこそ冷静に学び続けられる、という好循環にもつながります。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- まとめ -->
+  <div class="section">
+    <div class="summary-card">
+      <p>海外FXは「危険」というイメージを持たれることもありますが、<strong>きちんとリサーチした信頼できる業者を選べば</strong>、ゼロカットやMT4/MT5対応など国内FXにはない大きなメリットがあります。<br><br>
+      特に<strong>EAによる自動売買を行う場合</strong>は、24時間動き続ける性質上、相場急変時の追証リスクを避けるためにもゼロカット対応の海外FX業者の利用が安全です。<br><br>
+      どちらが向いているかは目的や運用スタイルによって異なります。ご自身の状況に合った選択を。</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const canvas=document.getElementById('bg');
+const ctx=canvas.getContext('2d');
+function resize(){canvas.width=window.innerWidth;canvas.height=Math.max(window.innerHeight,document.body.scrollHeight);}
+resize();window.addEventListener('resize',resize);
+
+const gold='#b8922a',goldL='#e8c84a',goldD='#7a5a10';
+const gc=['rgba(0,170,200,0.30)','rgba(60,170,215,0.25)','rgba(120,200,230,0.22)','rgba(180,220,240,0.18)','rgba(210,235,248,0.14)','rgba(255,255,255,0.30)'];
+
+function pt(cx,cy,r,deg){const a=(deg-90)*Math.PI/180;return[cx+Math.cos(a)*r,cy+Math.sin(a)*r];}
+function gls(fn,color){ctx.beginPath();fn();ctx.fillStyle=color;ctx.fill();ctx.save();ctx.beginPath();fn();ctx.clip();const gl=ctx.createLinearGradient(-30,-30,15,15);gl.addColorStop(0,'rgba(255,255,255,0.35)');gl.addColorStop(1,'rgba(255,255,255,0)');ctx.fillStyle=gl;ctx.fill();ctx.restore();}
+function ld(fn,w=2.0){ctx.beginPath();fn();ctx.strokeStyle=gold;ctx.lineWidth=w;ctx.lineJoin='round';ctx.lineCap='round';ctx.stroke();}
+function gd(x,y,r=3.5){ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);const g=ctx.createRadialGradient(x-r*.3,y-r*.3,0,x,y,r);g.addColorStop(0,goldL);g.addColorStop(1,goldD);ctx.fillStyle=g;ctx.fill();}
+
+function motif(cx,cy,R,flip,t,row,col){
+  const pulse=1.0+Math.sin(t*0.0008+row*0.7+col*0.5)*0.055;
+  const rot=Math.sin(t*0.0004+row*0.3+col*0.4)*3.5;
+  const Rp=R*pulse;const c=flip?[...gc].reverse():gc;const ir=Rp*.14,FR=Rp*.93;
+  ctx.save();ctx.translate(cx,cy);ctx.rotate(rot*Math.PI/180);ctx.translate(-cx,-cy);
+  const hex6=(ox,oy,r,rt)=>()=>{for(let i=0;i<6;i++){const[x,y]=pt(ox,oy,r,rt+i*60);i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);}ctx.closePath();};
+  gls(hex6(cx,cy,ir,30),c[0]);ld(hex6(cx,cy,ir,30),2.0);gd(cx,cy,4.0);
+  for(let i=0;i<6;i++){const a=i*60+30;const[ox,oy]=pt(cx,cy,Rp*.27,a);gls(hex6(ox,oy,Rp*.10,a),c[1]);ld(hex6(ox,oy,Rp*.10,a),1.6);gd(ox,oy,3.2);}
+  for(let i=0;i<6;i++){const a=i*60+30;const tip=pt(cx,cy,Rp*.52,a),sl=pt(cx,cy,Rp*.20,a-32),sr=pt(cx,cy,Rp*.20,a+32),base=pt(cx,cy,Rp*.06,a+180);gls(()=>{ctx.moveTo(...tip);ctx.lineTo(...sl);ctx.lineTo(...base);ctx.lineTo(...sr);ctx.closePath();},i%2===0?c[0]:c[1]);ld(()=>{ctx.moveTo(...tip);ctx.lineTo(...sl);ctx.lineTo(...base);ctx.lineTo(...sr);ctx.closePath();},1.8);gd(...tip,3.2);}
+  for(let i=0;i<6;i++){const a=i*60+60;gls(()=>{ctx.moveTo(...pt(cx,cy,Rp*.20,a-18));ctx.lineTo(...pt(cx,cy,Rp*.50,a));ctx.lineTo(...pt(cx,cy,Rp*.20,a+18));ctx.closePath();},c[3]);ld(()=>{ctx.moveTo(...pt(cx,cy,Rp*.20,a-18));ctx.lineTo(...pt(cx,cy,Rp*.50,a));ctx.lineTo(...pt(cx,cy,Rp*.20,a+18));ctx.closePath();},1.4);gd(...pt(cx,cy,Rp*.50,a),2.8);}
+  for(let i=0;i<6;i++){const a=i*60+60;const[ox,oy]=pt(cx,cy,Rp*.74,a);const dr=Rp*.11;gls(()=>{ctx.moveTo(...pt(ox,oy,dr,a));ctx.lineTo(...pt(ox,oy,dr,a+90));ctx.lineTo(...pt(ox,oy,dr,a+180));ctx.lineTo(...pt(ox,oy,dr,a+270));ctx.closePath();},c[2]);ld(()=>{ctx.moveTo(...pt(ox,oy,dr,a));ctx.lineTo(...pt(ox,oy,dr,a+90));ctx.lineTo(...pt(ox,oy,dr,a+180));ctx.lineTo(...pt(ox,oy,dr,a+270));ctx.closePath();},1.6);gd(ox,oy,3.2);}
+  for(let i=0;i<6;i++){const a=i*60+30;gls(()=>{ctx.moveTo(...pt(cx,cy,Rp*.52,a));ctx.lineTo(...pt(cx,cy,FR,a-18));ctx.lineTo(...pt(cx,cy,FR,a+18));ctx.closePath();},c[4]);ld(()=>{ctx.moveTo(...pt(cx,cy,Rp*.52,a));ctx.lineTo(...pt(cx,cy,FR,a-18));ctx.lineTo(...pt(cx,cy,FR,a+18));ctx.closePath();},1.4);}
+  for(let i=0;i<6;i++){const a=i*60+60;gls(()=>{ctx.moveTo(...pt(cx,cy,Rp*.50,a));ctx.lineTo(...pt(cx,cy,Rp*.74,a-25));ctx.lineTo(...pt(cx,cy,FR,a));ctx.lineTo(...pt(cx,cy,Rp*.74,a+25));ctx.closePath();},c[5]);ld(()=>{ctx.moveTo(...pt(cx,cy,Rp*.50,a));ctx.lineTo(...pt(cx,cy,Rp*.74,a-25));ctx.lineTo(...pt(cx,cy,FR,a));ctx.lineTo(...pt(cx,cy,Rp*.74,a+25));ctx.closePath();},1.2);}
+  for(let i=0;i<6;i++){ld(()=>{ctx.moveTo(...pt(cx,cy,ir*.9,i*60+30));ctx.lineTo(...pt(cx,cy,Rp*.50,i*60+30));},1.4);ld(()=>{ctx.moveTo(...pt(cx,cy,ir*.9,i*60+60));ctx.lineTo(...pt(cx,cy,Rp*.46,i*60+60));},1.0);}
+  ctx.beginPath();for(let i=0;i<6;i++){const[x,y]=pt(cx,cy,FR,i*60);i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);}ctx.closePath();ctx.strokeStyle=gold;ctx.lineWidth=3.5;ctx.stroke();
+  for(let i=0;i<6;i++) gd(...pt(cx,cy,FR,i*60),4.0);
+  ctx.restore();
+}
+
+function draw(t){
+  const W=canvas.width,H=canvas.height;
+  const bg=ctx.createLinearGradient(0,0,W,H);
+  bg.addColorStop(0,'#f8f5ef');bg.addColorStop(0.5,'#f2eeea');bg.addColorStop(1,'#f8f5ef');
+  ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+  const TILE=300,cols=Math.ceil(W/TILE)+1,rows=Math.ceil(H/TILE)+1;
+  for(let row=0;row<rows;row++){for(let col=0;col<cols;col++){
+    const cx2=col*TILE+TILE/2+Math.sin(t*0.00012+row*.4)*8;
+    const cy2=row*TILE+TILE/2+Math.cos(t*0.00010+col*.5)*8;
+    motif(cx2,cy2,TILE*.46,(row+col)%2===1,t,row,col);
+  }}
+  ctx.fillStyle='rgba(248,245,239,0.38)';ctx.fillRect(0,0,W,H);
+}
+
+let st=null;
+function loop(ts){if(!st)st=ts;draw(ts-st);requestAnimationFrame(loop);}
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>

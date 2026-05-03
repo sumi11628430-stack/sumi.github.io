@@ -22,6 +22,8 @@
   body { background: #0e1117; color: var(--text); font-family: 'Noto Sans JP', sans-serif; font-weight: 300; line-height: 1.8; min-height: 100vh; overflow-x: hidden; }
   #bg { position: fixed; inset: 0; z-index: 0; }
   .container { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; padding: 60px 24px 80px; }
+  .back-link { display:inline-flex; align-items:center; gap:6px; color:#93c5fd; font-size:13px; text-decoration:none; border-bottom:none; margin-bottom:40px; padding:8px 16px; background:rgba(59,130,246,0.10); border:1px solid rgba(59,130,246,0.28); border-radius:8px; transition:background 0.2s,border-color 0.2s; }
+  .back-link:hover { background:rgba(59,130,246,0.18); border-color:rgba(59,130,246,0.5); }
   .header { text-align: center; margin-bottom: 56px; animation: fadeUp 0.8s ease both; }
   .header-badge { display: inline-block; background: rgba(14,17,23,0.75); border: 1px solid rgba(255,255,255,0.15); color: var(--text); font-size: 11px; letter-spacing: 0.15em; padding: 5px 14px; border-radius: 20px; margin-bottom: 24px; font-family: 'Noto Serif JP', serif; text-shadow: 0 1px 4px rgba(0,0,0,0.8); }
   h1 { font-family: 'Noto Serif JP', serif; font-weight: 600; font-size: clamp(22px, 5vw, 32px); line-height: 1.5; letter-spacing: 0.05em; margin-bottom: 16px; text-shadow: 0 2px 10px rgba(0,0,0,0.9); }
@@ -74,6 +76,7 @@
 <body>
 <canvas id="bg"></canvas>
 <div class="container">
+  <a href="index.html" class="back-link">← トップへ戻る</a>
   <div class="header">
     <div class="header-badge">ご利用前にお読みください</div>
     <h1>口座番号のご提供について</h1>

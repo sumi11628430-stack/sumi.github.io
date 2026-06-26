@@ -3,70 +3,236 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EA紹介一覧 | ちまちま安定型（？）としての私ですが、なにか？</title>
+<title>EA紹介一覧 | プロフェッショナル・トレーディング・ソリューション</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --accent:#2563eb;--accent-soft:rgba(37,99,235,0.12);
-    --accent2:#059669;--accent2-soft:rgba(5,150,105,0.10);
-    --text:#1e293b;--text-muted:#475569;--text-dim:#94a3b8;
-    --border:rgba(0,0,0,0.08);--card-bg:rgba(255,255,255,0.72);
+    --accent: #3b82f6;
+    --accent-glow: rgba(59, 130, 246, 0.5);
+    --gold: #d4af37;
+    --gold-glow: rgba(212, 175, 55, 0.4);
+    --bg-dark: #020617;
+    --card-bg: rgba(15, 23, 42, 0.8);
+    --text: #f1f5f9;
+    --text-muted: #94a3b8;
+    --border: rgba(255, 255, 255, 0.1);
   }
-  *{margin:0;padding:0;box-sizing:border-box;}
-  body{background:#f5f3ee;color:var(--text);font-family:'Noto Sans JP',sans-serif;font-weight:300;line-height:1.8;min-height:100vh;overflow-x:hidden;}
-  #bg{position:fixed;inset:0;z-index:0;}
-  .container{position:relative;z-index:1;max-width:720px;margin:0 auto;padding:60px 24px 80px;}
-  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--text-muted);font-size:13px;text-decoration:none;border-bottom:none;margin-bottom:40px;opacity:0.7;transition:opacity 0.2s;}
-  .back-link:hover{opacity:1;}
-  .header{text-align:center;margin-bottom:56px;animation:fadeUp 0.8s ease both;}
-  .header-badge{display:inline-block;background:rgba(255,255,255,0.85);border:1px solid rgba(0,0,0,0.12);color:var(--text-muted);font-size:11px;letter-spacing:0.15em;padding:5px 14px;border-radius:20px;margin-bottom:24px;font-family:'Noto Serif JP',serif;}
-  h1{font-family:'Noto Serif JP',serif;font-weight:600;font-size:clamp(18px,4vw,26px);line-height:1.6;letter-spacing:0.05em;margin-bottom:16px;color:var(--text);text-shadow:0 1px 4px rgba(255,255,255,0.8);}
-  .header-sub{color:var(--text-muted);font-size:14px;letter-spacing:0.03em;}
-  .ea-list{display:flex;flex-direction:column;gap:18px;}
-  .ea-card{background:var(--card-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.9);border-radius:14px;padding:24px 28px;text-decoration:none;color:inherit;display:flex;align-items:center;gap:20px;box-shadow:0 4px 20px rgba(0,0,0,0.08);transition:transform 0.25s ease,box-shadow 0.25s ease,border-color 0.25s ease;animation:fadeUp 0.7s ease both;}
-  .ea-card:hover{transform:translateY(-4px);box-shadow:0 10px 32px rgba(0,0,0,0.13);border-color:rgba(37,99,235,0.3);}
-  .ea-card:nth-child(1){animation-delay:0.10s;}
-  .ea-card:nth-child(2){animation-delay:0.20s;}
-  .ea-icon{flex-shrink:0;width:54px;height:54px;border-radius:12px;background:var(--accent-soft);border:1px solid rgba(37,99,235,0.2);display:flex;align-items:center;justify-content:center;font-size:26px;}
-  .ea-body{flex:1;min-width:0;}
-  .ea-name{font-family:'Noto Serif JP',serif;font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px;letter-spacing:0.02em;line-height:1.5;}
-  .ea-meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:7px;}
-  .badge{display:inline-block;padding:2px 9px;border-radius:4px;font-size:11px;font-weight:500;}
-  .badge-blue{background:var(--accent-soft);border:1px solid rgba(37,99,235,0.2);color:#1d4ed8;}
-  .badge-green{background:var(--accent2-soft);border:1px solid rgba(5,150,105,0.2);color:#047857;}
-  .ea-desc{font-size:13px;color:var(--text-muted);line-height:1.7;}
-  .ea-arrow{flex-shrink:0;font-size:20px;color:var(--text-dim);transition:transform 0.2s,color 0.2s;}
-  .ea-card:hover .ea-arrow{transform:translateX(5px);color:var(--text-muted);}
-  .ea-card-coming{background:rgba(255,255,255,0.45);border:1px dashed rgba(0,0,0,0.10);border-radius:14px;padding:24px 28px;display:flex;align-items:center;gap:20px;opacity:0.6;animation:fadeUp 0.7s 0.30s ease both;}
-  .coming-icon{flex-shrink:0;width:54px;height:54px;border-radius:12px;background:rgba(0,0,0,0.04);border:1px solid rgba(0,0,0,0.08);display:flex;align-items:center;justify-content:center;font-size:26px;}
-  .coming-body{flex:1;}
-  .coming-label{font-size:13px;color:var(--text-dim);}
-  .coming-badge{display:inline-block;font-size:11px;padding:2px 9px;border-radius:4px;background:rgba(0,0,0,0.05);border:1px solid rgba(0,0,0,0.08);color:var(--text-dim);margin-top:6px;}
-  @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-  strong{color:var(--text);font-weight:500;}
-  @media(max-width:500px){.ea-card{padding:18px 16px;gap:14px}.ea-icon{width:44px;height:44px;font-size:22px}}
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg-dark);
+    color: var(--text);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 300;
+    line-height: 1.8;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  #bgCanvas {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+  }
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 80px 24px 100px;
+  }
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--accent);
+    font-size: 13px;
+    text-decoration: none;
+    margin-bottom: 40px;
+    padding: 8px 16px;
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+  .back-link:hover {
+    background: rgba(59, 130, 246, 0.2);
+    border-color: var(--accent);
+    box-shadow: 0 0 15px var(--accent-glow);
+  }
+  .header {
+    text-align: center;
+    margin-bottom: 70px;
+    animation: fadeUp 1s ease both;
+  }
+  .header-badge {
+    display: inline-block;
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    padding: 6px 18px;
+    border-radius: 20px;
+    margin-bottom: 24px;
+    font-family: 'Noto Serif JP', serif;
+    text-transform: uppercase;
+  }
+  h1 {
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 600;
+    font-size: clamp(24px, 5vw, 36px);
+    line-height: 1.4;
+    letter-spacing: 0.1em;
+    margin-bottom: 20px;
+    color: #fff;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  }
+  .header-sub {
+    color: var(--text-muted);
+    font-size: 15px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .ea-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .ea-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    animation: fadeUp 0.8s ease both;
+    position: relative;
+    overflow: hidden;
+  }
+  .ea-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+    transition: 0.5s;
+  }
+  .ea-card:hover::before { left: 100%; }
+  .ea-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--accent);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 20px rgba(59, 130, 246, 0.2);
+  }
+  .ea-icon {
+    flex-shrink: 0;
+    width: 70px;
+    height: 70px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, rgba(59,130,246,0.2), rgba(37,99,235,0.05));
+    border: 1px solid rgba(59,130,246,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    box-shadow: 0 0 20px rgba(59,130,246,0.1);
+  }
+  .ea-body { flex: 1; min-width: 0; }
+  .ea-name {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 10px;
+    letter-spacing: 0.05em;
+  }
+  .ea-meta { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+  .badge {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .badge-blue { background: rgba(59,130,246,0.15); border: 1px solid var(--accent); color: #93c5fd; }
+  .badge-gold { background: rgba(212,175,55,0.1); border: 1px solid var(--gold); color: var(--gold); }
+  .ea-desc { font-size: 14px; color: var(--text-muted); line-height: 1.8; }
+  .ea-arrow {
+    flex-shrink: 0;
+    font-size: 24px;
+    color: var(--text-muted);
+    transition: all 0.3s ease;
+  }
+  .ea-card:hover .ea-arrow { transform: translateX(8px); color: var(--accent); }
+  
+  .ea-card-coming {
+    background: rgba(15, 23, 42, 0.4);
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 32px;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    opacity: 0.7;
+  }
+  .coming-icon {
+    flex-shrink: 0;
+    width: 70px;
+    height: 70px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+  }
+  .coming-label { font-size: 16px; color: var(--text-muted); margin-bottom: 8px; }
+  .coming-badge {
+    display: inline-block;
+    font-size: 12px;
+    padding: 4px 14px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+  }
+
+  @keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+  
+  @media(max-width:600px){
+    .ea-card { padding: 24px; gap: 20px; flex-direction: column; text-align: center; }
+    .ea-meta { justify-content: center; }
+    .ea-arrow { display: none; }
+  }
 </style>
 </head>
 <body>
-<canvas id="bg"></canvas>
+<canvas id="bgCanvas"></canvas>
 <div class="container">
-  <a href="index.html" class="back-link">← トップへ戻る</a>
+  <a href="index.html" class="back-link">← BACK TO HOME</a>
   <div class="header">
-    <div class="header-badge">EA 紹介一覧</div>
+    <div class="header-badge">Trading Solutions</div>
     <h1>配布中 EA 一覧</h1>
-    <p class="header-sub">各EAの詳細・推奨証拠金・バックテスト結果はそれぞれのページをご覧ください</p>
+    <p class="header-sub">最先端のアルゴリズムと厳格なリスク管理を融合させた、プロフェッショナル向け自動売買システムのご紹介です。</p>
   </div>
   <div class="ea-list">
     <a href="ea_01.html" class="ea-card">
       <div class="ea-icon">🤖</div>
       <div class="ea-body">
-        <div class="ea-name">Re：【STYLE】フェーズ_零</div>
+        <div class="ea-name">Re：【STYLE】クラスター_iF~</div>
         <div class="ea-meta">
-          <span class="badge badge-blue">MT4</span>
-          <span class="badge badge-green">MT5</span>
-          <span class="badge badge-blue">全通貨対応ですが基本GOLD推奨</span>
+          <span class="badge badge-blue">MT4 / MT5</span>
+          <span class="badge badge-gold">GOLD SPECIALIZED</span>
         </div>
-        <div class="ea-desc">継承仕様・インターバル零式採用。長期運用を想定したナンピン型EA。</div>
+        <div class="ea-desc">継承仕様・インターバル零式採用。2025年下半期の異常ボラティリティに対応した、次世代の長期運用ナンピン型EA。</div>
       </div>
       <div class="ea-arrow">›</div>
     </a>
@@ -79,81 +245,109 @@
     </div>
   </div>
 </div>
+
 <script>
-const canvas=document.getElementById('bg');
-const ctx=canvas.getContext('2d');
-function resize(){canvas.width=window.innerWidth;canvas.height=Math.max(window.innerHeight,document.body.scrollHeight);}
-resize();window.addEventListener('resize',resize);
+const canvas = document.getElementById('bgCanvas');
+const ctx = canvas.getContext('2d');
 
-const gold='#b8922a',goldL='#e8c84a',goldD='#7a5a10';
-// 明るい背景用：色を薄め・透明度高め
-const gc=[
-  'rgba(0,170,200,0.30)','rgba(60,170,215,0.25)',
-  'rgba(120,200,230,0.22)','rgba(180,220,240,0.18)',
-  'rgba(210,235,248,0.14)','rgba(255,255,255,0.30)'
-];
-
-function pt(cx,cy,r,deg){const a=(deg-90)*Math.PI/180;return[cx+Math.cos(a)*r,cy+Math.sin(a)*r];}
-function gls(fn,color){
-  ctx.beginPath();fn();ctx.fillStyle=color;ctx.fill();
-  ctx.save();ctx.beginPath();fn();ctx.clip();
-  const gl=ctx.createLinearGradient(-30,-30,15,15);
-  gl.addColorStop(0,'rgba(255,255,255,0.35)');
-  gl.addColorStop(1,'rgba(255,255,255,0)');
-  ctx.fillStyle=gl;ctx.fill();ctx.restore();
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 }
-function ld(fn,w=2.0){ctx.beginPath();fn();ctx.strokeStyle=gold;ctx.lineWidth=w;ctx.lineJoin='round';ctx.lineCap='round';ctx.stroke();}
-function gd(x,y,r=3.5){
-  ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);
-  const g=ctx.createRadialGradient(x-r*.3,y-r*.3,0,x,y,r);
-  g.addColorStop(0,goldL);g.addColorStop(1,goldD);
-  ctx.fillStyle=g;ctx.fill();
-}
+resize();
+window.addEventListener('resize', resize);
 
-function motif(cx,cy,R,flip,t,row,col){
-  const pulse=1.0+Math.sin(t*0.0008+row*0.7+col*0.5)*0.055;
-  const rot=Math.sin(t*0.0004+row*0.3+col*0.4)*3.5;
-  const Rp=R*pulse;
-  const c=flip?[...gc].reverse():gc;
-  const ir=Rp*.14,FR=Rp*.93;
-  ctx.save();ctx.translate(cx,cy);ctx.rotate(rot*Math.PI/180);ctx.translate(-cx,-cy);
-  const hex6=(ox,oy,r,rt)=>()=>{for(let i=0;i<6;i++){const[x,y]=pt(ox,oy,r,rt+i*60);i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);}ctx.closePath();};
-  gls(hex6(cx,cy,ir,30),c[0]);ld(hex6(cx,cy,ir,30),2.0);gd(cx,cy,4.0);
-  for(let i=0;i<6;i++){const a=i*60+30;const[ox,oy]=pt(cx,cy,Rp*.27,a);gls(hex6(ox,oy,Rp*.10,a),c[1]);ld(hex6(ox,oy,Rp*.10,a),1.6);gd(ox,oy,3.2);}
-  for(let i=0;i<6;i++){const a=i*60+30;const tip=pt(cx,cy,Rp*.52,a),sl=pt(cx,cy,Rp*.20,a-32),sr=pt(cx,cy,Rp*.20,a+32),base=pt(cx,cy,Rp*.06,a+180);gls(()=>{ctx.moveTo(...tip);ctx.lineTo(...sl);ctx.lineTo(...base);ctx.lineTo(...sr);ctx.closePath();},i%2===0?c[0]:c[1]);ld(()=>{ctx.moveTo(...tip);ctx.lineTo(...sl);ctx.lineTo(...base);ctx.lineTo(...sr);ctx.closePath();},1.8);gd(...tip,3.2);}
-  for(let i=0;i<6;i++){const a=i*60+60;gls(()=>{ctx.moveTo(...pt(cx,cy,Rp*.20,a-18));ctx.lineTo(...pt(cx,cy,Rp*.50,a));ctx.lineTo(...pt(cx,cy,Rp*.20,a+18));ctx.closePath();},c[3]);ld(()=>{ctx.moveTo(...pt(cx,cy,Rp*.20,a-18));ctx.lineTo(...pt(cx,cy,Rp*.50,a));ctx.lineTo(...pt(cx,cy,Rp*.20,a+18));ctx.closePath();},1.4);gd(...pt(cx,cy,Rp*.50,a),2.8);}
-  for(let i=0;i<6;i++){const a=i*60+60;const[ox,oy]=pt(cx,cy,Rp*.74,a);const dr=Rp*.11;gls(()=>{ctx.moveTo(...pt(ox,oy,dr,a));ctx.lineTo(...pt(ox,oy,dr,a+90));ctx.lineTo(...pt(ox,oy,dr,a+180));ctx.lineTo(...pt(ox,oy,dr,a+270));ctx.closePath();},c[2]);ld(()=>{ctx.moveTo(...pt(ox,oy,dr,a));ctx.lineTo(...pt(ox,oy,dr,a+90));ctx.lineTo(...pt(ox,oy,dr,a+180));ctx.lineTo(...pt(ox,oy,dr,a+270));ctx.closePath();},1.6);gd(ox,oy,3.2);}
-  for(let i=0;i<6;i++){const a=i*60+30;gls(()=>{ctx.moveTo(...pt(cx,cy,Rp*.52,a));ctx.lineTo(...pt(cx,cy,FR,a-18));ctx.lineTo(...pt(cx,cy,FR,a+18));ctx.closePath();},c[4]);ld(()=>{ctx.moveTo(...pt(cx,cy,Rp*.52,a));ctx.lineTo(...pt(cx,cy,FR,a-18));ctx.lineTo(...pt(cx,cy,FR,a+18));ctx.closePath();},1.4);}
-  for(let i=0;i<6;i++){const a=i*60+60;gls(()=>{ctx.moveTo(...pt(cx,cy,Rp*.50,a));ctx.lineTo(...pt(cx,cy,Rp*.74,a-25));ctx.lineTo(...pt(cx,cy,FR,a));ctx.lineTo(...pt(cx,cy,Rp*.74,a+25));ctx.closePath();},c[5]);ld(()=>{ctx.moveTo(...pt(cx,cy,Rp*.50,a));ctx.lineTo(...pt(cx,cy,Rp*.74,a-25));ctx.lineTo(...pt(cx,cy,FR,a));ctx.lineTo(...pt(cx,cy,Rp*.74,a+25));ctx.closePath();},1.2);}
-  for(let i=0;i<6;i++){ld(()=>{ctx.moveTo(...pt(cx,cy,ir*.9,i*60+30));ctx.lineTo(...pt(cx,cy,Rp*.50,i*60+30));},1.4);ld(()=>{ctx.moveTo(...pt(cx,cy,ir*.9,i*60+60));ctx.lineTo(...pt(cx,cy,Rp*.46,i*60+60));},1.0);}
-  ctx.beginPath();for(let i=0;i<6;i++){const[x,y]=pt(cx,cy,FR,i*60);i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);}ctx.closePath();ctx.strokeStyle=gold;ctx.lineWidth=3.5;ctx.stroke();
-  for(let i=0;i<6;i++) gd(...pt(cx,cy,FR,i*60),4.0);
-  ctx.restore();
+// ── 精密なダークデザイン（B案） ──
+const particles = [];
+const particleCount = 60;
+const connectionDistance = 150;
+
+class Particle {
+  constructor() {
+    this.reset();
+  }
+  reset() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.vx = (Math.random() - 0.5) * 0.4;
+    this.vy = (Math.random() - 0.5) * 0.4;
+    this.r = Math.random() * 1.5 + 0.5;
+  }
+  update() {
+    this.x += this.vx;
+    this.y += this.vy;
+    if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+    if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+  }
 }
 
-function draw(t){
-  const W=canvas.width,H=canvas.height;
-  // オフホワイトグラデーション背景
-  const bg=ctx.createLinearGradient(0,0,W,H);
-  bg.addColorStop(0,'#f8f5ef');
-  bg.addColorStop(0.5,'#f2eeea');
-  bg.addColorStop(1,'#f8f5ef');
-  ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
-
-  const TILE=300,cols=Math.ceil(W/TILE)+1,rows=Math.ceil(H/TILE)+1;
-  for(let row=0;row<rows;row++){for(let col=0;col<cols;col++){
-    const cx2=col*TILE+TILE/2+Math.sin(t*0.00012+row*.4)*8;
-    const cy2=row*TILE+TILE/2+Math.cos(t*0.00010+col*.5)*8;
-    motif(cx2,cy2,TILE*.46,(row+col)%2===1,t,row,col);
-  }}
-  // 薄い白幕（コンテンツ読みやすさ）
-  ctx.fillStyle='rgba(248,245,239,0.38)';
-  ctx.fillRect(0,0,W,H);
+for (let i = 0; i < particleCount; i++) {
+  particles.push(new Particle());
 }
 
-let st=null;
-function loop(ts){if(!st)st=ts;draw(ts-st);requestAnimationFrame(loop);}
-requestAnimationFrame(loop);
+function drawGrid(t) {
+  ctx.strokeStyle = 'rgba(59, 130, 246, 0.03)';
+  ctx.lineWidth = 1;
+  const gridSize = 50;
+  const offsetX = (t * 0.02) % gridSize;
+  const offsetY = (t * 0.02) % gridSize;
+  
+  for (let x = offsetX; x < canvas.width; x += gridSize) {
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, canvas.height);
+    ctx.stroke();
+  }
+  for (let y = offsetY; y < canvas.height; y += gridSize) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(canvas.width, y);
+    ctx.stroke();
+  }
+}
+
+function animate(t) {
+  ctx.fillStyle = '#020617';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  
+  drawGrid(t);
+  
+  // 幾何学ライン
+  particles.forEach((p, i) => {
+    p.update();
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(59, 130, 246, 0.4)';
+    ctx.fill();
+    
+    for (let j = i + 1; j < particles.length; j++) {
+      const p2 = particles[j];
+      const dx = p.x - p2.x;
+      const dy = p.y - p2.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      
+      if (dist < connectionDistance) {
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(p2.x, p2.y);
+        ctx.strokeStyle = `rgba(59, 130, 246, ${0.15 * (1 - dist / connectionDistance)})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    }
+  });
+  
+  // ゴールドの光彩（四隅に薄く）
+  const grad = ctx.createRadialGradient(canvas.width, 0, 0, canvas.width, 0, canvas.width * 0.6);
+  grad.addColorStop(0, 'rgba(212, 175, 55, 0.05)');
+  grad.addColorStop(1, 'transparent');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  requestAnimationFrame(animate);
+}
+
+requestAnimationFrame(animate);
 </script>
 </body>
 </html>

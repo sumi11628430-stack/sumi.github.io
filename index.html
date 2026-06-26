@@ -14,13 +14,13 @@
     --text-dark: #1e3a5f;
     --text-mid: #2d6a9f;
     --text-light: #4a90c4;
-    --card-bg: rgba(255,255,255,0.55);
-    --card-border: rgba(255,255,255,0.8);
-    --shadow: rgba(30,80,140,0.12);
+    --card-bg: rgba(255,255,255,0.62);
+    --card-border: rgba(255,255,255,0.85);
+    --shadow: rgba(30,80,140,0.08);
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    background: var(--sky4);
+    background: #f8fafd;
     color: var(--text-dark);
     font-family: 'Noto Sans JP', sans-serif;
     font-weight: 300;
@@ -28,40 +28,12 @@
     min-height: 100vh;
     overflow-x: hidden;
   }
-  /* 青空背景 */
-  #bg {
+  /* 背景キャンバス */
+  #bgCanvas {
     position: fixed;
     inset: 0;
     z-index: 0;
-    background: linear-gradient(
-      180deg,
-      #4fc3f7 0%,
-      #81d4fa 18%,
-      #b3e5fc 38%,
-      #e1f5fe 62%,
-      #f0f9ff 80%,
-      #fff 100%
-    );
-  }
-  /* 雲 */
-  .cloud {
-    position: fixed;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.75);
-    filter: blur(18px);
-    z-index: 0;
-    animation: driftCloud linear infinite;
-  }
-  @keyframes driftCloud {
-    from { transform: translateX(-300px); }
-    to   { transform: translateX(110vw); }
-  }
-  /* 羽キャンバス */
-  #featherCanvas {
-    position: fixed;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
+    background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 50%, #f0f7ff 100%);
   }
   .container {
     position: relative;
@@ -78,8 +50,8 @@
   }
   .site-badge {
     display: inline-block;
-    background: rgba(255,255,255,0.7);
-    border: 1px solid rgba(79,195,247,0.4);
+    background: rgba(255,255,255,0.8);
+    border: 1px solid rgba(37,99,235,0.2);
     color: var(--text-mid);
     font-size: 11px;
     letter-spacing: 0.18em;
@@ -88,6 +60,7 @@
     margin-bottom: 28px;
     font-family: 'Noto Serif JP', serif;
     backdrop-filter: blur(8px);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
   }
   h1 {
     font-family: 'Noto Serif JP', serif;
@@ -112,8 +85,8 @@
   }
   .nav-card {
     background: var(--card-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--card-border);
     border-radius: 16px;
     padding: 28px 32px;
@@ -122,15 +95,15 @@
     display: flex;
     align-items: center;
     gap: 20px;
-    box-shadow: 0 4px 24px var(--shadow);
-    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    box-shadow: 0 4px 20px var(--shadow);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, background 0.3s ease, border-color 0.3s ease;
     animation: fadeUp 0.7s ease both;
   }
   .nav-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 36px rgba(30,80,140,0.18);
-    background: rgba(255,255,255,0.72);
-    border-color: rgba(79,195,247,0.5);
+    transform: translateY(-5px) scale(1.01);
+    box-shadow: 0 12px 40px rgba(30,80,140,0.15);
+    background: rgba(255,255,255,0.85);
+    border-color: rgba(37,99,235,0.4);
   }
   .nav-card:nth-child(1){ animation-delay: 0.10s; }
   .nav-card:nth-child(2){ animation-delay: 0.20s; }
@@ -145,12 +118,13 @@
     align-items: center;
     justify-content: center;
     font-size: 24px;
-    background: rgba(79,195,247,0.15);
-    border: 1px solid rgba(79,195,247,0.3);
+    background: rgba(37,99,235,0.08);
+    border: 1px solid rgba(37,99,235,0.2);
+    box-shadow: inset 0 0 10px rgba(37,99,235,0.05);
   }
-  .nav-icon.green  { background: rgba(16,185,129,0.12); border-color: rgba(16,185,129,0.3); }
-  .nav-icon.amber  { background: rgba(245,158,11,0.12); border-color: rgba(245,158,11,0.3); }
-  .nav-icon.indigo { background: rgba(99,102,241,0.12); border-color: rgba(99,102,241,0.3); }
+  .nav-icon.green  { background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.2); }
+  .nav-icon.amber  { background: rgba(245,158,11,0.08); border-color: rgba(245,158,11,0.2); }
+  .nav-icon.indigo { background: rgba(99,102,241,0.08); border-color: rgba(99,102,241,0.2); }
   .nav-body { flex: 1; }
   .nav-title {
     font-family: 'Noto Serif JP', serif;
@@ -169,12 +143,13 @@
     flex-shrink: 0;
     font-size: 18px;
     color: var(--text-light);
-    opacity: 0.6;
-    transition: transform 0.2s, opacity 0.2s;
+    opacity: 0.4;
+    transition: transform 0.3s ease, opacity 0.3s ease;
   }
   .nav-card:hover .nav-arrow {
-    transform: translateX(5px);
+    transform: translateX(6px);
     opacity: 1;
+    color: var(--accent);
   }
   /* フッター */
   .footer {
@@ -188,15 +163,14 @@
   @keyframes fadeDown { from{opacity:0;transform:translateY(-18px)} to{opacity:1;transform:translateY(0)} }
   @keyframes fadeUp   { from{opacity:0;transform:translateY(18px)}  to{opacity:1;transform:translateY(0)} }
   @media(max-width:500px){
-    .nav-card { padding: 20px 18px; gap: 14px; }
-    .nav-icon { width: 42px; height: 42px; font-size: 20px; }
+    .nav-card { padding: 22px 20px; gap: 16px; }
+    .nav-icon { width: 44px; height: 44px; font-size: 22px; }
     .nav-title { font-size: 15px; }
   }
 </style>
 </head>
 <body>
-<div id="bg"></div>
-<canvas id="featherCanvas"></canvas>
+<canvas id="bgCanvas"></canvas>
 
 <div class="container">
   <div class="header">
@@ -250,129 +224,123 @@
 </div>
 
 <script>
-// ── 雲を生成 ──
-const cloudDefs = [
-  { w:320, h:120, top:'8%',  dur:55, delay:0   },
-  { w:200, h: 80, top:'18%', dur:70, delay:-20 },
-  { w:260, h:100, top:'5%',  dur:80, delay:-40 },
-  { w:180, h: 70, top:'28%', dur:60, delay:-10 },
-  { w:300, h:110, top:'14%', dur:90, delay:-55 },
-];
-cloudDefs.forEach(c => {
-  const el = document.createElement('div');
-  el.className = 'cloud';
-  el.style.cssText = `width:${c.w}px;height:${c.h}px;top:${c.top};left:-350px;animation-duration:${c.dur}s;animation-delay:${c.delay}s;`;
-  document.body.appendChild(el);
-});
-
-// ── 羽アニメーション ──
-const canvas = document.getElementById('featherCanvas');
+const canvas = document.getElementById('bgCanvas');
 const ctx = canvas.getContext('2d');
 
 function resize() {
-  canvas.width  = window.innerWidth;
+  canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 }
 resize();
 window.addEventListener('resize', resize);
 
-// 羽を描画する関数（シンプルな羽形）
-function drawFeather(ctx, x, y, size, angle, alpha, hue) {
+// ── 精密な幾何学モチーフ ──
+const gold = 'rgba(184, 146, 42, 0.15)';
+const goldL = 'rgba(232, 200, 74, 0.2)';
+const blue = 'rgba(37, 99, 235, 0.08)';
+
+function pt(cx, cy, r, deg) {
+  const a = (deg - 90) * Math.PI / 180;
+  return [cx + Math.cos(a) * r, cy + Math.sin(a) * r];
+}
+
+function drawMotif(cx, cy, R, t, row, col) {
+  const pulse = 1.0 + Math.sin(t * 0.0006 + row * 0.5) * 0.04;
+  const rot = t * 0.0002 + (row + col) * 0.1;
+  const Rp = R * pulse;
+  
   ctx.save();
-  ctx.translate(x, y);
-  ctx.rotate(angle);
-  ctx.globalAlpha = alpha;
+  ctx.translate(cx, cy);
+  ctx.rotate(rot);
+  ctx.translate(-cx, -cy);
 
-  // 軸
+  // 極細のグリッドライン
   ctx.beginPath();
-  ctx.moveTo(0, -size * 0.5);
-  ctx.lineTo(0,  size * 0.5);
-  ctx.strokeStyle = `hsla(${hue},60%,75%,0.9)`;
-  ctx.lineWidth = size * 0.045;
-  ctx.stroke();
-
-  // 左羽弁
-  ctx.beginPath();
-  ctx.moveTo(0, -size * 0.45);
-  ctx.bezierCurveTo(-size * 0.55, -size * 0.1,  -size * 0.5,  size * 0.2,  0, size * 0.48);
-  ctx.strokeStyle = `hsla(${hue},55%,82%,0.6)`;
-  ctx.lineWidth = 1;
-  ctx.stroke();
-  ctx.fillStyle = `hsla(${hue},70%,92%,0.22)`;
-  ctx.fill();
-
-  // 右羽弁
-  ctx.beginPath();
-  ctx.moveTo(0, -size * 0.45);
-  ctx.bezierCurveTo( size * 0.55, -size * 0.1,   size * 0.5,  size * 0.2,  0, size * 0.48);
-  ctx.strokeStyle = `hsla(${hue},55%,82%,0.6)`;
-  ctx.lineWidth = 1;
-  ctx.stroke();
-  ctx.fillStyle = `hsla(${hue},70%,92%,0.22)`;
-  ctx.fill();
-
-  // 羽毛の細線（左）
-  for (let i = 0; i < 7; i++) {
-    const t  = i / 7;
-    const sy = -size * 0.4 + t * size * 0.85;
-    const ex = -size * (0.38 - t * 0.06);
-    const ey = sy + size * 0.08;
-    ctx.beginPath();
-    ctx.moveTo(0, sy);
-    ctx.lineTo(ex, ey);
-    ctx.strokeStyle = `hsla(${hue},50%,85%,0.35)`;
-    ctx.lineWidth = 0.7;
-    ctx.stroke();
+  for(let i=0; i<6; i++) {
+    const [x1, y1] = pt(cx, cy, Rp, i * 60);
+    const [x2, y2] = pt(cx, cy, Rp, (i+1) * 60);
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.lineTo(cx, cy);
   }
-  // 羽毛の細線（右）
-  for (let i = 0; i < 7; i++) {
-    const t  = i / 7;
-    const sy = -size * 0.4 + t * size * 0.85;
-    const ex =  size * (0.38 - t * 0.06);
-    const ey = sy + size * 0.08;
+  ctx.strokeStyle = blue;
+  ctx.lineWidth = 0.5;
+  ctx.stroke();
+
+  // 二重の円
+  ctx.beginPath();
+  ctx.arc(cx, cy, Rp * 0.4, 0, Math.PI * 2);
+  ctx.strokeStyle = gold;
+  ctx.stroke();
+  
+  ctx.beginPath();
+  ctx.arc(cx, cy, Rp * 0.85, 0, Math.PI * 2);
+  ctx.setLineDash([2, 4]);
+  ctx.strokeStyle = blue;
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // 小さなジョイント
+  for(let i=0; i<6; i++) {
+    const [px, py] = pt(cx, cy, Rp * 0.6, i * 60 + 30);
     ctx.beginPath();
-    ctx.moveTo(0, sy);
-    ctx.lineTo(ex, ey);
-    ctx.strokeStyle = `hsla(${hue},50%,85%,0.35)`;
-    ctx.lineWidth = 0.7;
-    ctx.stroke();
+    ctx.arc(px, py, 2, 0, Math.PI * 2);
+    ctx.fillStyle = goldL;
+    ctx.fill();
   }
+  
   ctx.restore();
 }
 
-// 羽パーティクル
-const FEATHER_COUNT = 22;
-const hues = [200, 210, 195, 220, 185, 205, 215];
-const feathers = Array.from({ length: FEATHER_COUNT }, (_, i) => ({
-  x:     Math.random() * window.innerWidth,
-  y:     Math.random() * window.innerHeight,
-  size:  18 + Math.random() * 28,
-  angle: Math.random() * Math.PI * 2,
-  vx:    (Math.random() - 0.5) * 0.4,
-  vy:    0.25 + Math.random() * 0.45,
-  va:    (Math.random() - 0.5) * 0.012,
-  alpha: 0.4 + Math.random() * 0.5,
-  hue:   hues[i % hues.length],
-  wobble: Math.random() * Math.PI * 2,
-  wobbleSpeed: 0.008 + Math.random() * 0.012,
+// ── パーティクル ──
+const particles = Array.from({ length: 40 }, () => ({
+  x: Math.random() * window.innerWidth,
+  y: Math.random() * window.innerHeight,
+  r: Math.random() * 1.5 + 0.5,
+  vx: (Math.random() - 0.5) * 0.3,
+  vy: (Math.random() - 0.5) * 0.3,
+  opacity: Math.random() * 0.5 + 0.2
 }));
 
-function animateFeathers(ts) {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  feathers.forEach(f => {
-    f.wobble += f.wobbleSpeed;
-    f.x += f.vx + Math.sin(f.wobble) * 0.5;
-    f.y += f.vy;
-    f.angle += f.va;
-    if (f.y > canvas.height + 60) {
-      f.y = -60;
-      f.x = Math.random() * canvas.width;
-    }
-    drawFeather(ctx, f.x, f.y, f.size, f.angle, f.alpha, f.hue);
+function drawParticles() {
+  particles.forEach(p => {
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(37, 99, 235, ${p.opacity})`;
+    ctx.fill();
+    
+    p.x += p.vx;
+    p.y += p.vy;
+    
+    if (p.x < 0) p.x = canvas.width;
+    if (p.x > canvas.width) p.x = 0;
+    if (p.y < 0) p.y = canvas.height;
+    if (p.y > canvas.height) p.y = 0;
   });
-  requestAnimationFrame(animateFeathers);
 }
-requestAnimationFrame(animateFeathers);
+
+function animate(ts) {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+  // 背景の薄いグラデーションはCSSで処理
+  
+  const TILE = 400;
+  const cols = Math.ceil(canvas.width / TILE) + 1;
+  const rows = Math.ceil(canvas.height / TILE) + 1;
+  
+  for(let r=0; r<rows; r++) {
+    for(let c=0; c<cols; c++) {
+      const cx = c * TILE + (r % 2 === 0 ? 0 : TILE/2);
+      const cy = r * TILE * 0.85;
+      drawMotif(cx, cy, TILE * 0.4, ts, r, c);
+    }
+  }
+  
+  drawParticles();
+  requestAnimationFrame(animate);
+}
+
+requestAnimationFrame(animate);
 </script>
 </body>
 </html>

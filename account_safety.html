@@ -142,7 +142,7 @@
         </div>
         <div class="flow-item">
           <div class="flow-line"><div class="flow-dot"></div></div>
-          <div>メール内に記載されている <em>ログインID（口座番号）</em> の数字をそのままお知らせください<br><span style="font-size:12px;color:var(--text-dim)">※パスワードは不要です。番号のみで構いません。</span></div>
+          <div>メール内に記載されている <em>口座番号</em> の数字をそのままお知らせください<br><span style="font-size:12px;color:var(--text-dim)">※パスワードは不要です。番号のみで構いません。</span></div>
         </div>
       </div>
     </div>
@@ -163,35 +163,97 @@
   </div>
 </div>
 <script>
+// ── メンフィス調（虹色グラデーション＋三角形）背景：プレビュー版 ──
 const canvas=document.getElementById('bg');
 const ctx=canvas.getContext('2d');
-function resize(){canvas.width=window.innerWidth;canvas.height=Math.max(window.innerHeight,document.body.scrollHeight);}
-resize();window.addEventListener('resize',resize);
-const colors=['#e63946','#f4a261','#e9c46a','#2a9d8f','#457b9d','#9b5de5','#f15bb5','#00bbf9','#06d6a0','#fb5607','#8338ec','#3a86ff','#ffbe0b','#ff006e','#00f5d4','#7400b8'];
-const points=Array.from({length:28},(_,i)=>({x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight,color:colors[i%colors.length]}));
+let W,H,triLayer;
+
+// 固定シードの擬似乱数（三角形の配置を毎回同じにする）
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+
+// 虹色グラデーション用のカラーブロブ
+const blobColors=['#7b2ff7','#3a86ff','#00bbf9','#06d6a0','#a3e635','#ffd166','#fb8500','#ff5d8f','#9b5de5'];
+// 三角形の色（白を多めに、差し色で紫・青・ピンク）
+const triColors=['255,255,255','255,255,255','255,255,255','124,58,237','59,130,246','236,72,153'];
+
+// 正三角形の頂点
+function triPts(cx,cy,size,rot){
+  const p=[];
+  for(let k=0;k<3;k++){const a=rot+k*Math.PI*2/3-Math.PI/2;p.push([cx+Math.cos(a)*size,cy+Math.sin(a)*size]);}
+  return p;
+}
+
+// 1つの三角形をオフスクリーンに描く（輪郭・塗り・ストライプ・線の4種）
+function drawTri(g,tr){
+  const p=triPts(g._cx=tr.x,g._cy=tr.y,tr.size,tr.rot);
+  const col=`rgba(${tr.color},`;
+  g.save();
+  g.beginPath();g.moveTo(p[0][0],p[0][1]);g.lineTo(p[1][0],p[1][1]);g.lineTo(p[2][0],p[2][1]);g.closePath();
+  if(tr.style==='fill'){
+    g.fillStyle=col+'0.18)';g.fill();
+    g.lineWidth=2;g.strokeStyle=col+'0.55)';g.stroke();
+  }else if(tr.style==='outline'){
+    g.lineWidth=2.4;g.strokeStyle=col+'0.8)';g.stroke();
+  }else{ // stripe / line
+    g.lineWidth=2.2;g.strokeStyle=col+'0.7)';g.stroke();
+    g.clip();
+    const stripe=tr.style==='stripe';
+    g.lineWidth=stripe?3:1.4;
+    g.strokeStyle=col+(stripe?'0.7)':'0.55)');
+    const gap=stripe?7:5;
+    const ang=tr.rot+(stripe?0:Math.PI/2);
+    const R=tr.size*1.5,dx=Math.cos(ang+Math.PI/2)*R,dy=Math.sin(ang+Math.PI/2)*R;
+    for(let d=-R;d<=R;d+=gap){
+      const ox=Math.cos(ang)*d,oy=Math.sin(ang)*d;
+      g.beginPath();g.moveTo(tr.x+ox-dx,tr.y+oy-dy);g.lineTo(tr.x+ox+dx,tr.y+oy+dy);g.stroke();
+    }
+  }
+  g.restore();
+}
+
+// 三角形レイヤーを一度だけ生成
+function buildTriangles(){
+  const rng=mulberry32(424242);
+  triLayer=document.createElement('canvas');
+  triLayer.width=W;triLayer.height=H;
+  const g=triLayer.getContext('2d');
+  g.lineJoin='round';
+  const styles=['outline','stripe','line','fill'];
+  const n=Math.round((W*H)/42000);
+  for(let i=0;i<n;i++){
+    drawTri(g,{
+      x:rng()*W,y:rng()*H,
+      size:22+rng()*70,
+      rot:rng()*Math.PI*2,
+      style:styles[Math.floor(rng()*styles.length)],
+      color:triColors[Math.floor(rng()*triColors.length)]
+    });
+  }
+}
+
+function resize(){
+  W=canvas.width=window.innerWidth;
+  H=canvas.height=Math.max(window.innerHeight,document.body.scrollHeight);
+  buildTriangles();
+}
+resize();
+window.addEventListener('resize',resize);
+
 function draw(t){
-  const w=canvas.width,h=canvas.height;
-  ctx.fillStyle='#0e1117';ctx.fillRect(0,0,w,h);
-  const wp=points.map((p,i)=>({x:p.x+Math.sin(t*0.00015+i*1.3)*60+Math.cos(t*0.0001+i*0.7)*40,y:p.y+Math.cos(t*0.00012+i*1.1)*60+Math.sin(t*0.00016+i*0.9)*40,color:p.color}));
-  const GRID=6,CW=w/GRID,CH=h/GRID;
-  const gx_=(gx,gy)=>gx*CW+Math.sin(t*0.00018+gx*0.8+gy*0.5)*55;
-  const gy_=(gx,gy)=>gy*CH+Math.cos(t*0.00014+gy*0.7+gx*0.6)*55;
-  for(let gx=0;gx<=GRID;gx++){for(let gy=0;gy<=GRID;gy++){
-    const x0=gx_(gx,gy),y0=gy_(gx,gy),x1=gx_(gx+1,gy),y1=gy_(gx+1,gy),x2=gx_(gx,gy+1),y2=gy_(gx,gy+1),x3=gx_(gx+1,gy+1),y3=gy_(gx+1,gy+1);
-    let minD=Infinity,nearest=wp[0];
-    for(const p of wp){const d=(p.x-x0)**2+(p.y-y0)**2;if(d<minD){minD=d;nearest=p;}}
-    ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(x1,y1);ctx.lineTo(x3,y3);ctx.lineTo(x2,y2);ctx.closePath();
-    const grd=ctx.createLinearGradient(x0,y0,x3,y3);
-    grd.addColorStop(0,nearest.color+'bb');grd.addColorStop(1,colors[(colors.indexOf(nearest.color)+3)%colors.length]+'88');
-    ctx.fillStyle=grd;ctx.fill();ctx.strokeStyle='rgba(0,0,0,0.8)';ctx.lineWidth=2.5;ctx.stroke();
-  }}
-  for(let gx=0;gx<=GRID;gx++){for(let gy=0;gy<=GRID;gy++){
-    const x0=gx_(gx,gy),y0=gy_(gx,gy),x1=gx_(gx+1,gy),y2=gy_(gx,gy+1);
-    ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(x0+(x1-x0)*0.4,y0+(y2-y0)*0.3);ctx.lineTo(x0+(x1-x0)*0.6,y0);ctx.closePath();ctx.fillStyle='rgba(255,255,255,0.07)';ctx.fill();
-  }}
-  const rg=ctx.createRadialGradient(w/2,h/2,0,w/2,h/2,Math.max(w,h)*0.7);
-  rg.addColorStop(0,'rgba(255,255,255,0.06)');rg.addColorStop(1,'rgba(0,0,0,0.35)');
-  ctx.fillStyle=rg;ctx.fillRect(0,0,w,h);
+  // ベース＋ゆっくり動く虹色のメッシュグラデーション
+  ctx.fillStyle='#6a3df0';
+  ctx.fillRect(0,0,W,H);
+  for(let i=0;i<blobColors.length;i++){
+    const cx=W*(0.5+0.46*Math.sin(t*0.0001*(1+i*0.12)+i*1.7));
+    const cy=H*(0.5+0.46*Math.cos(t*0.00012*(1+i*0.08)+i*2.1));
+    const r=Math.max(W,H)*(0.36+0.1*Math.sin(t*0.0002+i));
+    const g=ctx.createRadialGradient(cx,cy,0,cx,cy,r);
+    g.addColorStop(0,blobColors[i]+'cc');
+    g.addColorStop(1,blobColors[i]+'00');
+    ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  }
+  // 散りばめた三角形
+  if(triLayer)ctx.drawImage(triLayer,0,0);
 }
 let st=null;function loop(ts){if(!st)st=ts;draw(ts-st);requestAnimationFrame(loop);}requestAnimationFrame(loop);
 </script>

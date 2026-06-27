@@ -201,101 +201,127 @@
 </div>
 
 <script>
+// ── 砕け散るガラス片（崩壊）背景 ──
 const canvas = document.getElementById('bg');
 const ctx = canvas.getContext('2d');
+let W, H, shardLayer;
+
+// 固定シードの擬似乱数（破片の配置を毎回同じにする）
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+
+// いびつな多角形の破片
+function chunkPts(rf,cx,cy,size,rot){
+  const verts=4+Math.floor(rf()*3);
+  const pts=[];
+  for(let i=0;i<verts;i++){
+    const a=rot+i/verts*Math.PI*2+(rf()-0.5)*0.8;
+    const rr=size*(0.4+rf()*0.85);
+    pts.push([cx+Math.cos(a)*rr,cy+Math.sin(a)*rr]);
+  }
+  return pts;
+}
+// 細長いガラスの破片（スプリンター）
+function sliverPts(rf,cx,cy,len,rot){
+  const dx=Math.cos(rot),dy=Math.sin(rot),px=-dy,py=dx;
+  const w=len*(0.02+rf()*0.06);
+  return [[cx-dx*len*0.5,cy-dy*len*0.5],[cx+dx*len*0.5,cy+dy*len*0.5],[cx+px*w,cy+py*w]];
+}
+// 破片を描く（白〜灰のグラデーション＋光るエッジ）
+function drawShard(g,pts,shade,alpha){
+  g.beginPath();g.moveTo(pts[0][0],pts[0][1]);
+  for(let i=1;i<pts.length;i++)g.lineTo(pts[i][0],pts[i][1]);
+  g.closePath();
+  let minx=1e9,miny=1e9,maxx=-1e9,maxy=-1e9;
+  for(const p of pts){if(p[0]<minx)minx=p[0];if(p[1]<miny)miny=p[1];if(p[0]>maxx)maxx=p[0];if(p[1]>maxy)maxy=p[1];}
+  const gr=g.createLinearGradient(minx,miny,maxx,maxy);
+  const hi=Math.min(255,shade+55),lo=Math.max(18,shade-75);
+  gr.addColorStop(0,`rgba(${hi},${hi},${hi},${alpha})`);
+  gr.addColorStop(0.5,`rgba(${shade},${shade},${shade},${alpha})`);
+  gr.addColorStop(1,`rgba(${lo},${lo},${lo},${alpha})`);
+  g.fillStyle=gr;g.fill();
+  g.lineWidth=1;g.strokeStyle=`rgba(255,255,255,${0.3*alpha})`;g.stroke();
+}
+
+// 破片レイヤーを一度だけ生成
+function build(){
+  const rf=mulberry32(70707);
+  shardLayer=document.createElement('canvas');
+  shardLayer.width=W;shardLayer.height=H;
+  const g=shardLayer.getContext('2d');
+  g.fillStyle='#000';g.fillRect(0,0,W,H);
+  g.lineJoin='round';
+  const chunks=Math.round(W*H/13000);
+  for(let i=0;i<chunks;i++){
+    const cx=rf()*W,cy=rf()*H,size=14+rf()*58,shade=Math.floor(90+rf()*150);
+    drawShard(g,chunkPts(rf,cx,cy,size,rf()*Math.PI*2),shade,1);
+  }
+  const slivers=Math.round(W*H/8000);
+  for(let i=0;i<slivers;i++){
+    const cx=rf()*W,cy=rf()*H,len=22+rf()*120,shade=Math.floor(120+rf()*135);
+    drawShard(g,sliverPts(rf,cx,cy,len,rf()*Math.PI*2),shade,1);
+  }
+}
+
+// 落下・回転するガラス片（崩れる動き）
+let floaters=[];
+function initFloaters(){
+  floaters=[];
+  const n=Math.min(70,Math.round(W*H/26000));
+  for(let i=0;i<n;i++){
+    const size=6+Math.random()*22;
+    const shape=chunkPts(Math.random,0,0,size,Math.random()*Math.PI*2);
+    floaters.push({
+      x:Math.random()*W,y:Math.random()*H,
+      vy:0.15+Math.random()*0.5,vx:(Math.random()-0.5)*0.25,
+      ang:Math.random()*Math.PI*2,va:(Math.random()-0.5)*0.004,
+      shape,shade:Math.floor(150+Math.random()*105)
+    });
+  }
+}
+
 function resize(){
-  canvas.width = window.innerWidth;
-  canvas.height = Math.max(window.innerHeight, document.body.scrollHeight);
+  W=canvas.width=window.innerWidth;
+  H=canvas.height=Math.max(window.innerHeight,document.body.scrollHeight);
+  build();
+  initFloaters();
 }
 resize();
-window.addEventListener('resize', resize);
+window.addEventListener('resize',resize);
 
-class ChainLink {
-  constructor(x, y, angle, speed, phase){
-    this.x = x; this.y = y;
-    this.baseAngle = angle; this.angle = angle;
-    this.speed = speed; this.phase = phase;
-    this.brightness = 0.35 + Math.random() * 0.45;
-  }
-  update(t){
-    this.angle = this.baseAngle + Math.sin(t * this.speed + this.phase) * 0.12;
-  }
-  draw(ctx, t){
-    ctx.save();
-    ctx.translate(this.x, this.y);
-    ctx.rotate(this.angle);
-    const w=28, h=14, r=7;
-    const glow = 0.35 + Math.sin(t * 0.001 + this.phase) * 0.18;
-    ctx.strokeStyle = `rgba(100,180,255,${glow * this.brightness * 0.35})`;
-    ctx.lineWidth = 6;
-    ctx.beginPath();
-    ctx.moveTo(-w/2+r,-h/2); ctx.lineTo(w/2-r,-h/2);
-    ctx.arcTo(w/2,-h/2,w/2,-h/2+r,r); ctx.lineTo(w/2,h/2-r);
-    ctx.arcTo(w/2,h/2,w/2-r,h/2,r); ctx.lineTo(-w/2+r,h/2);
-    ctx.arcTo(-w/2,h/2,-w/2,h/2-r,r); ctx.lineTo(-w/2,-h/2+r);
-    ctx.arcTo(-w/2,-h/2,-w/2+r,-h/2,r); ctx.closePath();
-    ctx.stroke();
-    ctx.strokeStyle = `rgba(160,210,255,${glow * this.brightness * 0.75})`;
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.restore();
-  }
-}
+function draw(t){
+  ctx.clearRect(0,0,W,H);
+  if(shardLayer)ctx.drawImage(shardLayer,0,0);
 
-const chains = [];
-const W = window.innerWidth, H = window.innerHeight;
-for(let line=0; line<9; line++){
-  const startX = (line/8)*W*1.5 - W*0.25;
-  const linkCount = Math.ceil(H/32)+6;
-  for(let i=0; i<linkCount; i++){
-    const isH = i%2===0;
-    chains.push(new ChainLink(
-      startX + i*7,
-      -60 + i*32,
-      isH ? 0 : Math.PI/2,
-      0.0003 + Math.random()*0.0003,
-      Math.random()*Math.PI*2
-    ));
+  // 落下する破片
+  for(const f of floaters){
+    f.y+=f.vy;f.x+=f.vx;f.ang+=f.va;
+    if(f.y-30>H){f.y=-30;f.x=Math.random()*W;}
+    const c=Math.cos(f.ang),s=Math.sin(f.ang);
+    const pts=f.shape.map(p=>[f.x+p[0]*c-p[1]*s,f.y+p[0]*s+p[1]*c]);
+    drawShard(ctx,pts,f.shade,0.9);
   }
-}
 
-function drawPadlock(ctx, x, y, t){
-  const glow = 0.55 + Math.sin(t*0.0007)*0.25;
-  const s = 1 + Math.sin(t*0.0004)*0.025;
+  // 光沢のスイープ（ガラスの煌めき）
   ctx.save();
-  ctx.translate(x,y); ctx.scale(s,s);
-  ctx.strokeStyle = `rgba(100,180,255,${glow*0.5})`;
-  ctx.lineWidth = 7;
-  ctx.beginPath(); ctx.arc(0,-12,20,Math.PI,0,false); ctx.stroke();
-  ctx.strokeStyle = `rgba(80,160,255,${glow*0.45})`;
-  ctx.lineWidth = 9; ctx.strokeRect(-24,0,48,38);
-  ctx.fillStyle = 'rgba(6,10,15,0.92)'; ctx.fillRect(-21,3,42,32);
-  ctx.strokeStyle = `rgba(160,210,255,${glow*0.85})`;
-  ctx.lineWidth = 2; ctx.strokeRect(-24,0,48,38);
-  ctx.strokeStyle = `rgba(160,210,255,${glow*0.7})`;
-  ctx.lineWidth = 4;
-  ctx.beginPath(); ctx.arc(0,-12,20,Math.PI,0,false); ctx.stroke();
-  ctx.fillStyle = `rgba(120,190,255,${glow})`;
-  ctx.beginPath(); ctx.arc(0,16,6,0,Math.PI*2); ctx.fill();
-  ctx.fillRect(-2.5,19,5,9);
+  ctx.globalCompositeOperation='screen';
+  const gx=((t*0.045)%(W+500))-250;
+  const sw=ctx.createLinearGradient(gx-160,0,gx+160,H);
+  sw.addColorStop(0,'rgba(255,255,255,0)');
+  sw.addColorStop(0.5,'rgba(255,255,255,0.06)');
+  sw.addColorStop(1,'rgba(255,255,255,0)');
+  ctx.fillStyle=sw;ctx.fillRect(0,0,W,H);
   ctx.restore();
-}
 
-let st=null;
-function loop(ts){
-  if(!st) st=ts;
-  const t=ts-st;
-  const w=canvas.width, h=canvas.height;
-  ctx.fillStyle='#060a0f'; ctx.fillRect(0,0,w,h);
-  for(const link of chains){ link.update(t); link.draw(ctx,t); }
-  drawPadlock(ctx, w/2, h*0.15, t);
-  const fog=ctx.createRadialGradient(w/2,h/2,0,w/2,h/2,Math.max(w,h)*0.75);
-  fog.addColorStop(0,'rgba(6,10,15,0.25)');
-  fog.addColorStop(1,'rgba(6,10,15,0.6)');
-  ctx.fillStyle=fog; ctx.fillRect(0,0,w,h);
-  requestAnimationFrame(loop);
+  // 中央を暗くして可読性確保＋参考画像の雰囲気
+  const vg=ctx.createRadialGradient(W/2,H*0.42,0,W/2,H*0.42,Math.max(W,H)*0.6);
+  vg.addColorStop(0,'rgba(0,0,0,0.82)');
+  vg.addColorStop(0.55,'rgba(0,0,0,0.4)');
+  vg.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle=vg;ctx.fillRect(0,0,W,H);
+
+  requestAnimationFrame(draw);
 }
-requestAnimationFrame(loop);
+requestAnimationFrame(draw);
 </script>
 </body>
 </html>

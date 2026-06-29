@@ -33,7 +33,7 @@
     position: fixed;
     inset: 0;
     z-index: 0;
-    background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 50%, #f0f7ff 100%);
+    background: linear-gradient(160deg, #f4fbe9 0%, #e3f3cd 45%, #c2e09a 100%);
   }
   .container {
     position: relative;
@@ -224,119 +224,187 @@
 </div>
 
 <script>
+// ── 木漏れ日（新緑＋やわらかな光）背景 ──
 const canvas = document.getElementById('bgCanvas');
 const ctx = canvas.getContext('2d');
+let W, H, dapples, softLeaves, feathers;
 
-function resize() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+function rand(a, b){ return a + Math.random() * (b - a); }
+
+// 羽（柔らかな白い羽根）
+function feather(x, y, size, angle, alpha){
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate(angle);
+  const len = size, w = size*0.34;
+  const g = ctx.createLinearGradient(0, 0, 0, -len);
+  g.addColorStop(0, `rgba(255,255,255,${alpha*0.55})`);
+  g.addColorStop(0.5, `rgba(255,255,255,${alpha})`);
+  g.addColorStop(1, `rgba(236,248,228,${alpha*0.8})`);
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.quadraticCurveTo(w, -len*0.4, 0, -len);
+  ctx.quadraticCurveTo(-w, -len*0.4, 0, 0);
+  ctx.closePath();
+  ctx.fillStyle = g;
+  ctx.fill();
+  // 羽軸
+  ctx.strokeStyle = `rgba(150,190,150,${alpha*0.7})`;
+  ctx.lineWidth = Math.max(0.8, size*0.025);
+  ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(0, -len); ctx.stroke();
+  // 羽枝
+  ctx.strokeStyle = `rgba(255,255,255,${alpha*0.45})`;
+  ctx.lineWidth = 0.7;
+  for(let i=1; i<=5; i++){
+    const yy = -len*i/6;
+    const ww = w*(1 - Math.abs(i/6 - 0.42))*0.85;
+    ctx.beginPath(); ctx.moveTo(0, yy); ctx.lineTo(ww, yy + ww*0.45); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0, yy); ctx.lineTo(-ww, yy + ww*0.45); ctx.stroke();
+  }
+  ctx.restore();
+}
+
+// 葉のシルエット（原点から angle 方向へ伸びる）
+function leaf(x, y, size, angle, fill){
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate(angle);
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.quadraticCurveTo(size*0.55, -size*0.42, size, 0);
+  ctx.quadraticCurveTo(size*0.55, size*0.42, 0, 0);
+  ctx.closePath();
+  ctx.fillStyle = fill;
+  ctx.fill();
+  ctx.restore();
+}
+
+// 四つ葉のクローバー
+function clover(x, y, size, rot, fill){
+  for(let i=0; i<4; i++){
+    const a = rot + i * Math.PI/2;
+    leaf(x + Math.cos(a)*size*0.18, y + Math.sin(a)*size*0.18, size, a, fill);
+  }
+}
+
+function build(){
+  // 光のボケ（木漏れ日のきらめき）
+  dapples = Array.from({length: Math.round(W*H/26000)}, () => ({
+    x: Math.random()*W, y: Math.random()*H, r: rand(16, 74),
+    vx: rand(-0.15, 0.15), vy: rand(-0.4, -0.08),
+    a: rand(0.06, 0.24), ph: rand(0, Math.PI*2), hue: rand(70, 108)
+  }));
+  // ふわりと漂う葉・クローバー（中景・ぼかし）
+  softLeaves = Array.from({length: Math.round(W*H/95000)+6}, () => ({
+    x: Math.random()*W, y: Math.random()*H, s: rand(36, 110),
+    rot: rand(0, Math.PI*2), vr: rand(-0.0008, 0.0008),
+    vx: rand(-0.1, 0.1), vy: rand(-0.12, 0.12),
+    a: rand(0.05, 0.13), clover: Math.random() < 0.45
+  }));
+  // 舞い散る羽
+  feathers = Array.from({length: Math.round(W*H/95000)+7}, () => ({
+    x: Math.random()*W, y: Math.random()*H, s: rand(16, 42),
+    vy: rand(0.22, 0.65), drift: rand(0.5, 1.2), ph: rand(0, Math.PI*2),
+    spin: rand(0.35, 0.85), rotPh: rand(0, Math.PI*2),
+    rotAmp: rand(0.3, 0.7), tilt: rand(-0.4, 0.4), a: rand(0.5, 0.92)
+  }));
+}
+
+function resize(){
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+  build();
 }
 resize();
 window.addEventListener('resize', resize);
 
-// ── 精密な幾何学モチーフ ──
-const gold = 'rgba(184, 146, 42, 0.15)';
-const goldL = 'rgba(232, 200, 74, 0.2)';
-const blue = 'rgba(37, 99, 235, 0.08)';
-
-function pt(cx, cy, r, deg) {
-  const a = (deg - 90) * Math.PI / 180;
-  return [cx + Math.cos(a) * r, cy + Math.sin(a) * r];
-}
-
-function drawMotif(cx, cy, R, t, row, col) {
-  const pulse = 1.0 + Math.sin(t * 0.0006 + row * 0.5) * 0.04;
-  const rot = t * 0.0002 + (row + col) * 0.1;
-  const Rp = R * pulse;
-  
+// 角を縁取る茂み（枝から葉が広がる・そよぐ）
+function branch(bx, by, baseAng, t, scale, seed){
   ctx.save();
-  ctx.translate(cx, cy);
-  ctx.rotate(rot);
-  ctx.translate(-cx, -cy);
-
-  // 極細のグリッドライン
-  ctx.beginPath();
-  for(let i=0; i<6; i++) {
-    const [x1, y1] = pt(cx, cy, Rp, i * 60);
-    const [x2, y2] = pt(cx, cy, Rp, (i+1) * 60);
-    ctx.moveTo(x1, y1);
-    ctx.lineTo(x2, y2);
-    ctx.lineTo(cx, cy);
+  ctx.translate(bx, by);
+  for(let i=0; i<8; i++){
+    const ang = baseAng + (i/8 - 0.5)*0.7 + Math.sin(t*0.4 + seed + i*0.6)*0.05;
+    const dist = (40 + i*46) * scale;
+    const lx = Math.cos(ang)*dist, ly = Math.sin(ang)*dist;
+    const sz = (34 + i*4) * scale;
+    leaf(lx, ly, sz, ang + Math.PI*0.16, `rgba(${44+i*3},${112+i*5},${52+i*3},0.5)`);
+    leaf(lx, ly, sz*0.85, ang - Math.PI*0.26, `rgba(${54+i*3},${126+i*4},${62+i*3},0.42)`);
   }
-  ctx.strokeStyle = blue;
-  ctx.lineWidth = 0.5;
-  ctx.stroke();
-
-  // 二重の円
-  ctx.beginPath();
-  ctx.arc(cx, cy, Rp * 0.4, 0, Math.PI * 2);
-  ctx.strokeStyle = gold;
-  ctx.stroke();
-  
-  ctx.beginPath();
-  ctx.arc(cx, cy, Rp * 0.85, 0, Math.PI * 2);
-  ctx.setLineDash([2, 4]);
-  ctx.strokeStyle = blue;
-  ctx.stroke();
-  ctx.setLineDash([]);
-
-  // 小さなジョイント
-  for(let i=0; i<6; i++) {
-    const [px, py] = pt(cx, cy, Rp * 0.6, i * 60 + 30);
-    ctx.beginPath();
-    ctx.arc(px, py, 2, 0, Math.PI * 2);
-    ctx.fillStyle = goldL;
-    ctx.fill();
-  }
-  
   ctx.restore();
 }
 
-// ── パーティクル ──
-const particles = Array.from({ length: 40 }, () => ({
-  x: Math.random() * window.innerWidth,
-  y: Math.random() * window.innerHeight,
-  r: Math.random() * 1.5 + 0.5,
-  vx: (Math.random() - 0.5) * 0.3,
-  vy: (Math.random() - 0.5) * 0.3,
-  opacity: Math.random() * 0.5 + 0.2
-}));
+function animate(ts){
+  const t = ts * 0.001;
 
-function drawParticles() {
-  particles.forEach(p => {
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(37, 99, 235, ${p.opacity})`;
-    ctx.fill();
-    
-    p.x += p.vx;
-    p.y += p.vy;
-    
-    if (p.x < 0) p.x = canvas.width;
-    if (p.x > canvas.width) p.x = 0;
-    if (p.y < 0) p.y = canvas.height;
-    if (p.y > canvas.height) p.y = 0;
+  // やわらかな新緑のベース
+  ctx.fillStyle = '#dcefc4';
+  ctx.fillRect(0, 0, W, H);
+
+  // 上部から差し込む陽だまり
+  const bx = W*(0.32 + 0.05*Math.sin(t*0.15)), by = H*(0.12 + 0.04*Math.cos(t*0.12));
+  const bg = ctx.createRadialGradient(bx, by, 0, bx, by, Math.max(W, H)*0.9);
+  bg.addColorStop(0, '#fdfff4');
+  bg.addColorStop(0.35, 'rgba(244,251,225,0.65)');
+  bg.addColorStop(1, 'rgba(170,210,120,0)');
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, W, H);
+
+  // 下方向の深い緑（奥行き）
+  const vg = ctx.createLinearGradient(0, H*0.4, 0, H);
+  vg.addColorStop(0, 'rgba(120,170,80,0)');
+  vg.addColorStop(1, 'rgba(96,150,64,0.4)');
+  ctx.fillStyle = vg;
+  ctx.fillRect(0, 0, W, H);
+
+  // 中景のぼかした葉・クローバー
+  ctx.save();
+  try { ctx.filter = 'blur(5px)'; } catch(e) {}
+  softLeaves.forEach(l => {
+    l.x += l.vx; l.y += l.vy; l.rot += l.vr;
+    if(l.x < -160) l.x = W+160; if(l.x > W+160) l.x = -160;
+    if(l.y < -160) l.y = H+160; if(l.y > H+160) l.y = -160;
+    const sway = Math.sin(t*0.5 + l.x*0.01)*0.15;
+    const col = `rgba(96,160,70,${l.a})`;
+    if(l.clover) clover(l.x, l.y, l.s*0.5, l.rot + sway, col);
+    else leaf(l.x, l.y, l.s, l.rot + sway, col);
   });
-}
+  ctx.restore();
 
-function animate(ts) {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  
-  // 背景の薄いグラデーションはCSSで処理
-  
-  const TILE = 400;
-  const cols = Math.ceil(canvas.width / TILE) + 1;
-  const rows = Math.ceil(canvas.height / TILE) + 1;
-  
-  for(let r=0; r<rows; r++) {
-    for(let c=0; c<cols; c++) {
-      const cx = c * TILE + (r % 2 === 0 ? 0 : TILE/2);
-      const cy = r * TILE * 0.85;
-      drawMotif(cx, cy, TILE * 0.4, ts, r, c);
-    }
-  }
-  
-  drawParticles();
+  // 光のボケ
+  ctx.save();
+  ctx.globalCompositeOperation = 'lighter';
+  dapples.forEach(d => {
+    d.x += d.vx; d.y += d.vy;
+    if(d.y < -d.r){ d.y = H + d.r; d.x = Math.random()*W; }
+    if(d.x < -d.r) d.x = W + d.r; if(d.x > W + d.r) d.x = -d.r;
+    const tw = d.a * (0.7 + 0.3*Math.sin(t*1.2 + d.ph));
+    const rg = ctx.createRadialGradient(d.x, d.y, 0, d.x, d.y, d.r);
+    rg.addColorStop(0, `hsla(${d.hue},70%,93%,${tw})`);
+    rg.addColorStop(0.6, `hsla(${d.hue},65%,86%,${tw*0.4})`);
+    rg.addColorStop(1, `hsla(${d.hue},65%,86%,0)`);
+    ctx.fillStyle = rg;
+    ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, Math.PI*2); ctx.fill();
+  });
+  ctx.restore();
+
+  // 角の茂み（フレーミング）
+  ctx.save();
+  try { ctx.filter = 'blur(2px)'; } catch(e) {}
+  branch(-20, -20, 0.6, t, 1.0, 0);
+  branch(W+20, -20, Math.PI-0.6, t, 1.15, 3);
+  branch(-20, H*0.46, 0.2, t, 0.7, 6);
+  branch(W+20, H*0.7, Math.PI-0.2, t, 0.8, 9);
+  ctx.restore();
+
+  // 舞い散る羽（前景）
+  feathers.forEach(f => {
+    f.y += f.vy;
+    if(f.y > H + 60){ f.y = -60; f.x = Math.random()*W; }
+    const x = f.x + Math.sin(t*f.spin + f.ph)*f.drift*22;
+    const ang = f.tilt + Math.sin(t*f.spin + f.rotPh)*f.rotAmp;
+    feather(x, f.y, f.s, ang, f.a);
+  });
+
   requestAnimationFrame(animate);
 }
 

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>バックテスト結果（デフォルト設定/micro口座） | Re：【STYLE】クラスター_iF~</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#080e1f;
+    --bg2:#0d1530;
+    --accent:#00c4ff;
+    --accent2:#00ff9d;
+    --accent-red:#ff4060;
+    --text:#e2e8f0;
+    --text-muted:#b0c4d8;
+    --text-dim:#8ba8c4;
+    --border:rgba(0,196,255,0.15);
+    --card-bg:rgba(8,20,50,0.82);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--text);font-family:'Noto Sans JP',sans-serif;font-weight:300;line-height:1.8;min-height:100vh;overflow-x:hidden;}
+  #bg{position:fixed;inset:0;z-index:0;}
+  .container{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:60px 24px 80px;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--text-muted);font-size:13px;text-decoration:none;border-bottom:none;margin-bottom:40px;opacity:0.7;transition:opacity 0.2s;}
+  .back-link:hover{opacity:1;}
+  .header{text-align:center;margin-bottom:48px;animation:fadeUp 0.8s ease both;}
+  .header-badge{display:inline-block;background:rgba(0,196,255,0.1);border:1px solid rgba(0,196,255,0.3);color:var(--accent);font-size:11px;letter-spacing:0.2em;padding:5px 14px;border-radius:4px;margin-bottom:20px;font-family:'Noto Serif JP',serif;text-transform:uppercase;}
+  h1{font-family:'Noto Serif JP',serif;font-weight:600;font-size:clamp(17px,3.5vw,24px);line-height:1.6;letter-spacing:0.04em;margin-bottom:8px;color:var(--text);}
+  .header-sub{color:var(--text-muted);font-size:13px;letter-spacing:0.05em;}
+  .section{margin-bottom:22px;animation:fadeUp 0.7s ease both;}
+  .section:nth-child(2){animation-delay:0.08s}.section:nth-child(3){animation-delay:0.16s}
+  .section-label{display:flex;align-items:center;gap:10px;font-size:11px;letter-spacing:0.18em;color:var(--accent);text-transform:uppercase;margin-bottom:12px;font-weight:500;}
+  .section-label::after{content:'';flex:1;height:1px;background:var(--border);}
+  .card{background:var(--card-bg);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--border);border-radius:8px;padding:22px 26px;box-shadow:0 4px 24px rgba(0,0,0,0.4);}
+  .card-cyan {border-left:3px solid var(--accent);}
+  .card-green{border-left:3px solid var(--accent2);}
+  .card-amber{border-left:3px solid #f59e0b;}
+  h2{font-family:'Noto Serif JP',serif;font-size:16px;font-weight:600;margin-bottom:14px;color:var(--text);}
+  .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+  @media(max-width:500px){.info-grid{grid-template-columns:1fr;}}
+  .info-item{background:rgba(0,196,255,0.05);border:1px solid rgba(0,196,255,0.12);border-radius:6px;padding:10px 14px;}
+  .info-label{font-size:11px;color:#b0c4d8;margin-bottom:2px;letter-spacing:0.05em;}
+  .info-value{font-size:14px;color:#e8f0f8;font-weight:500;}
+  .info-value.green{color:var(--accent2);}
+  .info-value.red{color:var(--accent-red);}
+  .info-value.cyan{color:var(--accent);}
+  .result-img{width:100%;border-radius:6px;border:1px solid var(--border);box-shadow:0 2px 12px rgba(0,0,0,0.4);display:block;}
+  .warn-box{background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.25);border-radius:6px;padding:12px 16px;margin-top:14px;display:flex;gap:10px;align-items:flex-start;}
+  .warn-icon{flex-shrink:0;font-size:15px;}
+  .warn-text{font-size:12px;color:#d97706;line-height:1.75;}
+  .summary-card{background:var(--card-bg);backdrop-filter:blur(14px);border:1px solid rgba(0,196,255,0.2);border-radius:8px;padding:24px 28px;text-align:center;box-shadow:0 4px 24px rgba(0,0,0,0.4);}
+  .summary-card p{font-size:14px;color:var(--text-muted);line-height:1.9;}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(0,196,255,0.3);}
+  a:hover{border-color:var(--accent);}
+  strong{color:var(--text);font-weight:500;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+  @media(max-width:500px){.card{padding:16px 14px}}
+  /* MT5レポート（白カード）挿入用 */
+  .mt5-report{background:#fff;color:#000;border:1px solid #b8b8b8;border-radius:6px;padding:16px 12px 18px;font-family:Tahoma,Arial,'Noto Sans JP',sans-serif;font-size:11px;line-height:1.4;overflow-x:auto;box-shadow:0 2px 12px rgba(0,0,0,0.45);}
+  .mt5-head{text-align:center;font-weight:bold;font-size:13px;margin-bottom:2px;}
+  .mt5-sub{text-align:center;color:#555;font-size:11px;margin-bottom:12px;}
+  .mt5-ttl{text-align:center;font-weight:bold;font-size:13px;padding:10px 0 5px;}
+  .mt5{border-collapse:collapse;margin:0 auto;}
+  .mt5 td{padding:1px 4px;white-space:nowrap;vertical-align:top;font-size:11px;}
+  .mt5 td.l{text-align:right;color:#000;}
+  .mt5 td.v{font-weight:bold;text-align:left;padding-right:10px;}
+  .mt5-graph{margin:16px auto 0;border:1px solid #999;padding:6px 8px 4px;max-width:900px;}
+  .mt5-graph .gl{font-size:11px;color:#000;margin-bottom:2px;}
+  #balChart{width:100%;height:auto;display:block;}
+  @media(max-width:560px){.mt5-report{font-size:9.5px;padding:10px 6px}.mt5 td{padding:1px 2px;font-size:9.5px}.mt5 td.v{padding-right:5px}}
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+<div class="container">
+  <a href="ea_01.html" class="back-link">← EA詳細へ戻る</a>
+  <div class="header">
+    <div class="header-badge">Backtest Results</div>
+    <h1>Re：【STYLE】クラスター_iF~</h1>
+    <p class="header-sub">GOLDmicro / M15 / 2015.01.01 〜 2026.05.31（デフォルト設定・micro口座）</p>
+  </div>
+
+  <!-- テスト条件 -->
+  <div class="section">
+    <div class="section-label">01 — Test Conditions</div>
+    <div class="card card-cyan">
+      <h2>テスト条件</h2>
+      <div class="info-grid">
+        <div class="info-item"><div class="info-label">銘柄</div><div class="info-value cyan">GOLDmicro</div></div>
+        <div class="info-item"><div class="info-label">期間</div><div class="info-value">M15（2015.01.01〜2026.05.31）</div></div>
+        <div class="info-item"><div class="info-label">会社</div><div class="info-value">FinTrade Limited</div></div>
+        <div class="info-item"><div class="info-label">初期証拠金</div><div class="info-value">150,000</div></div>
+        <div class="info-item"><div class="info-label">レバレッジ</div><div class="info-value">1:1000</div></div>
+        <div class="info-item"><div class="info-label">ヒストリー品質</div><div class="info-value cyan">99%</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 主要結果 -->
+  <div class="section">
+    <div class="section-label">02 — Key Results</div>
+    <div class="card card-green">
+      <h2>主要結果</h2>
+      <div class="info-grid">
+        <div class="info-item"><div class="info-label">総損益</div><div class="info-value green">1,156,925</div></div>
+        <div class="info-item"><div class="info-label">プロフィットファクター</div><div class="info-value cyan">1.75</div></div>
+        <div class="info-item"><div class="info-label">勝率（全体）</div><div class="info-value green">74.47%</div></div>
+        <div class="info-item"><div class="info-label">リカバリファクター</div><div class="info-value cyan">5.06</div></div>
+        <div class="info-item"><div class="info-label">残高最大ドローダウン</div><div class="info-value red">84,942（16%）</div></div>
+        <div class="info-item"><div class="info-label">証拠金最大ドローダウン</div><div class="info-value red">228,798（52%）</div></div>
+        <div class="info-item"><div class="info-label">取引数</div><div class="info-value">17,317</div></div>
+        <div class="info-item"><div class="info-label">証拠金維持率</div><div class="info-value cyan">1,589.67%</div></div>
+      </div>
+      <div class="warn-box">
+        <div class="warn-icon">⚠️</div>
+        <div class="warn-text">バックテストはあくまで過去データに基づくシミュレーションです。将来の利益を保証するものではありません。特に昨今のGOLDの異常ボラティリティ期間を含むデータとして参考にしてください。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MT5 ストラテジーテスターレポート（白カードで再現挿入） -->
+  <div class="section">
+    <div class="section-label">03 — Backtest Report</div>
+    <div class="card card-amber">
+      <h2>バックテストレポート（MT5）　デフォルト設定　＊micro口座</h2>
+      <div class="mt5-report">
+        <div class="mt5-head">ストラテジーテスターレポート</div>
+        <div class="mt5-sub">XMTradingMU-MT5 3 (Build 5836)</div>
+
+        <table class="mt5">
+          <tr><td class="l">銘柄:</td><td class="v">GOLDmicro</td></tr>
+          <tr><td class="l">期間:</td><td class="v">M15 (2015.01.01 - 2026.05.31)</td></tr>
+          <tr><td class="l">会社:</td><td class="v">FinTrade Limited</td></tr>
+          <tr><td class="l">通貨:</td><td class="v">JPY</td></tr>
+          <tr><td class="l">初期証拠金:</td><td class="v">150 000</td></tr>
+          <tr><td class="l">レバレッジ:</td><td class="v">1:1000</td></tr>
+        </table>
+
+        <div class="mt5-ttl">結果</div>
+        <table class="mt5">
+          <tr><td colspan="6" style="text-align:center;"><span style="color:#000;">ヒストリー品質:</span>&nbsp;<b>99%</b></td></tr>
+          <tr><td class="l">バー:</td><td class="v">265127</td><td class="l">ティック:</td><td class="v">439767084</td><td class="l">銘柄:</td><td class="v">1</td></tr>
+          <tr><td class="l">総損益:</td><td class="v">1 156 925</td><td class="l">残高絶対ドローダウン:</td><td class="v">0</td><td class="l">証拠金絶対ドローダウン:</td><td class="v">9 210</td></tr>
+          <tr><td class="l">総利益:</td><td class="v">2 692 443</td><td class="l">残高最大ドローダウン:</td><td class="v">84 942 (16%)</td><td class="l">証拠金最大ドローダウン:</td><td class="v">228 798 (52%)</td></tr>
+          <tr><td class="l">総損失:</td><td class="v">-1 535 518</td><td class="l">残高相対ドローダウン:</td><td class="v">16% (84 942)</td><td class="l">証拠金相対ドローダウン:</td><td class="v">52% (228 798)</td></tr>
+          <tr><td colspan="6">&nbsp;</td></tr>
+          <tr><td class="l">プロフィットファクター:</td><td class="v">1.75</td><td class="l">期待利得:</td><td class="v">66.81</td><td class="l">証拠金維持率:</td><td class="v">1589.67%</td></tr>
+          <tr><td class="l">リカバリファクター:</td><td class="v">5.06</td><td class="l">シャープレシオ:</td><td class="v">0.80</td><td class="l">Z-Score:</td><td class="v">-27.04 (99.74%)</td></tr>
+          <tr><td class="l">AHPR:</td><td class="v">1.0001 (0.01%)</td><td class="l">LR Correlation:</td><td class="v">0.99</td><td class="l">OnTester 結果:</td><td class="v">0</td></tr>
+          <tr><td class="l">GHPR:</td><td class="v">1.0001 (0.01%)</td><td class="l">LR Standard Error:</td><td class="v">42 895</td><td class="l"></td><td class="v"></td></tr>
+          <tr><td colspan="6">&nbsp;</td></tr>
+          <tr><td class="l">取引数:</td><td class="v">17317</td><td class="l">ショート (勝率 %):</td><td class="v">5080 (76.36%)</td><td class="l">ロング (勝率 %):</td><td class="v">12237 (73.69%)</td></tr>
+          <tr><td class="l">約定数:</td><td class="v">34634</td><td class="l">勝ちトレード (勝率 %):</td><td class="v">12896 (74.47%)</td><td class="l">負けトレード (負率 %):</td><td class="v">4421 (25.53%)</td></tr>
+          <tr><td class="l"></td><td class="v"></td><td class="l">最大 勝ちトレード:</td><td class="v">38 003</td><td class="l">最大 負けトレード:</td><td class="v">-13 873</td></tr>
+          <tr><td class="l"></td><td class="v"></td><td class="l">平均 勝ちトレード:</td><td class="v">209</td><td class="l">平均 負けトレード:</td><td class="v">-347</td></tr>
+          <tr><td class="l"></td><td class="v"></td><td class="l">最大 連勝数 (金額):</td><td class="v">84 (3 565)</td><td class="l">最大 連敗数 (金額):</td><td class="v">13 (-84 942)</td></tr>
+          <tr><td class="l"></td><td class="v"></td><td class="l">最大 連勝利益額 (数):</td><td class="v">83 237 (4)</td><td class="l">最大 連敗損失額 (数):</td><td class="v">-84 942 (13)</td></tr>
+          <tr><td class="l"></td><td class="v"></td><td class="l">平均 連勝利益額 (数):</td><td class="v">5</td><td class="l">平均 連敗数:</td><td class="v">2</td></tr>
+        </table>
+
+        <div class="mt5-graph">
+          <div class="gl">残高</div>
+          <canvas id="balChart" width="900" height="240"></canvas>
+        </div>
+      </div>
+      <div class="warn-box">
+        <div class="warn-icon">📄</div>
+        <div class="warn-text">出典：MT5 ストラテジーテスター レポート（ReportTester-73090573）。設定・結果はレポート原本の値、残高グラフは取引履歴（全34,635件）の残高推移を実データで描画しています。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="summary-card">
+      <p>ご質問は<strong>公式 LINE</strong> よりお気軽にどうぞ。</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById('bg');
+const ctx = canvas.getContext('2d');
+function resize(){
+  canvas.width = window.innerWidth;
+  canvas.height = Math.max(window.innerHeight, document.body.scrollHeight);
+}
+resize();
+window.addEventListener('resize', resize);
+
+// ローソク足データ生成
+function generateCandles(n, startPrice, volatility) {
+  const candles = [];
+  let price = startPrice;
+  for(let i = 0; i < n; i++) {
+    const open = price;
+    const change = (Math.random() - 0.48) * volatility;
+    const close = open + change;
+    const high = Math.max(open, close) + Math.random() * volatility * 0.5;
+    const low  = Math.min(open, close) - Math.random() * volatility * 0.5;
+    candles.push({ open, close, high, low });
+    price = close;
+  }
+  return candles;
+}
+
+// 複数列のローソク足データ
+const candleSets = [];
+const numSets = 6;
+for(let i = 0; i < numSets; i++) {
+  candleSets.push(generateCandles(80, 1800 + Math.random() * 400, 12 + Math.random() * 8));
+}
+
+function drawBackground(t) {
+  const W = canvas.width, H = canvas.height;
+
+  // ダークネイビー背景グラデーション
+  const bg = ctx.createLinearGradient(0, 0, W, H);
+  bg.addColorStop(0, '#060c1a');
+  bg.addColorStop(0.5, '#080e20');
+  bg.addColorStop(1, '#060c1a');
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, W, H);
+
+  // グリッド線
+  ctx.strokeStyle = 'rgba(0,196,255,0.04)';
+  ctx.lineWidth = 1;
+  const gridX = 60, gridY = 40;
+  for(let x = 0; x < W; x += gridX) {
+    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+  }
+  for(let y = 0; y < H; y += gridY) {
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+  }
+
+  // ローソク足を複数列で描画
+  const speed = t * 0.0045;
+  for(let s = 0; s < numSets; s++) {
+    const candles = candleSets[s];
+    const colW = W / numSets;
+    const startX = s * colW;
+    const candleW = colW / candles.length;
+    const offsetX = (speed * 6 * (s % 2 === 0 ? 1 : -1)) % (candleW * candles.length);
+
+    // 価格範囲
+    const prices = candles.flatMap(c => [c.high, c.low]);
+    const minP = Math.min(...prices), maxP = Math.max(...prices);
+    const priceRange = maxP - minP || 1;
+
+    const zoneH = H * (0.15 + (s % 3) * 0.12);
+    const zoneY = (s < 3 ? 0 : H - zoneH);
+    const alpha = 0.18 + Math.sin(t * 0.0005 + s) * 0.06;
+
+    candles.forEach((c, i) => {
+      const x = startX + ((i * candleW - offsetX + colW * candles.length) % (colW * candles.length));
+      if(x < startX - candleW || x > startX + colW + candleW) return;
+
+      const isUp = c.close >= c.open;
+      const color = isUp ? `rgba(0,255,157,${alpha})` : `rgba(255,64,96,${alpha})`;
+
+      const openY  = zoneY + (1 - (c.open  - minP) / priceRange) * zoneH;
+      const closeY = zoneY + (1 - (c.close - minP) / priceRange) * zoneH;
+      const highY  = zoneY + (1 - (c.high  - minP) / priceRange) * zoneH;
+      const lowY   = zoneY + (1 - (c.low   - minP) / priceRange) * zoneH;
+
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(x + candleW * 0.5, highY);
+      ctx.lineTo(x + candleW * 0.5, lowY);
+      ctx.stroke();
+
+      ctx.fillStyle = color;
+      const bodyY = Math.min(openY, closeY);
+      const bodyH = Math.max(Math.abs(closeY - openY), 1);
+      ctx.fillRect(x + 1, bodyY, candleW - 3, bodyH);
+    });
+  }
+
+  // 右上に大きめのローソク足チャート（アクセント）
+  {
+    const candles = candleSets[0];
+    const cW = Math.min(W * 0.38, 340);
+    const cH = H * 0.22;
+    const cX = W - cW - 10;
+    const cY = 10;
+    const candleW = cW / candles.length;
+    const offsetX = (speed * 7.5) % (candleW * candles.length);
+    const prices = candles.flatMap(c => [c.high, c.low]);
+    const minP = Math.min(...prices), maxP = Math.max(...prices);
+    const priceRange = maxP - minP || 1;
+
+    candles.forEach((c, i) => {
+      const x = cX + ((i * candleW - offsetX + cW * candles.length) % (cW * candles.length));
+      if(x < cX - candleW || x > cX + cW + candleW) return;
+      const isUp = c.close >= c.open;
+      const alpha = 0.55;
+      const color = isUp ? `rgba(0,255,157,${alpha})` : `rgba(255,64,96,${alpha})`;
+      const openY  = cY + (1 - (c.open  - minP) / priceRange) * cH;
+      const closeY = cY + (1 - (c.close - minP) / priceRange) * cH;
+      const highY  = cY + (1 - (c.high  - minP) / priceRange) * cH;
+      const lowY   = cY + (1 - (c.low   - minP) / priceRange) * cH;
+
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(x + candleW * 0.5, highY);
+      ctx.lineTo(x + candleW * 0.5, lowY);
+      ctx.stroke();
+      ctx.fillStyle = color;
+      const bodyY = Math.min(openY, closeY);
+      const bodyH = Math.max(Math.abs(closeY - openY), 1);
+      ctx.fillRect(x + 1, bodyY, candleW - 3, bodyH);
+    });
+
+    // チャートエリアの枠線
+    ctx.strokeStyle = 'rgba(0,196,255,0.12)';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(cX, cY, cW, cH);
+  }
+
+  // 上部に青いグロー
+  const topGlow = ctx.createLinearGradient(0, 0, 0, H * 0.3);
+  topGlow.addColorStop(0, 'rgba(0,100,200,0.12)');
+  topGlow.addColorStop(1, 'rgba(0,100,200,0)');
+  ctx.fillStyle = topGlow;
+  ctx.fillRect(0, 0, W, H * 0.3);
+
+  // コンテンツ読みやすさのための暗幕
+  ctx.fillStyle = 'rgba(6,12,26,0.55)';
+  ctx.fillRect(0, 0, W, H);
+}
+
+let st = null;
+function loop(ts) {
+  if(!st) st = ts;
+  drawBackground(ts - st);
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+// ── 残高推移グラフ（取引履歴の実データ・約100件ごとに間引き）──
+(function(){
+  const bal=[150000,152002,153721,154923,157352,158372,160354,161870,164309,165452,168834,170294,171516,173102,174277,175812,177231,178182,180133,181940,189386,190608,192784,194892,197544,202316,204511,205877,207316,209090,210192,211153,214373,215345,217391,219033,220615,221648,223976,225440,227049,228337,230764,232157,233294,234534,239600,242526,246938,248123,249531,253096,254424,255854,257277,259073,260189,261357,261442,266173,267490,270173,270791,271518,272565,273877,274626,275421,277207,278136,280706,281994,283372,285731,287906,290323,294946,296181,298995,302659,301072,302621,303349,304476,314724,319877,321350,323109,324743,326371,327929,330335,336099,337169,338672,339910,340879,347269,348745,355613,357556,366291,369224,371274,372636,374384,376066,377419,379083,380536,384787,386902,393364,395416,399026,416961,419174,420471,424403,426353,428075,433193,434393,435902,439837,442609,443947,445440,448641,450072,452026,454413,456334,461241,467250,466384,468768,469855,472009,476841,479637,480616,483417,484911,486698,487882,489260,491602,493205,494262,496752,498295,499580,501665,502971,513741,515789,588758,593049,595431,599874,601737,603595,606357,609227,611500,612768,617586,618261,623994,626751,628863,630891,637525,637782,639774,644934,646636,652617,657408,659367,661754,664678,666548,668333,671142,672735,675402,677793,683463,685899,689025,691846,694016,695881,701667,704345,706778,708232,709552,713792,717072,719695,720975,726654,733614,736640,743397,745094,749461,752020,756079,760346,761907,764591,766225,772431,774257,779647,782664,789836,792383,801797,806926,809155,814078,818142,820930,825924,828405,832207,837645,841238,848957,851253,854173,857172,859321,875514,877447,878737,882018,886356,889889,897329,904098,906415,909184,911287,914097,917067,918588,922094,928174,930798,939936,941900,945111,949360,964091,963484,966048,973379,978399,981261,982937,986307,990901,1024463,1027104,1029457,1032283,1035714,1038099,1041854,1044008,1050572,1052816,1056104,1063558,1069635,1072163,1074413,1082262,1083817,1087237,1091564,1094844,1098609,1100430,1104312,1106921,1111578,1114563,1118259,1119573,1124406,1127331,1129616,1131871,1135723,1139609,1150188,1153949,1156385,1160030,1162348,1164947,1167357,1170886,1174978,1177179,1197685,1205093,1206917,1210403,1212914,1215513,1217543,1220340,1222461,1225509,1231650,1234320,1237595,1239675,1243646,1247589,1250610,1252592,1256474,1258901,1261478,1263985,1266084,1268669,1272196,1276165,1278543,1281460,1285106,1287373,1292794,1296068,1300059,1303518,1306201,1306925];
+  const cv=document.getElementById('balChart');
+  if(!cv) return;
+  const c=cv.getContext('2d');
+  const W=cv.width, H=cv.height;
+  const padL=8, padR=78, padT=12, padB=24;
+  const gw=W-padL-padR, gh=H-padT-padB;
+  let mn=Math.min(...bal), mx=Math.max(...bal);
+  const ticks=6;
+  const niceMin=Math.floor(mn/50000)*50000;
+  const niceMax=Math.ceil(mx/50000)*50000;
+  const X=i=>padL+gw*i/(bal.length-1);
+  const Y=v=>padT+gh*(1-(v-niceMin)/(niceMax-niceMin));
+  // 背景
+  c.fillStyle='#fff'; c.fillRect(0,0,W,H);
+  // グリッド＋Y軸ラベル
+  c.font='10px Tahoma,Arial'; c.fillStyle='#333'; c.textBaseline='middle';
+  c.strokeStyle='#dcdcdc'; c.lineWidth=1;
+  for(let i=0;i<=ticks;i++){
+    const v=niceMin+(niceMax-niceMin)*i/ticks;
+    const y=Y(v);
+    c.beginPath(); c.setLineDash([3,3]); c.moveTo(padL,y); c.lineTo(padL+gw,y); c.stroke(); c.setLineDash([]);
+    c.textAlign='left'; c.fillText(Math.round(v).toLocaleString('en-US'), padL+gw+6, y);
+  }
+  // X軸ラベル（取引番号）
+  const maxDeal=34634;
+  c.textAlign='center'; c.textBaseline='top';
+  for(let i=0;i<=9;i++){
+    const x=padL+gw*i/9;
+    const deal=Math.round(maxDeal*i/9);
+    c.strokeStyle='#ececec'; c.beginPath(); c.moveTo(x,padT); c.lineTo(x,padT+gh); c.stroke();
+    c.fillStyle='#333'; c.fillText(deal.toLocaleString('en-US'), x, padT+gh+5);
+  }
+  // 枠
+  c.strokeStyle='#aaa'; c.strokeRect(padL,padT,gw,gh);
+  // 残高ライン
+  c.strokeStyle='#0030c0'; c.lineWidth=1.4; c.beginPath();
+  bal.forEach((v,i)=>{ const x=X(i),y=Y(v); i?c.lineTo(x,y):c.moveTo(x,y); });
+  c.stroke();
+})();
+</script>
+</body>
+</html>

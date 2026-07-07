@@ -522,20 +522,38 @@ function drawTerminal() {
   });
 }
 
-let _lastFrame = 0;
+// 右端の「形成中の足」を小刻みに上下させる＝縦方向は常に動く（横は流さない）
+function tickForming() {
+  const c = candles[candles.length - 1];
+  c.close += (Math.random() - 0.5) * 0.02;
+  c.close = Math.max(0.12, Math.min(0.88, c.close));
+  if (c.close > c.high) c.high = c.close;
+  if (c.close < c.low)  c.low = c.close;
+  price = c.close;                       // 次の新規足はここから継続
+  if (rsiVals.length) {
+    let v = rsiVals[rsiVals.length - 1] + (Math.random() - 0.5) * 0.03;
+    rsiVals[rsiVals.length - 1] = Math.max(0.08, Math.min(0.92, v));
+  }
+}
+
+const FRAME_MS = 90;     // 約11fps（数値のティック表示には十分・毎フレーム再描画をやめる）
+const BAR_MS   = 1800;   // 新しい足ができる間隔＝横方向はこの頻度でのみ動く（頻繁に流さない）
+let _lastFrame = 0, _lastBar = 0;
 function draw(t) {
   requestAnimationFrame(draw);
-  if (t - _lastFrame < 32) return;   // 約30fpsに制限（毎フレーム全再描画によるカクつき・負荷を軽減）
+  if (t - _lastFrame < FRAME_MS) return;
   _lastFrame = t;
 
-  ctx.fillStyle = bgGrad; ctx.fillRect(0, 0, W, H);
-
-  scroll += SCROLL_SPEED;
-  while (scroll >= CANDLE_W) {
-    scroll -= CANDLE_W;
+  // 縦：形成中の足を毎回ティック
+  tickForming();
+  // 横：BAR_MS ごとに1本だけ確定して新しい足を追加
+  if (t - _lastBar >= BAR_MS) {
+    _lastBar = t;
     candles.push(genCandle());
     if (candles.length > Math.ceil(L.chart.w / CANDLE_W) + 8) candles.shift();
   }
+
+  ctx.fillStyle = bgGrad; ctx.fillRect(0, 0, W, H);
 
   drawChart();
   drawPriceScale();

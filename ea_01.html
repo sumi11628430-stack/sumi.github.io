@@ -181,214 +181,369 @@
 </div>
 
 <script>
+// ══════════════════════════════════════════════════════════════
+//  背景：MT5 ターミナル風デスクトップ（気配値／ナビゲーター／
+//  チャート＋インジケーター／ターミナル）を canvas に描画する。
+//  中央のカードは半透明＋blur なので、背後にこの画面が透ける。
+// ══════════════════════════════════════════════════════════════
 const canvas = document.getElementById('bgCanvas');
 const ctx = canvas.getContext('2d');
 
-let W, H;
-function resize() {
-  W = canvas.width = window.innerWidth;
-  H = canvas.height = window.innerHeight;
-}
-resize();
+const CL = {
+  panel:  '#0f1c33',
+  panelA: '#13233d',
+  head:   '#1a2c4d',
+  chart:  '#0b1729',
+  border: 'rgba(125,170,235,0.16)',
+  gridB:  'rgba(125,170,235,0.06)',
+  text:   'rgba(214,226,246,0.72)',
+  muted:  'rgba(170,190,220,0.5)',
+  dim:    'rgba(150,170,200,0.34)',
+  up:     '#26d17a',
+  dn:     '#f85858',
+  accent: '#5b9dff',
+  ma:     'rgba(240,190,90,0.85)'
+};
+const MONO = "'Consolas','SFMono-Regular',monospace";
 
-// ── 価格データ（ランダムウォーク）でチャートを生成 ──
-const CANDLE_W = 14;   // ローソク足の間隔
-const BODY_W = 7;      // 実体の幅
-const SCROLL_SPEED = 0.55;
-let candles = [];
-let price = 0.5;       // 0..1 に正規化した価格
-let candleCount = 0;
-let scroll = 0;
-
-function genCandle() {
-  const open = price;
-  const drift = Math.sin(candleCount * 0.045) * 0.014;  // 緩やかなトレンド
-  price += (Math.random() - 0.5) * 0.07 + drift;
-  price = Math.max(0.12, Math.min(0.88, price));
-  candleCount++;
-  const close = price;
-  const wick = Math.random() * 0.035;
-  return {
-    open, close,
-    high: Math.max(open, close) + wick,
-    low:  Math.min(open, close) - wick
+let W, H, L;
+function layout() {
+  const narrow = W < 780;
+  const TOP = 42;
+  const BOT = Math.min(Math.max(H * 0.17, 92), 150);
+  const LEFT = narrow ? 0 : Math.min(Math.max(W * 0.22, 170), 264);
+  const PS = 56;
+  const chartX = LEFT, chartR = W - PS;
+  const chartTop = TOP, chartBot = H - BOT;
+  const indH = (chartBot - chartTop) * 0.24;
+  L = {
+    narrow, TOP, BOT, LEFT, PS,
+    mw:  { x: 0, y: TOP, w: LEFT, h: (H - TOP - BOT) * 0.54 },
+    nav: { x: 0, y: TOP + (H - TOP - BOT) * 0.54, w: LEFT, h: (H - TOP - BOT) * 0.46 },
+    chart:{ x: chartX, y: chartTop, w: chartR - chartX, h: (chartBot - chartTop) - indH },
+    ind: { x: chartX, y: chartBot - indH, w: chartR - chartX, h: indH },
+    ps:  { x: chartR, y: chartTop, w: PS, h: chartBot - chartTop },
+    tb:  { x: 0, y: H - BOT, w: W, h: BOT }
   };
 }
 
+const CANDLE_W = 13, BODY_W = 7, SCROLL_SPEED = 0.5;
+let candles = [], price = 0.5, candleCount = 0, scroll = 0;
+function genCandle() {
+  const open = price;
+  const drift = Math.sin(candleCount * 0.045) * 0.013;
+  price += (Math.random() - 0.5) * 0.07 + drift;
+  price = Math.max(0.12, Math.min(0.88, price));
+  candleCount++;
+  const close = price, wick = Math.random() * 0.035;
+  return { open, close, high: Math.max(open, close) + wick, low: Math.min(open, close) - wick };
+}
 function rebuildCandles() {
   candles = [];
-  const n = Math.ceil(W / CANDLE_W) + 4;
+  const n = Math.ceil(L.chart.w / CANDLE_W) + 6;
   for (let i = 0; i < n; i++) candles.push(genCandle());
 }
-rebuildCandles();
 
-window.addEventListener('resize', () => { resize(); rebuildCandles(); });
+const symbols = [
+  { s: 'GOLD#',     p: 4123.45, d: 2, v: 0.55 },
+  { s: 'EURUSD',    p: 1.08642, d: 5, v: 0.00025 },
+  { s: 'USDJPY',    p: 157.284, d: 3, v: 0.03 },
+  { s: 'GBPUSD',    p: 1.27431, d: 5, v: 0.00028 },
+  { s: 'AUDUSD',    p: 0.66218, d: 5, v: 0.00022 },
+  { s: 'BTCUSD',    p: 68241.5, d: 1, v: 22 },
+  { s: 'US30Cash',  p: 39125.4, d: 1, v: 8 },
+  { s: 'USTECCash', p: 20418.7, d: 1, v: 6 },
+  { s: 'XAGUSD',    p: 29.842,  d: 3, v: 0.02 }
+];
+symbols.forEach(o => { o.bid = o.p; o.ask = o.p + o.v * 2; o.flash = 0; o.dir = 0; });
+function tickQuotes() {
+  symbols.forEach(o => {
+    if (Math.random() < 0.55) {
+      const mv = (Math.random() - 0.5) * o.v * 2;
+      o.bid = o.bid + mv;
+      o.ask = o.bid + o.v * (1.4 + Math.random());
+      o.dir = mv >= 0 ? 1 : -1;
+      o.flash = 1;
+    }
+  });
+}
+setInterval(tickQuotes, 650);
 
-const Y = v => H * (0.90 - v * 0.78);  // 正規化価格 → Y座標
+const navTree = [
+  { t: '口座', o: true, c: [ '75509211 — chimachima', '160075521 — hadarich' ] },
+  { t: 'インディケータ', o: true, c: [ 'Moving Average', 'Bollinger Bands', 'RSI', 'Examples\\ZigZag' ] },
+  { t: 'エキスパートアドバイザ', o: true, c: [ 'Re：【STYLE】クラスター_iF~' ] },
+  { t: 'スクリプト', o: false, c: [] }
+];
 
-// ── 縦の光線（データストリーム）──
-const particles = [];
-const dataStreams = [];
+const tbTabs = ['取引','運用比率','口座履歴','ニュース','アラーム','メール','記事','ライブラリ','エキスパート','ジャーナル'];
+const tbRows = [
+  { sym:'GOLD#', type:'buy',  vol:'0.01', price:'4118.62', profit: 12.4 },
+  { sym:'GOLD#', type:'buy',  vol:'0.02', price:'4121.05', profit: -8.7 },
+  { sym:'GOLD#', type:'sell', vol:'0.01', price:'4126.30', profit: 4.1 },
+  { sym:'GOLD#', type:'buy',  vol:'0.03', price:'4123.88', profit: -15.2 }
+];
 
-class Particle {
-  constructor() { this.reset(); }
-  reset() {
-    this.x = Math.random() * W;
-    this.y = Math.random() * H;
-    this.vx = (Math.random() - 0.5) * 0.5;
-    this.vy = (Math.random() - 0.5) * 0.5;
-    this.r = Math.random() * 1.6;
-    this.life = Math.random();
-  }
-  update() {
-    this.x += this.vx;
-    this.y += this.vy;
-    this.life += 0.005;
-    if (this.life > 1) this.reset();
-  }
+function resize() {
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  W = window.innerWidth; H = window.innerHeight;
+  canvas.width = W * dpr; canvas.height = H * dpr;
+  canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  layout();
+  rebuildCandles();
+}
+window.addEventListener('resize', resize);
+resize();
+
+function panel(r, fill) {
+  ctx.fillStyle = fill;
+  ctx.fillRect(r.x, r.y, r.w, r.h);
+  ctx.strokeStyle = CL.border; ctx.lineWidth = 1;
+  ctx.strokeRect(r.x + 0.5, r.y + 0.5, r.w - 1, r.h - 1);
+}
+function clip(r, fn) { ctx.save(); ctx.beginPath(); ctx.rect(r.x, r.y, r.w, r.h); ctx.clip(); fn(); ctx.restore(); }
+
+function drawMarketWatch() {
+  const r = L.mw; if (r.w <= 0) return;
+  panel(r, CL.panel);
+  ctx.fillStyle = CL.head; ctx.fillRect(r.x, r.y, r.w, 20);
+  ctx.fillStyle = CL.text; ctx.font = "11px system-ui, sans-serif"; ctx.textBaseline = 'middle';
+  ctx.textAlign = 'left'; ctx.fillText('気配値：銘柄', r.x + 8, r.y + 10);
+  const cy = r.y + 30;
+  ctx.font = "10px system-ui, sans-serif"; ctx.fillStyle = CL.dim;
+  ctx.textAlign = 'left';  ctx.fillText('銘柄', r.x + 8, cy);
+  ctx.textAlign = 'right'; ctx.fillText('Bid', r.x + r.w * 0.68, cy); ctx.fillText('Ask', r.x + r.w - 8, cy);
+  clip(r, () => {
+    const rowH = 19, top = r.y + 42;
+    symbols.forEach((o, i) => {
+      const y = top + i * rowH; if (y > r.y + r.h - 4) return;
+      if (i % 2) { ctx.fillStyle = CL.panelA; ctx.fillRect(r.x, y - rowH/2, r.w, rowH); }
+      ctx.textAlign = 'left'; ctx.font = "11px system-ui, sans-serif"; ctx.fillStyle = CL.text;
+      ctx.fillText(o.s, r.x + 8, y);
+      const col = o.dir >= 0 ? CL.up : CL.dn;
+      ctx.font = "11px " + MONO; ctx.textAlign = 'right';
+      ctx.fillStyle = o.flash > 0.05 ? col : CL.muted;
+      ctx.fillText(o.bid.toFixed(o.d), r.x + r.w * 0.68, y);
+      ctx.fillStyle = o.flash > 0.05 ? col : CL.muted;
+      ctx.fillText(o.ask.toFixed(o.d), r.x + r.w - 8, y);
+      ctx.fillStyle = col; ctx.globalAlpha = Math.max(0.25, o.flash);
+      const tx = r.x + r.w * 0.70, ty = y;
+      ctx.beginPath();
+      if (o.dir >= 0) { ctx.moveTo(tx, ty-3); ctx.lineTo(tx+4, ty+2); ctx.lineTo(tx-4, ty+2); }
+      else            { ctx.moveTo(tx, ty+3); ctx.lineTo(tx+4, ty-2); ctx.lineTo(tx-4, ty-2); }
+      ctx.fill(); ctx.globalAlpha = 1;
+      o.flash *= 0.94;
+    });
+  });
 }
 
-class DataStream {
-  constructor() { this.reset(); }
-  reset() {
-    this.x = Math.random() * W;
-    this.y = -20;
-    this.speed = Math.random() * 6 + 3;
-    this.len = Math.random() * 140 + 60;
-    this.opacity = Math.random() * 0.45 + 0.1;
-  }
-  update() {
-    this.y += this.speed;
-    if (this.y > H + 100) this.reset();
-  }
+function drawNavigator() {
+  const r = L.nav; if (r.w <= 0) return;
+  panel(r, CL.panel);
+  ctx.fillStyle = CL.head; ctx.fillRect(r.x, r.y, r.w, 20);
+  ctx.fillStyle = CL.text; ctx.font = "11px system-ui, sans-serif"; ctx.textBaseline = 'middle'; ctx.textAlign = 'left';
+  ctx.fillText('ナビゲーター', r.x + 8, r.y + 10);
+  clip(r, () => {
+    let y = r.y + 32; const lh = 17;
+    navTree.forEach(node => {
+      if (y > r.y + r.h - 4) return;
+      ctx.fillStyle = CL.muted;
+      ctx.beginPath();
+      if (node.o) { ctx.moveTo(r.x+8, y-2); ctx.lineTo(r.x+14, y-2); ctx.lineTo(r.x+11, y+2); }
+      else        { ctx.moveTo(r.x+9, y-3); ctx.lineTo(r.x+13, y);   ctx.lineTo(r.x+9, y+3); }
+      ctx.fill();
+      ctx.font = "11px system-ui, sans-serif"; ctx.fillStyle = CL.text; ctx.textAlign = 'left';
+      ctx.fillText(node.t, r.x + 20, y);
+      y += lh;
+      if (node.o) node.c.forEach(ch => {
+        if (y > r.y + r.h - 4) return;
+        const isEA = ch.indexOf('クラスター') >= 0;
+        ctx.font = (isEA ? "600 " : "") + "10.5px system-ui, sans-serif";
+        ctx.fillStyle = isEA ? CL.accent : CL.muted;
+        ctx.fillText('• ' + ch, r.x + 32, y);
+        y += lh - 1;
+      });
+    });
+  });
 }
 
-for (let i = 0; i < 70; i++) particles.push(new Particle());
-for (let i = 0; i < 18; i++) dataStreams.push(new DataStream());
+const Y = (v, r) => r.y + r.h * (0.94 - v * 0.86);
 
-function draw(t) {
-  // 背景（トレード端末風の濃紺グラデーション）
-  const bgGrad = ctx.createLinearGradient(0, 0, 0, H);
-  bgGrad.addColorStop(0, '#14243f');
-  bgGrad.addColorStop(1, '#0a1526');
-  ctx.fillStyle = bgGrad;
-  ctx.fillRect(0, 0, W, H);
+function drawChart() {
+  const r = L.chart;
+  panel({ x: r.x, y: r.y, w: r.w + L.PS, h: r.h }, CL.chart);
+  clip(r, () => {
+    const stepX = 68, stepY = 46;
+    ctx.lineWidth = 1;
+    for (let gy = r.y + stepY; gy < r.y + r.h; gy += stepY) {
+      ctx.strokeStyle = CL.gridB; ctx.beginPath(); ctx.moveTo(r.x, gy); ctx.lineTo(r.x + r.w, gy); ctx.stroke();
+    }
+    for (let gx = r.x + r.w - (scroll % stepX); gx > r.x; gx -= stepX) {
+      ctx.strokeStyle = CL.gridB; ctx.beginPath(); ctx.moveTo(gx, r.y); ctx.lineTo(gx, r.y + r.h); ctx.stroke();
+    }
+    const base = r.x + r.w - 8;
+    candles.forEach((c, i) => {
+      const x = base - (candles.length - 1 - i) * CANDLE_W + (scroll % CANDLE_W);
+      if (x < r.x - BODY_W || x > r.x + r.w) return;
+      const up = c.close >= c.open;
+      const col = up ? '38,209,122' : '248,88,88';
+      ctx.strokeStyle = "rgba(" + col + ",0.75)"; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(x, Y(c.high, r)); ctx.lineTo(x, Y(c.low, r)); ctx.stroke();
+      const yo = Y(c.open, r), yc = Y(c.close, r);
+      ctx.fillStyle = "rgba(" + col + ",0.62)";
+      ctx.fillRect(x - BODY_W/2, Math.min(yo, yc), BODY_W, Math.max(1.5, Math.abs(yc - yo)));
+    });
+    const N = 12;
+    ctx.beginPath();
+    for (let i = N; i < candles.length; i++) {
+      let sum = 0; for (let k = 0; k < N; k++) sum += candles[i-k].close;
+      const ma = sum / N;
+      const x = base - (candles.length - 1 - i) * CANDLE_W + (scroll % CANDLE_W);
+      const y = Y(ma, r);
+      i === N ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = CL.ma; ctx.lineWidth = 1.4; ctx.lineJoin = 'round'; ctx.stroke();
+    const last = candles[candles.length - 1];
+    const ly = Y(last.close, r);
+    ctx.setLineDash([3, 6]); ctx.strokeStyle = 'rgba(120,180,255,0.4)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(r.x, ly); ctx.lineTo(r.x + r.w, ly); ctx.stroke(); ctx.setLineDash([]);
+  });
+  ctx.font = "600 12px system-ui, sans-serif"; ctx.fillStyle = 'rgba(214,226,246,0.6)';
+  ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+  ctx.fillText('GOLD#, M5', r.x + 10, r.y + 8);
+  ctx.font = "10px system-ui, sans-serif"; ctx.fillStyle = CL.dim;
+  ctx.fillText('Re：【STYLE】クラスター_iF~', r.x + 10, r.y + 26);
+}
 
-  // 中央の脈動グロー
-  const pulse = Math.sin(t * 0.001) * 0.5 + 0.5;
-  const glow = ctx.createRadialGradient(W/2, H*0.55, 0, W/2, H*0.55, W * 0.85);
-  glow.addColorStop(0, `rgba(70, 145, 255, ${0.12 + pulse * 0.06})`);
-  glow.addColorStop(1, 'transparent');
-  ctx.fillStyle = glow;
-  ctx.fillRect(0, 0, W, H);
-
-  // ── チャートグリッド（強調）──
-  const step = 60;
-  ctx.lineWidth = 1;
-  for (let y = H % step; y < H; y += step) {
-    ctx.strokeStyle = 'rgba(125, 170, 235, 0.11)';
-    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+function drawPriceScale() {
+  const r = L.ps, c = L.chart;
+  panel(r, CL.panel);
+  const last = candles[candles.length - 1];
+  ctx.font = "10px " + MONO; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+  for (let i = 0; i <= 6; i++) {
+    const v = i / 6;
+    const y = Y(v, c);
+    if (y < c.y || y > c.y + c.h) continue;
+    ctx.fillStyle = CL.dim;
+    ctx.fillText((4100 + v * 60).toFixed(1), r.x + 6, y);
   }
-  for (let x = -(scroll % step); x < W; x += step) {
-    ctx.strokeStyle = 'rgba(125, 170, 235, 0.09)';
-    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
-  }
+  const ly = Y(last.close, c);
+  ctx.fillStyle = CL.accent; ctx.fillRect(r.x, ly - 8, r.w, 16);
+  ctx.fillStyle = '#04122b'; ctx.font = "10px " + MONO;
+  ctx.fillText((4100 + last.close * 60).toFixed(1), r.x + 6, ly);
+}
 
-  // スクロール更新（左へ流れる）
+let rsiVals = [];
+function drawIndicator() {
+  const r = L.ind;
+  panel(r, CL.chart);
+  ctx.setLineDash([2, 5]); ctx.lineWidth = 1;
+  [0.3, 0.7].forEach(lv => {
+    const y = r.y + r.h * (1 - lv);
+    ctx.strokeStyle = 'rgba(125,170,235,0.2)';
+    ctx.beginPath(); ctx.moveTo(r.x, y); ctx.lineTo(r.x + r.w, y); ctx.stroke();
+  });
+  ctx.setLineDash([]);
+  while (rsiVals.length < candles.length) {
+    const prev = rsiVals.length ? rsiVals[rsiVals.length-1] : 0.5;
+    let v = prev + (Math.random() - 0.5) * 0.12;
+    v = Math.max(0.08, Math.min(0.92, v));
+    rsiVals.push(v);
+  }
+  if (rsiVals.length > candles.length) rsiVals = rsiVals.slice(-candles.length);
+  const base = r.x + r.w - 8;
+  ctx.beginPath();
+  rsiVals.forEach((v, i) => {
+    const x = base - (rsiVals.length - 1 - i) * CANDLE_W + (scroll % CANDLE_W);
+    const y = r.y + r.h * (1 - v);
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  });
+  ctx.strokeStyle = 'rgba(155,120,235,0.85)'; ctx.lineWidth = 1.3; ctx.lineJoin = 'round'; ctx.stroke();
+  ctx.font = "9px system-ui, sans-serif"; ctx.fillStyle = CL.dim; ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+  ctx.fillText('RSI(14)', r.x + 8, r.y + 6);
+}
+
+function drawTopBar() {
+  ctx.fillStyle = CL.head; ctx.fillRect(0, 0, W, 22);
+  ctx.font = "11px system-ui, sans-serif"; ctx.fillStyle = CL.muted; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+  const menus = ['ファイル','表示','挿入','チャート','ツール','ウィンドウ','ヘルプ'];
+  let mx = 12; menus.forEach(m => { ctx.fillText(m, mx, 11); mx += ctx.measureText(m).width + 18; });
+  ctx.fillStyle = CL.panel; ctx.fillRect(0, 22, W, 20);
+  ctx.strokeStyle = CL.border; ctx.beginPath(); ctx.moveTo(0, 42.5); ctx.lineTo(W, 42.5); ctx.stroke();
+  for (let i = 0; i < 12; i++) {
+    ctx.fillStyle = 'rgba(125,170,235,0.14)';
+    ctx.fillRect(12 + i * 22, 27, 14, 10);
+  }
+  ctx.font = "9px " + MONO; ctx.fillStyle = CL.muted; ctx.textAlign = 'left';
+  ['M1','M5','M15','H1','H4','D1'].forEach((tf, i) => { ctx.fillText(tf, 300 + i * 26, 32); });
+}
+
+function drawTerminal() {
+  const r = L.tb;
+  panel(r, CL.panel);
+  ctx.fillStyle = CL.head; ctx.fillRect(r.x, r.y, r.w, 20);
+  ctx.font = "10.5px system-ui, sans-serif"; ctx.textBaseline = 'middle'; ctx.textAlign = 'left';
+  let tx = r.x + 10;
+  tbTabs.forEach((t, i) => {
+    if (i === 0) { ctx.fillStyle = 'rgba(91,157,255,0.15)'; ctx.fillRect(tx - 6, r.y, ctx.measureText(t).width + 12, 20); }
+    ctx.fillStyle = i === 0 ? CL.accent : CL.muted;
+    ctx.fillText(t, tx, r.y + 10);
+    tx += ctx.measureText(t).width + 20;
+  });
+  clip(r, () => {
+    ctx.font = "10px " + MONO; ctx.textBaseline = 'middle';
+    const hy = r.y + 32;
+    ctx.textAlign = 'left'; ctx.fillStyle = CL.muted;
+    ctx.fillText('残高: 1,024,860   有効証拠金: 1,019,540   証拠金: 3,200   余剰証拠金: 1,016,340   証拠金維持率: 31860%', r.x + 12, hy);
+    const cols = ['銘柄','タイプ','数量','価格','損益'];
+    const cx = [0.02, 0.16, 0.28, 0.40, 0.56].map(f => r.x + r.w * f);
+    ctx.fillStyle = CL.dim; ctx.font = "9.5px system-ui, sans-serif";
+    cols.forEach((c, i) => ctx.fillText(c, cx[i], r.y + 48));
+    ctx.font = "10px " + MONO;
+    tbRows.forEach((row, i) => {
+      const y = r.y + 62 + i * 15;
+      if (y > r.y + r.h - 4) return;
+      ctx.fillStyle = CL.text; ctx.fillText(row.sym, cx[0], y);
+      ctx.fillStyle = row.type === 'buy' ? CL.up : CL.dn; ctx.fillText(row.type, cx[1], y);
+      ctx.fillStyle = CL.muted; ctx.fillText(row.vol, cx[2], y);
+      ctx.fillText(row.price, cx[3], y);
+      ctx.fillStyle = row.profit >= 0 ? CL.up : CL.dn;
+      ctx.fillText((row.profit >= 0 ? '+' : '') + row.profit.toFixed(2), cx[4], y);
+    });
+  });
+}
+
+function draw() {
+  const bg = ctx.createLinearGradient(0, 0, 0, H);
+  bg.addColorStop(0, '#14243f'); bg.addColorStop(1, '#0a1526');
+  ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+
   scroll += SCROLL_SPEED;
   while (scroll >= CANDLE_W) {
     scroll -= CANDLE_W;
-    candles.shift();
     candles.push(genCandle());
+    if (candles.length > Math.ceil(L.chart.w / CANDLE_W) + 8) candles.shift();
   }
 
-  // ── ローソク足 ──
-  candles.forEach((c, i) => {
-    const x = i * CANDLE_W - scroll;
-    const up = c.close >= c.open;
-    const col = up ? '34, 210, 110' : '248, 88, 88';  // 緑 / 赤
-    ctx.strokeStyle = `rgba(${col}, 0.62)`;
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(x, Y(c.high)); ctx.lineTo(x, Y(c.low)); ctx.stroke();
-    const yo = Y(c.open), yc = Y(c.close);
-    ctx.fillStyle = `rgba(${col}, 0.55)`;
-    ctx.fillRect(x - BODY_W/2, Math.min(yo, yc), BODY_W, Math.max(2, Math.abs(yc - yo)));
-  });
+  drawChart();
+  drawPriceScale();
+  drawIndicator();
+  drawMarketWatch();
+  drawNavigator();
+  drawTopBar();
+  drawTerminal();
 
-  // ── 価格ライン下のエリア塗り ──
-  ctx.beginPath();
-  candles.forEach((c, i) => {
-    const x = i * CANDLE_W - scroll;
-    const y = Y(c.close);
-    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-  });
-  ctx.lineTo(W, H); ctx.lineTo(0, H); ctx.closePath();
-  const area = ctx.createLinearGradient(0, H * 0.15, 0, H);
-  area.addColorStop(0, 'rgba(70, 145, 255, 0.28)');
-  area.addColorStop(1, 'rgba(70, 145, 255, 0)');
-  ctx.fillStyle = area;
-  ctx.fill();
-
-  // ── 価格ライン本体（力強い光のライン）──
-  ctx.beginPath();
-  candles.forEach((c, i) => {
-    const x = i * CANDLE_W - scroll;
-    const y = Y(c.close);
-    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-  });
-  ctx.shadowColor = 'rgba(96, 165, 250, 0.9)';
-  ctx.shadowBlur = 20;
-  ctx.strokeStyle = 'rgba(120, 180, 255, 0.95)';
-  ctx.lineWidth = 2.4;
-  ctx.lineJoin = 'round';
-  ctx.stroke();
-  ctx.shadowBlur = 0;
-
-  // 最新価格の光点 ＋ 横ガイドライン
-  const last = candles[candles.length - 1];
-  const lx = (candles.length - 1) * CANDLE_W - scroll;
-  const ly = Y(last.close);
-  ctx.setLineDash([4, 7]);
-  ctx.strokeStyle = 'rgba(120, 180, 255, 0.28)';
-  ctx.lineWidth = 1;
-  ctx.beginPath(); ctx.moveTo(0, ly); ctx.lineTo(W, ly); ctx.stroke();
-  ctx.setLineDash([]);
-  ctx.beginPath();
-  ctx.arc(lx, ly, 3.6, 0, Math.PI * 2);
-  ctx.fillStyle = '#dbeafe';
-  ctx.shadowColor = 'rgba(96, 165, 250, 1)';
-  ctx.shadowBlur = 22;
-  ctx.fill();
-  ctx.shadowBlur = 0;
-
-  // ── 縦の光線 ──
-  ctx.lineWidth = 1;
-  dataStreams.forEach(s => {
-    s.update();
-    const g = ctx.createLinearGradient(0, s.y, 0, s.y + s.len);
-    g.addColorStop(0, 'transparent');
-    g.addColorStop(1, `rgba(6, 182, 212, ${s.opacity})`);
-    ctx.strokeStyle = g;
-    ctx.beginPath();
-    ctx.moveTo(s.x, s.y);
-    ctx.lineTo(s.x, s.y + s.len);
-    ctx.stroke();
-  });
-
-  // ── パーティクル ──
-  particles.forEach(p => {
-    p.update();
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(59, 130, 246, ${Math.sin(p.life * Math.PI) * 0.4})`;
-    ctx.fill();
-  });
+  ctx.fillStyle = 'rgba(6,12,26,0.34)';
+  ctx.fillRect(0, 0, W, H);
+  const g = ctx.createRadialGradient(W/2, H*0.28, 0, W/2, H*0.28, Math.max(W, H) * 0.5);
+  g.addColorStop(0, 'rgba(6,12,26,0.30)'); g.addColorStop(1, 'transparent');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
 
   requestAnimationFrame(draw);
 }
-
 requestAnimationFrame(draw);
+
 </script>
 </body>
 </html>

@@ -15,7 +15,7 @@
     --border:rgba(255,255,255,0.1);--card-bg:rgba(15, 23, 42, 0.85);
   }
   *{margin:0;padding:0;box-sizing:border-box;}
-  body{background:#020617;color:var(--text);font-family:'Noto Sans JP',sans-serif;font-weight:300;line-height:1.8;min-height:100vh;overflow-x:hidden;}
+  body{background:#0d1a30;color:var(--text);font-family:'Noto Sans JP',sans-serif;font-weight:300;line-height:1.8;min-height:100vh;overflow-x:hidden;}
   
   /* 背景キャンバス */
   #bgCanvas {
@@ -65,6 +65,13 @@
 
   .backtest-link{display:flex;align-items:center;gap:10px;padding:12px 16px;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.2);border-radius:8px;text-decoration:none;color:#93c5fd;font-size:13px;transition:all 0.3s ease;margin-bottom:10px;}
   .backtest-link:hover{background:rgba(59,130,246,0.15);border-color:var(--accent);transform:translateX(5px);}
+
+  .demo-account{background:rgba(6,182,212,0.05);border:1px solid rgba(6,182,212,0.2);border-radius:8px;padding:16px 18px;margin-top:14px;}
+  .demo-head{display:flex;align-items:center;font-family:'Noto Serif JP',serif;font-size:15px;font-weight:600;color:#fff;margin-bottom:12px;}
+  .cred-row{display:flex;align-items:center;justify-content:space-between;gap:12px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:6px;padding:9px 14px;margin-bottom:7px;}
+  .cred-row:last-child{margin-bottom:0;}
+  .cred-label{color:var(--text-muted);font-size:12px;white-space:nowrap;}
+  .cred-value{color:#fff;font-weight:500;font-family:'SFMono-Regular',Consolas,'Roboto Mono',monospace;font-size:14px;text-align:right;word-break:break-all;user-select:all;letter-spacing:0.02em;}
 
   @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
   strong{color:#fff;font-weight:500;}
@@ -138,6 +145,30 @@
       <a href="ea_01_backtest7.html" class="backtest-link">📊 2015年1月 〜 2026年6月　初期値（デフォルト）設定　micro口座</a>
       <a href="ea_01_backtest8.html" class="backtest-link">📊 2015年1月 〜 2026年6月　初期値（デフォルト）設定　standard口座</a>
       <a href="ea_01_backtest9.html" class="backtest-link">📊 2015年1月 〜 2026年6月　初期値（デフォルト）設定　極口座</a>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">05 — Live Demo</div>
+    <div class="card card-green">
+      <h2>デモ口座（フォワードテスト公開中）</h2>
+      <p>下記のデモ口座情報で MT4 / MT5 にログインいただくと、本EAのリアルタイムな稼働状況をご確認いただけます。</p>
+
+      <div class="demo-account">
+        <div class="demo-head"><span class="badge">MT5</span>chimachima</div>
+        <div class="cred-row"><span class="cred-label">ログインID</span><span class="cred-value">75509211</span></div>
+        <div class="cred-row"><span class="cred-label">パスワード</span><span class="cred-value">@Teisibou1000ml</span></div>
+        <div class="cred-row"><span class="cred-label">サーバー</span><span class="cred-value">XMTradingMU-MT5 3</span></div>
+      </div>
+
+      <div class="demo-account">
+        <div class="demo-head"><span class="badge">MT4</span>hadarich</div>
+        <div class="cred-row"><span class="cred-label">ログインID</span><span class="cred-value">160075521</span></div>
+        <div class="cred-row"><span class="cred-label">パスワード</span><span class="cred-value">@Collagen3000mg</span></div>
+        <div class="cred-row"><span class="cred-label">サーバー</span><span class="cred-value">XMTradingMU-Demo 6</span></div>
+      </div>
+
+      <p style="font-size:11px;color:var(--text-dim);margin-top:12px;margin-bottom:0;">※ デモ口座のため資金リスクはありません。稼働状況の閲覧用としてご利用ください。</p>
     </div>
   </div>
 
@@ -236,14 +267,17 @@ for (let i = 0; i < 70; i++) particles.push(new Particle());
 for (let i = 0; i < 18; i++) dataStreams.push(new DataStream());
 
 function draw(t) {
-  // 背景
-  ctx.fillStyle = '#020617';
+  // 背景（トレード端末風の濃紺グラデーション）
+  const bgGrad = ctx.createLinearGradient(0, 0, 0, H);
+  bgGrad.addColorStop(0, '#14243f');
+  bgGrad.addColorStop(1, '#0a1526');
+  ctx.fillStyle = bgGrad;
   ctx.fillRect(0, 0, W, H);
 
   // 中央の脈動グロー
   const pulse = Math.sin(t * 0.001) * 0.5 + 0.5;
   const glow = ctx.createRadialGradient(W/2, H*0.55, 0, W/2, H*0.55, W * 0.85);
-  glow.addColorStop(0, `rgba(59, 130, 246, ${0.07 + pulse * 0.05})`);
+  glow.addColorStop(0, `rgba(70, 145, 255, ${0.12 + pulse * 0.06})`);
   glow.addColorStop(1, 'transparent');
   ctx.fillStyle = glow;
   ctx.fillRect(0, 0, W, H);
@@ -252,11 +286,11 @@ function draw(t) {
   const step = 60;
   ctx.lineWidth = 1;
   for (let y = H % step; y < H; y += step) {
-    ctx.strokeStyle = 'rgba(59, 130, 246, 0.07)';
+    ctx.strokeStyle = 'rgba(125, 170, 235, 0.11)';
     ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
   }
   for (let x = -(scroll % step); x < W; x += step) {
-    ctx.strokeStyle = 'rgba(59, 130, 246, 0.055)';
+    ctx.strokeStyle = 'rgba(125, 170, 235, 0.09)';
     ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
   }
 
@@ -272,13 +306,13 @@ function draw(t) {
   candles.forEach((c, i) => {
     const x = i * CANDLE_W - scroll;
     const up = c.close >= c.open;
-    const col = up ? '34, 197, 94' : '239, 68, 68';  // 緑 / 赤
-    ctx.strokeStyle = `rgba(${col}, 0.4)`;
+    const col = up ? '34, 210, 110' : '248, 88, 88';  // 緑 / 赤
+    ctx.strokeStyle = `rgba(${col}, 0.62)`;
     ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.moveTo(x, Y(c.high)); ctx.lineTo(x, Y(c.low)); ctx.stroke();
     const yo = Y(c.open), yc = Y(c.close);
-    ctx.fillStyle = `rgba(${col}, 0.3)`;
+    ctx.fillStyle = `rgba(${col}, 0.55)`;
     ctx.fillRect(x - BODY_W/2, Math.min(yo, yc), BODY_W, Math.max(2, Math.abs(yc - yo)));
   });
 
@@ -291,8 +325,8 @@ function draw(t) {
   });
   ctx.lineTo(W, H); ctx.lineTo(0, H); ctx.closePath();
   const area = ctx.createLinearGradient(0, H * 0.15, 0, H);
-  area.addColorStop(0, 'rgba(59, 130, 246, 0.22)');
-  area.addColorStop(1, 'rgba(59, 130, 246, 0)');
+  area.addColorStop(0, 'rgba(70, 145, 255, 0.28)');
+  area.addColorStop(1, 'rgba(70, 145, 255, 0)');
   ctx.fillStyle = area;
   ctx.fill();
 

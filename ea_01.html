@@ -12,7 +12,7 @@
     --accent2:#06b6d4;--accent2-soft:rgba(6,182,212,0.10);
     --accent3:#d97706;
     --text:#f1f5f9;--text-muted:#94a3b8;--text-dim:#64748b;
-    --border:rgba(255,255,255,0.1);--card-bg:rgba(15, 23, 42, 0.85);
+    --border:rgba(255,255,255,0.1);--card-bg:rgba(15, 23, 42, 0.92);
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   body{background:#0d1a30;color:var(--text);font-family:'Noto Sans JP',sans-serif;font-weight:300;line-height:1.8;min-height:100vh;overflow-x:hidden;}
@@ -34,7 +34,7 @@
   .header-sub{color:var(--text-muted);font-size:14px;letter-spacing:0.03em;}
 
   .section{margin-bottom:20px;animation:fadeUp 0.7s ease both;}
-  .card{background:var(--card-bg);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:12px;padding:28px 32px;transition:all 0.3s ease;box-shadow:0 4px 20px rgba(0,0,0,0.4);}
+  .card{background:var(--card-bg);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);border:1px solid var(--border);border-radius:12px;padding:28px 32px;transition:border-color 0.3s ease,box-shadow 0.3s ease;box-shadow:0 4px 20px rgba(0,0,0,0.4);}
   .card:hover{border-color:var(--accent);box-shadow:0 8px 30px rgba(59,130,246,0.15);}
   .card-accent{border-left:4px solid var(--accent);}
   .card-green{border-left:4px solid var(--accent2);}
@@ -284,13 +284,21 @@ const tbRows = [
   { sym:'GOLD#', type:'buy',  vol:'0.03', price:'4123.88', profit: -15.2 }
 ];
 
+let bgGrad, glowGrad;
+function buildGradients() {
+  bgGrad = ctx.createLinearGradient(0, 0, 0, H);
+  bgGrad.addColorStop(0, '#14243f'); bgGrad.addColorStop(1, '#0a1526');
+  glowGrad = ctx.createRadialGradient(W/2, H*0.28, 0, W/2, H*0.28, Math.max(W, H) * 0.5);
+  glowGrad.addColorStop(0, 'rgba(6,12,26,0.30)'); glowGrad.addColorStop(1, 'transparent');
+}
 function resize() {
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const dpr = 1;                       // 背景装飾はDPR=1で十分（高DPI環境での過負荷＝カクつきを回避）
   W = window.innerWidth; H = window.innerHeight;
   canvas.width = W * dpr; canvas.height = H * dpr;
   canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   layout();
+  buildGradients();
   rebuildCandles();
 }
 window.addEventListener('resize', resize);
@@ -514,10 +522,13 @@ function drawTerminal() {
   });
 }
 
-function draw() {
-  const bg = ctx.createLinearGradient(0, 0, 0, H);
-  bg.addColorStop(0, '#14243f'); bg.addColorStop(1, '#0a1526');
-  ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+let _lastFrame = 0;
+function draw(t) {
+  requestAnimationFrame(draw);
+  if (t - _lastFrame < 32) return;   // 約30fpsに制限（毎フレーム全再描画によるカクつき・負荷を軽減）
+  _lastFrame = t;
+
+  ctx.fillStyle = bgGrad; ctx.fillRect(0, 0, W, H);
 
   scroll += SCROLL_SPEED;
   while (scroll >= CANDLE_W) {
@@ -536,11 +547,7 @@ function draw() {
 
   ctx.fillStyle = 'rgba(6,12,26,0.34)';
   ctx.fillRect(0, 0, W, H);
-  const g = ctx.createRadialGradient(W/2, H*0.28, 0, W/2, H*0.28, Math.max(W, H) * 0.5);
-  g.addColorStop(0, 'rgba(6,12,26,0.30)'); g.addColorStop(1, 'transparent');
-  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
-
-  requestAnimationFrame(draw);
+  ctx.fillStyle = glowGrad; ctx.fillRect(0, 0, W, H);
 }
 requestAnimationFrame(draw);
 

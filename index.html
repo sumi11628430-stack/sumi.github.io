@@ -110,21 +110,95 @@
   .nav-card:nth-child(3){ animation-delay: 0.30s; }
   .nav-card:nth-child(4){ animation-delay: 0.40s; }
   .nav-icon {
+    --icon-ink: #2563eb;
+    --icon-accent: #38bdf8;
+    --icon-wash: rgba(219,234,254,0.72);
+    --icon-border: rgba(37,99,235,0.24);
+    --icon-shadow: rgba(37,99,235,0.13);
+    --icon-glow: rgba(56,189,248,0.48);
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
     flex-shrink: 0;
     width: 52px;
     height: 52px;
-    border-radius: 14px;
+    border-radius: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
-    background: rgba(37,99,235,0.08);
-    border: 1px solid rgba(37,99,235,0.2);
-    box-shadow: inset 0 0 10px rgba(37,99,235,0.05);
+    color: var(--icon-ink);
+    background: linear-gradient(145deg, rgba(255,255,255,0.96), var(--icon-wash));
+    border: 1px solid var(--icon-border);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.95), 0 8px 20px var(--icon-shadow);
+    transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.35s ease;
   }
-  .nav-icon.green  { background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.2); }
-  .nav-icon.amber  { background: rgba(245,158,11,0.08); border-color: rgba(245,158,11,0.2); }
-  .nav-icon.indigo { background: rgba(99,102,241,0.08); border-color: rgba(99,102,241,0.2); }
+  .nav-icon::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    right: -13px;
+    bottom: -15px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--icon-glow) 0%, transparent 72%);
+  }
+  .nav-icon::after {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: -28px;
+    width: 12px;
+    height: 82px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+    transform: rotate(24deg);
+    transition: transform 0.65s ease;
+  }
+  .nav-icon svg {
+    position: relative;
+    z-index: 1;
+    width: 29px;
+    height: 29px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 2px 3px var(--icon-shadow));
+    transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .nav-icon .icon-accent { stroke: var(--icon-accent); }
+  .nav-icon .icon-dot { fill: var(--icon-accent); stroke: none; }
+  .nav-card:hover .nav-icon {
+    transform: translateY(-2px) rotate(-1.5deg);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.98), 0 12px 24px var(--icon-shadow);
+  }
+  .nav-card:hover .nav-icon::after { transform: translateX(88px) rotate(24deg); }
+  .nav-card:hover .nav-icon svg { transform: scale(1.07); }
+  .nav-icon.green {
+    --icon-ink: #0f766e;
+    --icon-accent: #22c55e;
+    --icon-wash: rgba(209,250,229,0.76);
+    --icon-border: rgba(13,148,136,0.24);
+    --icon-shadow: rgba(13,148,136,0.13);
+    --icon-glow: rgba(52,211,153,0.5);
+  }
+  .nav-icon.amber {
+    --icon-ink: #9a6700;
+    --icon-accent: #f59e0b;
+    --icon-wash: rgba(254,243,199,0.78);
+    --icon-border: rgba(217,119,6,0.24);
+    --icon-shadow: rgba(217,119,6,0.12);
+    --icon-glow: rgba(251,191,36,0.5);
+  }
+  .nav-icon.indigo {
+    --icon-ink: #334e68;
+    --icon-accent: #06b6d4;
+    --icon-wash: rgba(224,242,254,0.78);
+    --icon-border: rgba(71,85,105,0.22);
+    --icon-shadow: rgba(51,78,104,0.13);
+    --icon-glow: rgba(34,211,238,0.46);
+  }
   .nav-body { flex: 1; }
   .nav-title {
     font-family: 'Noto Serif JP', serif;
@@ -164,7 +238,8 @@
   @keyframes fadeUp   { from{opacity:0;transform:translateY(18px)}  to{opacity:1;transform:translateY(0)} }
   @media(max-width:500px){
     .nav-card { padding: 22px 20px; gap: 16px; }
-    .nav-icon { width: 44px; height: 44px; font-size: 22px; }
+    .nav-icon { width: 44px; height: 44px; }
+    .nav-icon svg { width: 25px; height: 25px; }
     .nav-title { font-size: 15px; }
   }
 </style>
@@ -181,7 +256,17 @@
 
   <div class="nav-grid">
     <a href="ea_intro.html" class="nav-card">
-      <div class="nav-icon">🤖</div>
+      <div class="nav-icon" aria-hidden="true">
+        <svg viewBox="0 0 32 32" focusable="false">
+          <path class="icon-accent" d="M16 4.5v3"/>
+          <circle class="icon-dot" cx="16" cy="3.5" r="1.35"/>
+          <rect x="6.5" y="8.5" width="19" height="15" rx="5"/>
+          <path d="M6.5 14H4.75v4.5H6.5M25.5 14h1.75v4.5H25.5M11 23.5v3M21 23.5v3"/>
+          <circle class="icon-dot" cx="12" cy="14.5" r="1.25"/>
+          <circle class="icon-dot" cx="20" cy="14.5" r="1.25"/>
+          <path class="icon-accent" d="M11 18.5c1.55 1.05 3.22 1.58 5 1.58s3.45-.53 5-1.58"/>
+        </svg>
+      </div>
       <div class="nav-body">
         <div class="nav-title">EA の紹介</div>
         <div class="nav-desc">配布中 EA の一覧・各 EA の詳細情報・バックテスト結果</div>
@@ -190,7 +275,13 @@
     </a>
 
     <a href="fx_comparison.html" class="nav-card">
-      <div class="nav-icon green">🌐</div>
+      <div class="nav-icon green" aria-hidden="true">
+        <svg viewBox="0 0 32 32" focusable="false">
+          <circle cx="16" cy="16" r="10.5"/>
+          <path d="M5.8 16h20.4M16 5.5c3.05 2.85 4.58 6.35 4.58 10.5S19.05 23.65 16 26.5M16 5.5c-3.05 2.85-4.58 6.35-4.58 10.5S12.95 23.65 16 26.5M7.75 10.2h16.5M7.75 21.8h16.5"/>
+          <path class="icon-accent" d="M8.2 13.1l-2.4 2.4 2.4 2.4M23.8 13.1l2.4 2.4-2.4 2.4"/>
+        </svg>
+      </div>
       <div class="nav-body">
         <div class="nav-title">国内 FX と海外 FX のメリット・デメリット</div>
         <div class="nav-desc">海外 FX はホントに危険？ 双方の特徴をわかりやすく解説</div>
@@ -199,7 +290,12 @@
     </a>
 
     <div class="nav-card" style="cursor:default;">
-      <div class="nav-icon amber">🛡</div>
+      <div class="nav-icon amber" aria-hidden="true">
+        <svg viewBox="0 0 32 32" focusable="false">
+          <path d="M16 4.5 25 8v7.15c0 5.65-3.38 9.72-9 12.35-5.62-2.63-9-6.7-9-12.35V8l9-3.5Z"/>
+          <path class="icon-accent" d="m10.25 18.7 3.45-3.45 2.85 2.65 5.2-5.2M19.1 12.7h2.65v2.65"/>
+        </svg>
+      </div>
       <div class="nav-body">
         <div class="nav-title"><a href="risk_management.html" style="color:var(--text-dark);border-bottom:none;">リスク管理</a></div>
         <div class="nav-desc">資金管理・証拠金維持率・経済指標との付き合い方</div>
@@ -211,7 +307,14 @@
     </div>
 
     <a href="account_safety.html" class="nav-card">
-      <div class="nav-icon indigo">🔐</div>
+      <div class="nav-icon indigo" aria-hidden="true">
+        <svg viewBox="0 0 32 32" focusable="false">
+          <rect x="6.5" y="13" width="19" height="14" rx="4"/>
+          <path d="M10.5 13V9.75a5.5 5.5 0 0 1 11 0V13"/>
+          <circle class="icon-dot" cx="16" cy="19.5" r="1.55"/>
+          <path class="icon-accent" d="M16 21v2.5M9.5 16.5h.01M22.5 16.5h.01"/>
+        </svg>
+      </div>
       <div class="nav-body">
         <div class="nav-title">EA の配布・利用条件</div>
         <div class="nav-desc">口座番号の安全性・無料配布の条件・公式 LINE のご案内</div>

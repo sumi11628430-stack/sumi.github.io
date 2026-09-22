@@ -68,6 +68,12 @@
   .flow-item:last-child .flow-connector { display: none; }
   .summary-card { background: var(--card-bg); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid rgba(59,130,246,0.2); border-radius: 12px; padding: 28px 32px; text-align: center; }
   .summary-card p { font-size: 15px; color: var(--text); line-height: 1.9; }
+  .line-cta { margin-top: 22px; padding-top: 20px; border-top: 1px solid var(--border); }
+  .line-cta-note { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; }
+  .line-btn { display: inline-flex; align-items: center; gap: 10px; padding: 12px 26px; background: #06C755; color: #fff; font-size: 14px; font-weight: 500; letter-spacing: 0.04em; text-decoration: none; border-radius: 999px; box-shadow: 0 6px 18px rgba(6,199,85,0.28); transition: background 0.2s, transform 0.2s; }
+  .line-btn:hover { background: #05b34c; transform: translateY(-1px); }
+  .line-btn svg { width: 22px; height: 22px; fill: #fff; flex-shrink: 0; }
+  .line-id { display: block; margin-top: 10px; font-size: 12px; color: var(--text-dim); letter-spacing: 0.06em; }
   @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
   strong { color: var(--text); font-weight: 500; }
   em { color: #93c5fd; font-style: normal; }
@@ -159,6 +165,14 @@
   <div class="section">
     <div class="summary-card">
       <p>口座番号は、EA を<strong>正規にご利用いただく方だけにお届けする</strong>ための仕組みです。<br>ログイン情報（パスワード）は一切不要で、口座への<strong>アクセスは技術的に不可能</strong>です。<br>安心してご提供いただけますよう、何かご不明点がございましたらお気軽にご相談ください。</p>
+      <div class="line-cta">
+        <p class="line-cta-note">口座番号のご連絡・ご相談は公式 LINE から</p>
+        <a class="line-btn" href="https://lin.ee/TV5nm5bN" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 5.64 2 10.13c0 4.02 3.56 7.39 8.37 8.03.33.07.77.22.88.5.1.26.07.66.03.92l-.14.86c-.04.26-.2 1.01.88.55 1.09-.46 5.86-3.45 8-5.91C21.5 13.5 22 11.9 22 10.13 22 5.64 17.52 2 12 2zM8.6 12.8H6.4a.5.5 0 0 1-.5-.5V8.5a.5.5 0 0 1 1 0v3.3h1.7a.5.5 0 0 1 0 1zm1.9-.5a.5.5 0 0 1-1 0V8.5a.5.5 0 0 1 1 0v3.8zm4.4 0a.5.5 0 0 1-.9.3l-2.1-2.8v2.5a.5.5 0 0 1-1 0V8.5a.5.5 0 0 1 .9-.3l2.1 2.8V8.5a.5.5 0 0 1 1 0v3.8zm3.2-2.4a.5.5 0 0 1 0 1h-1.7v.9h1.7a.5.5 0 0 1 0 1h-2.2a.5.5 0 0 1-.5-.5V8.5a.5.5 0 0 1 .5-.5h2.2a.5.5 0 0 1 0 1h-1.7v.9h1.7z"/></svg>
+          公式 LINE を友だち追加
+        </a>
+        <span class="line-id">LINE ID：@233duwub</span>
+      </div>
     </div>
   </div>
 </div>

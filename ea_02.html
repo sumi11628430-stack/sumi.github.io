@@ -56,6 +56,12 @@
   .type-box{background:rgba(59,130,246,0.05);border:1px solid rgba(59,130,246,0.2);border-radius:8px;padding:20px;margin-top:8px;}
   .type-title{font-size:15px;font-weight:600;color:#fff;margin-bottom:10px;font-family:'Noto Serif JP',serif;}
   .type-desc p{font-size:14px;color:var(--text-muted);margin-bottom:10px;line-height:1.7;}
+  .ver1-note a{color:#93c5fd;text-decoration:none;border-bottom:1px solid rgba(147,197,253,0.4);}
+  .ver1-note a:hover{border-bottom-color:#93c5fd;}
+  .change-list{list-style:none;margin:4px 0 0;padding:0;}
+  .change-list li{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:12px 16px;margin-top:10px;}
+  .change-list strong{display:block;font-size:14px;line-height:1.6;margin-bottom:4px;}
+  .change-list span{display:block;font-size:13px;color:var(--text-muted);line-height:1.7;}
   .warning-line{color:#fbbf24;font-size:13px;font-weight:500;margin:12px 0;}
   
   .deposit-item{display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:14px 18px;margin-bottom:10px;}
@@ -113,24 +119,17 @@
     <div class="card">
       <h2>EA タイプ・戦略概要</h2>
       <div class="type-box">
-        <div class="type-title">長期運用想定ナンピン EA</div>
+        <div class="type-title">ver2 で変わった点</div>
         <div class="type-desc">
-          <p>インターバル無【零】を採用した、長期運用を想定したナンピン型EAです。</p>
-          <p>GOLDは元々ボラティリティの大きい銘柄ですが、2025年下半期はその水準が過去と比較にならないほど拡大しています。よく見かける従来のロジックのみでは、この異常ボラティリティと過去の値動き、両方の相場環境への対応を両立することは困難です。このEAは独自のアプローチにより、<strong>昨今の急激な相場環境と過去の値動き、双方への対応</strong>を設計の核に置いています。</p>
+          <p class="ver1-note">基本の考え方は ver1 と同じです（→ <a href="ea_01.html">Re：【STYLE】クラスター_iF~ のページ</a>）</p>
+          <ul class="change-list">
+            <li><strong>流れに逆らう「最初の1本」を控えるようにしました</strong><span>長い目で下げている時は買いを、強く上げている時は売りを、最初の1本だけ見送ります。</span></li>
+            <li><strong>高値・安値の更新が続く場面に合わせた入り方にしました</strong><span>更新が続く間は、流れに逆らう最初の1本を止め、ナンピンは4時間足の山・谷で入れます（第２マジック）。</span></li>
+            <li><strong>一方的な値動きの間は、ナンピンの間隔を広げるようにしました</strong><span>24時間で大きく逆に動いている間は、次のナンピンまでの値幅を広く取ります（第３マジック）。</span></li>
+            <li><strong>損切の後に止める期間を選べるようにしました（損切を使う場合）</strong><span>「完全停止・時間・日数・停止しない」から選べます。損切は初期設定では無効です。</span></li>
+          </ul>
           <p class="warning-line">⚠ ただし、EAはロジックに従って自動で動くシステムです。対して相場はシステムではなく「大衆心理」によって化ける生き物です『確実・絶対・100％』は存在しません（しかしどちらも背後に存在（操作）してるのは『人』です）</p>
-          <p>含み損を抱える局面もありますが、場合によっては数日間ポジションを保有しながら、長期的な利益積み上げを目指す設計です。<span style="color:#fbbf24;font-size:12px;">（しかしこれもまた不測の事態・過去に例のない局面を迎えると通用するかは未知の世界です）</span></p>
           <p>EAはロジックに従って淡々と動く性質上、<strong>適切な管理・監視は必要不可欠</strong>です。</p>
-          
-          <div style="margin-top:14px;padding:16px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:8px;">
-            <p style="font-size:12px;font-weight:600;color:var(--accent);margin-bottom:8px;">＊ 何故基本インターバルが「０」なのか</p>
-            <p style="font-size:12px;margin-bottom:8px;">裁量トレーダーは、ふつう「○分インターバルを空けよう」とは発想していません。見ているのは時間そのものではなく、</p>
-            <p style="font-size:12px;color:var(--text-muted);margin-bottom:4px;">「まだ同じ波の中か」</p>
-            <p style="font-size:12px;color:var(--text-muted);margin-bottom:4px;">「直前の条件はもう崩れたか」</p>
-            <p style="font-size:12px;color:var(--text-muted);margin-bottom:4px;">「次の足確定を待つべきか」</p>
-            <p style="font-size:12px;color:var(--text-muted);margin-bottom:10px;">「今入ると追いかけになるか」</p>
-            <p style="font-size:12px;margin-bottom:8px;">という相場状態です。つまり裁量の本質は、時間制限ではなく<strong>状況判断</strong>です。要するに本EAは <strong>"インターバルを無くした"</strong> ではなく <strong>"インターバルという時間概念を判断軸から外した"</strong> です。</p>
-            <p style="font-size:11px;color:var(--text-dim);line-height:1.5;">（＊時間足の変更によってロジック崩壊を避ける為、ナンピンを成立させる為、場合によっては規則的等間隔でナンピンする事があります、しかし＝100％破綻しない、ではありません、背後にいてるのは人「心理」です）</p>
-          </div>
         </div>
       </div>
     </div>

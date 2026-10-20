@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>経済指標カレンダーの見方</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #64b4ff;
+    --accent-soft: rgba(100,180,255,0.12);
+    --gold: #d4af37;
+    --green: #22c55e;
+    --red: #ef4444;
+    --text: #e2e8f0;
+    --text-muted: #94a3b8;
+    --text-dim: #64748b;
+    --border: rgba(100,180,255,0.12);
+    --card-bg: rgba(8,14,28,0.86);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  /* 背景：動かない紺のグラデーション＋うすい方眼（カレンダーのマス目） */
+  body {
+    color:var(--text); font-family:'Noto Sans JP',sans-serif; font-weight:300; line-height:1.8; min-height:100vh; overflow-x:hidden;
+    background-color:#060c1a;
+    background-image:
+      radial-gradient(ellipse at 18% 0%, rgba(59,130,246,0.22), transparent 55%),
+      radial-gradient(ellipse at 90% 30%, rgba(212,175,55,0.10), transparent 50%),
+      linear-gradient(rgba(100,180,255,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(100,180,255,0.05) 1px, transparent 1px);
+    background-size: auto, auto, 48px 48px, 48px 48px;
+    background-attachment: fixed;
+  }
+  .container { position:relative; z-index:1; max-width:720px; margin:0 auto; padding:60px 24px 80px; }
+  .back-link { display:inline-flex; align-items:center; gap:6px; color:var(--accent); font-size:13px; text-decoration:none; margin-bottom:40px; padding:8px 16px; background:rgba(100,180,255,0.08); border:1px solid rgba(100,180,255,0.25); border-radius:8px; transition:background 0.2s,border-color 0.2s; }
+  .back-link:hover { background:rgba(100,180,255,0.15); border-color:rgba(100,180,255,0.45); }
+
+  /* ヘッダー */
+  .header { text-align:center; margin-bottom:52px; animation:fadeUp 0.8s ease both; }
+  .header-icon { width:76px; height:76px; border-radius:22%; display:block; margin:0 auto 20px; box-shadow:0 10px 30px rgba(59,130,246,0.25); }
+  .header-badge { display:inline-block; background:rgba(6,10,15,0.85); border:1px solid rgba(100,180,255,0.25); color:var(--accent); font-size:11px; letter-spacing:0.15em; padding:5px 14px; border-radius:20px; margin-bottom:20px; font-family:'Noto Serif JP',serif; text-transform:uppercase; }
+  h1 { font-family:'Noto Serif JP',serif; font-weight:600; font-size:clamp(20px,4.5vw,28px); line-height:1.6; letter-spacing:0.05em; margin-bottom:12px; }
+  .header-sub { color:var(--text-muted); font-size:14px; letter-spacing:0.03em; }
+
+  /* セクション */
+  .section { margin-bottom:20px; animation:fadeUp 0.7s ease both; }
+  .section-label { display:flex; align-items:center; gap:10px; font-size:11px; letter-spacing:0.15em; color:var(--accent); text-transform:uppercase; margin-bottom:14px; font-weight:500; }
+  .section-label::after { content:''; flex:1; height:1px; background:var(--border); }
+  .card { background:var(--card-bg); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border:1px solid var(--border); border-radius:12px; padding:28px 32px; }
+  .card-blue { border-left:3px solid var(--accent); }
+  .card-gold { border-left:3px solid var(--gold); }
+  .card-warn { border-left:3px solid #f59e0b; }
+  h2 { font-family:'Noto Serif JP',serif; font-size:17px; font-weight:600; margin-bottom:12px; letter-spacing:0.03em; }
+  p { font-size:14px; color:var(--text-muted); margin-bottom:10px; }
+  p:last-child { margin-bottom:0; }
+  strong { color:var(--text); font-weight:500; }
+
+  /* カレンダーを開く */
+  .facts { list-style:none; display:flex; flex-wrap:wrap; gap:8px; margin:14px 0 18px; }
+  .facts li { font-size:12px; padding:4px 12px; border-radius:20px; background:var(--accent-soft); border:1px solid rgba(100,180,255,0.22); color:#93c5fd; }
+  .open-btn { display:flex; align-items:center; justify-content:center; gap:10px; padding:15px 20px; border-radius:10px; text-decoration:none; font-size:15px; font-weight:500; color:#0b1220; background:linear-gradient(135deg,#ffd76a,#d4af37); box-shadow:0 8px 24px rgba(212,175,55,0.25); transition:transform 0.2s, box-shadow 0.2s; }
+  .open-btn:hover { transform:translateY(-2px); box-shadow:0 12px 28px rgba(212,175,55,0.35); }
+  .ad-note { font-size:12px; color:var(--text-muted); line-height:1.7; margin:12px 0 0; }
+  .open-btn small { font-size:12px; font-weight:400; opacity:0.75; }
+
+  /* 見方 */
+  .how { display:flex; flex-direction:column; gap:14px; margin-top:6px; }
+  .how-item { display:flex; gap:14px; align-items:flex-start; background:rgba(100,180,255,0.04); border:1px solid rgba(100,180,255,0.12); border-radius:10px; padding:14px 16px; }
+  .how-no { flex-shrink:0; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Noto Serif JP',serif; font-weight:600; font-size:14px; color:#0b1220; background:linear-gradient(135deg,#9fd0ff,#64b4ff); }
+  .how-body { min-width:0; }
+  .how-title { font-size:15px; font-weight:500; color:#fff; margin-bottom:4px; }
+  .how-body p { font-size:13px; line-height:1.8; margin-bottom:6px; }
+  .stars { color:var(--gold); letter-spacing:0.08em; white-space:nowrap; }
+  .stars .off { color:#475569; }
+  .star-row { display:flex; flex-direction:column; gap:4px; font-size:13px; color:var(--text-muted); margin-top:4px; }
+  .cols { display:grid; grid-template-columns:auto 1fr; gap:4px 12px; font-size:13px; color:var(--text-muted); margin-top:4px; }
+  .cols b { color:#fff; font-weight:500; white-space:nowrap; }
+  .up { color:var(--green); font-weight:500; } .down { color:var(--red); font-weight:500; }
+  .tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
+  .tags span { font-size:12px; padding:3px 10px; border-radius:6px; background:rgba(212,175,55,0.1); border:1px solid rgba(212,175,55,0.35); color:#f3d98b; }
+
+  .note { font-size:13px; color:#fcd34d; line-height:1.8; }
+  .summary-card { background:var(--card-bg); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border:1px solid rgba(100,180,255,0.2); border-radius:12px; padding:24px 28px; text-align:center; }
+  .summary-card p { font-size:14px; color:var(--text); line-height:1.9; }
+
+  @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+  @media(max-width:500px){ .card{padding:20px 18px} .how-item{padding:12px 13px; gap:12px} .open-btn{flex-direction:column; gap:0; padding:13px 16px;} }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a href="index.html" class="back-link">← トップへ戻る</a>
+
+  <div class="header">
+    <img class="header-icon" src="icons/icon_calendar.webp" alt="">
+    <div class="header-badge">Economic Calendar</div>
+    <h1>経済指標カレンダーの見方</h1>
+    <p class="header-sub">相場を動かす可能性のある発表の予定を、前もって確かめるために</p>
+  </div>
+
+  <!-- カレンダーを開く -->
+  <div class="section">
+    <div class="section-label">01 — Calendar</div>
+    <div class="card card-gold">
+      <h2>使うカレンダー</h2>
+      <p>Investing.com（日本語版）の経済指標カレンダーを使います。世界の経済指標の発表の予定と結果が、リアルタイムで表示されます。</p>
+      <ul class="facts">
+        <li>登録は不要（ログインしなくても見られます）</li>
+        <li>外部のサイトが新しいタブで開きます</li>
+      </ul>
+      <a class="open-btn" href="https://jp.investing.com/economic-calendar/" target="_blank" rel="noopener">経済指標カレンダーを開く <small>（Investing.com）</small></a>
+      <p class="ad-note">※ 画面に出る広告や証券会社の紹介は Investing.com のもので、当サイトとは関係ありません。カレンダーは、それらを押さなくても使えます。</p>
+    </div>
+  </div>
+
+  <!-- 見方 -->
+  <div class="section">
+    <div class="section-label">02 — How to Read</div>
+    <div class="card card-blue">
+      <h2>見方のポイント</h2>
+      <div class="how">
+        <div class="how-item">
+          <div class="how-no">1</div>
+          <div class="how-body">
+            <div class="how-title">星の数＝重要度</div>
+            <p>発表ごとに、相場への影響の大きさが星1〜3つで示されます。</p>
+            <div class="star-row">
+              <div><span class="stars">★<span class="off">★★</span></span>　値動きは小さい見込み</div>
+              <div><span class="stars">★★<span class="off">★</span></span>　値動きは中くらいの見込み</div>
+              <div><span class="stars">★★★</span>　大きな値動きにつながる可能性が高い発表</div>
+            </div>
+          </div>
+        </div>
+        <div class="how-item">
+          <div class="how-no">2</div>
+          <div class="how-body">
+            <div class="how-title">「結果・予想・前回」の見方</div>
+            <div class="cols">
+              <b>予想</b><span>発表前の、専門家（エコノミスト）の予想をまとめた値</span>
+              <b>前回</b><span>前の期間に発表された数値</span>
+              <b>結果</b><span>発表された数値（発表されると、すぐに表示されます）</span>
+            </div>
+            <p style="margin-top:8px;">結果が予想を上回ると<span class="up">緑</span>、下回ると<span class="down">赤</span>で表示されます。</p>
+          </div>
+        </div>
+        <div class="how-item">
+          <div class="how-no">3</div>
+          <div class="how-body">
+            <div class="how-title">時刻の確かめ方</div>
+            <p>画面の上の「現在の時刻」の横に、表示している時間帯が出ます。日本時間なら「GMT+9:00」です。時間帯は「フィルターを表示する」から変えられます。</p>
+          </div>
+        </div>
+        <div class="how-item">
+          <div class="how-no">4</div>
+          <div class="how-body">
+            <div class="how-title">しぼり込み</div>
+            <p>「フィルターを表示する」で、国・種類・重要度でしぼり込めます。「本日」「明日」「今週」などで日付を選べます。</p>
+          </div>
+        </div>
+        <div class="how-item">
+          <div class="how-no">5</div>
+          <div class="how-body">
+            <div class="how-title">特に大きく動きやすい発表</div>
+            <p>サイトの説明では、次の発表が、ふつう星3つで示される影響の大きい発表として挙げられています。</p>
+            <div class="tags"><span>中央銀行の政策金利の決定</span><span>米国の非農業部門雇用者数（雇用統計）</span><span>GDP</span><span>消費者物価指数（CPI）</span><span>失業率</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 注意 -->
+  <div class="section">
+    <div class="section-label">03 — Note</div>
+    <div class="card card-warn">
+      <p class="note">⚠ 発表の予定は、急に変わることがあります（カレンダーのサイトにも、そう書かれています）。大事な場面では、ほかの情報とも合わせて確かめてください。</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="summary-card">
+      <p>ご不明な点は<strong>公式 LINE</strong> までお気軽にご相談ください。</p>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -207,6 +207,27 @@
     letter-spacing: 0.1em;
   }
 
+  /* デモ口座（全 EA 分をここにまとめる。口座ごとに稼働中の EA を書く） */
+  .demo-section { margin-top: 72px; animation: fadeUp 0.8s ease both; scroll-margin-top: 24px; }
+  .demo-sec-head { text-align: center; margin-bottom: 28px; }
+  .demo-badge { display: inline-block; background: rgba(6,182,212,0.1); border: 1px solid #06b6d4; color: #67e8f9; font-size: 11px; letter-spacing: 0.2em; padding: 5px 16px; border-radius: 20px; margin-bottom: 16px; font-family: 'Noto Serif JP', serif; text-transform: uppercase; }
+  .demo-title { font-family: 'Noto Serif JP', serif; font-weight: 600; font-size: clamp(20px, 4vw, 26px); letter-spacing: 0.06em; color: #fff; margin-bottom: 10px; }
+  .demo-sub { color: var(--text-muted); font-size: 13px; max-width: 620px; margin: 0 auto; line-height: 1.8; }
+  .demo-group { background: var(--card-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--border); border-left: 4px solid #06b6d4; border-radius: 20px; padding: 10px 26px 20px; }
+  .demo-account { background: rgba(6,182,212,0.05); border: 1px solid rgba(6,182,212,0.2); border-radius: 10px; padding: 16px 18px; margin-top: 14px; }
+  .demo-head { display: flex; align-items: center; font-family: 'Noto Serif JP', serif; font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 10px; }
+  .demo-head .badge { margin-right: 10px; }
+  .demo-ea { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 10px; padding: 9px 14px; margin-bottom: 7px; background: rgba(212,175,55,0.08); border: 1px solid rgba(212,175,55,0.35); border-radius: 6px; font-size: 13px; }
+  .demo-ea-label { color: var(--gold); font-size: 12px; font-weight: 500; white-space: nowrap; }
+  .demo-ea a { color: #fff; font-weight: 500; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.35); }
+  .demo-ea a:hover { border-bottom-color: #fff; }
+  .demo-ea-note { color: var(--text-muted); font-size: 12px; margin: -2px 0 9px 2px; line-height: 1.7; }
+  .cred-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 6px; padding: 9px 14px; margin-bottom: 7px; }
+  .cred-row:last-child { margin-bottom: 0; }
+  .cred-label { color: var(--text-muted); font-size: 12px; white-space: nowrap; }
+  .cred-value { color: #fff; font-weight: 500; font-family: 'SFMono-Regular', Consolas, 'Roboto Mono', monospace; font-size: 14px; text-align: right; word-break: break-all; user-select: all; letter-spacing: 0.02em; }
+  .demo-foot { font-size: 11px; color: var(--text-muted); margin-top: 14px; }
+  @media(max-width:600px){ .demo-group { padding: 6px 14px 16px; } }
   @keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
   
   @media(max-width:600px){
@@ -250,7 +271,40 @@
       </div>
       <div class="ea-arrow">›</div>
     </a>
+    <div class="ea-card-coming">
+      <div class="coming-icon">🔧</div>
+      <div class="coming-body">
+        <div class="coming-label">次期EAロジック研究中…リリース未定</div>
+        <div class="coming-badge">Under Development</div>
+      </div>
+    </div>
   </div>
+  <section class="demo-section" id="demo">
+    <div class="demo-sec-head">
+      <div class="demo-badge">Live Demo</div>
+      <h2 class="demo-title">デモ口座（フォワードテスト公開中）</h2>
+      <p class="demo-sub">下記のデモ口座情報で MT4 / MT5 にログインいただくと、EA のリアルタイムな稼働状況をご確認いただけます。どの EA が動いているかは、口座ごとの「稼働中の EA」でご確認ください。</p>
+    </div>
+    <div class="demo-group">
+        <div class="demo-account">
+          <div class="demo-head"><span class="badge badge-blue">MT5</span>chimachima</div>
+          <div class="demo-ea"><span class="demo-ea-label">稼働中の EA</span><a href="ea_02.html">Re：【STYLE】クラスター_iF~.ver2</a></div>
+          <p class="demo-ea-note">2026年10月20日に ver2 へ切り替えました（それより前の取引履歴は ver1 のものです）</p>
+          <div class="cred-row"><span class="cred-label">ログインID</span><span class="cred-value">75509211</span></div>
+          <div class="cred-row"><span class="cred-label">パスワード</span><span class="cred-value">@Teisibou1000ml</span></div>
+          <div class="cred-row"><span class="cred-label">サーバー</span><span class="cred-value">XMTradingMU-MT5 3</span></div>
+        </div>
+        <div class="demo-account">
+          <div class="demo-head"><span class="badge badge-blue">MT4</span>hadarich</div>
+          <div class="demo-ea"><span class="demo-ea-label">稼働中の EA</span><a href="ea_02.html">Re：【STYLE】クラスター_iF~.ver2</a></div>
+          <p class="demo-ea-note">2026年10月20日に ver2 へ切り替えました（それより前の取引履歴は ver1 のものです）</p>
+          <div class="cred-row"><span class="cred-label">ログインID</span><span class="cred-value">160075521</span></div>
+          <div class="cred-row"><span class="cred-label">パスワード</span><span class="cred-value">@Collagen3000mg</span></div>
+          <div class="cred-row"><span class="cred-label">サーバー</span><span class="cred-value">XMTradingMU-Demo 6</span></div>
+        </div>
+      <p class="demo-foot">※ デモ口座のため資金リスクはありません。稼働状況の閲覧用としてご利用ください。</p>
+    </div>
+  </section>
 </div>
 
 <script>

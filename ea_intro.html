@@ -227,6 +227,7 @@
   .cred-label { color: var(--text-muted); font-size: 12px; white-space: nowrap; }
   .cred-value { color: #fff; font-weight: 500; font-family: 'SFMono-Regular', Consolas, 'Roboto Mono', monospace; font-size: 14px; text-align: right; word-break: break-all; user-select: all; letter-spacing: 0.02em; }
   .demo-foot { font-size: 11px; color: var(--text-muted); margin-top: 14px; }
+  .demo-foot + .demo-foot { margin-top: 2px; }
   @media(max-width:600px){ .demo-group { padding: 6px 14px 16px; } }
   @keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
   
@@ -288,8 +289,8 @@
     <div class="demo-group">
         <div class="demo-account">
           <div class="demo-head"><span class="badge badge-blue">MT5</span>chimachima</div>
-          <div class="demo-ea"><span class="demo-ea-label">稼働中の EA</span><a href="ea_02.html">Re：【STYLE】クラスター_iF~.ver2</a></div>
-          <p class="demo-ea-note">2026年10月20日に ver2 へ切り替えました（それより前の取引履歴は ver1 のものです）</p>
+          <div class="demo-ea"><span class="demo-ea-label">稼働中の EA</span><a href="ea_01.html">Re：【STYLE】クラスター_iF~</a></div>
+          <p class="demo-ea-note">ver2 との比較のため、この口座は ver1 で動かしています。</p>
           <div class="cred-row"><span class="cred-label">ログインID</span><span class="cred-value">75509211</span></div>
           <div class="cred-row"><span class="cred-label">パスワード</span><span class="cred-value">@Teisibou1000ml</span></div>
           <div class="cred-row"><span class="cred-label">サーバー</span><span class="cred-value">XMTradingMU-MT5 3</span></div>
@@ -303,6 +304,7 @@
           <div class="cred-row"><span class="cred-label">サーバー</span><span class="cred-value">XMTradingMU-Demo 6</span></div>
         </div>
       <p class="demo-foot">※ デモ口座のため資金リスクはありません。稼働状況の閲覧用としてご利用ください。</p>
+      <p class="demo-foot">※ MT4 と MT5 では口座の環境（サーバー・仕組み）が違うため、2つの成績の差には EA 以外の違いも含まれます。</p>
     </div>
   </section>
 </div>

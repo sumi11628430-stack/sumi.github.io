@@ -65,6 +65,8 @@
   .icon-warn  { background:var(--warn-soft); border:1px solid rgba(245,158,11,0.2); color:var(--warn); }
   .icon-red   { background:var(--danger-soft); border:1px solid rgba(239,68,68,0.2); color:var(--danger); }
   .icon-green { background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.2); color:var(--accent2); }
+  .point-icon { width: 32px; height: 32px; background: none; border: none; border-radius: 22%; overflow: hidden; }
+  .point-icon img { display: block; width: 100%; height: 100%; }
 
   /* ESCAPE口座ボックス */
   .escape-box { background:rgba(100,180,255,0.06); border:1px solid rgba(100,180,255,0.15); border-radius:8px; padding:16px 20px; margin-top:12px; }
@@ -114,7 +116,7 @@
       <p>ロットが重すぎると<strong>一度の逆行で崩れます。</strong></p>
       <div class="point-list">
         <div class="point-item">
-          <div class="point-icon icon-blue">⚓</div>
+          <div class="point-icon icon-blue"><img src="icons/icon_anchor.webp" alt=""></div>
           <div>推奨証拠金に対して適切なロットサイズを維持してください。少ないロットで長く稼ぎ続ける方が、大きなロットで一瞬稼ぐより遥かに価値があります。</div>
         </div>
       </div>
@@ -128,11 +130,11 @@
       <h2>許容ドローダウンを先に決める（含み損を軽視しない）</h2>
       <div class="point-list">
         <div class="point-item">
-          <div class="point-icon icon-warn">📋</div>
+          <div class="point-icon icon-warn"><img src="icons/icon_clipboard.webp" alt=""></div>
           <div>「どこまで含み損を抱えたら損切りして離脱するか」を<strong>決めずに運用すると、判断が感情任せ</strong>になります。</div>
         </div>
         <div class="point-item">
-          <div class="point-icon icon-warn">⚠️</div>
+          <div class="point-icon icon-warn"><img src="icons/icon_warning.webp" alt=""></div>
           <div>EA運用では、<strong>最大許容DDを事前に決めること</strong>が必須です。</div>
         </div>
       </div>
@@ -154,7 +156,7 @@
       <p><strong>危険なのは負けることではなく、止め時がないことです。</strong><br>（ESCAPE口座に着手し始める前兆にもなりうる）</p>
       <div class="point-list">
         <div class="point-item">
-          <div class="point-icon icon-red">🛑</div>
+          <div class="point-icon icon-red"><img src="icons/icon_stop.webp" alt=""></div>
           <div>以下の状況では即座に稼働を停止する基準を明確にしておく必要があります。</div>
         </div>
       </div>
@@ -183,10 +185,10 @@
         それが長期運用の前提です。
       </div>
       <div class="point-list">
-        <div class="point-item"><div class="point-icon icon-green">🌸</div><div>ロットを抑えること</div></div>
-        <div class="point-item"><div class="point-icon icon-green">🌸</div><div>含み損を軽視しないこと</div></div>
-        <div class="point-item"><div class="point-icon icon-green">🌸</div><div>停止ルールを持つこと</div></div>
-        <div class="point-item"><div class="point-icon icon-green">🌸</div><div>初心忘るべからず</div></div>
+        <div class="point-item"><div class="point-icon icon-green"><img src="icons/icon_sakura.webp" alt=""></div><div>ロットを抑えること</div></div>
+        <div class="point-item"><div class="point-icon icon-green"><img src="icons/icon_sakura.webp" alt=""></div><div>含み損を軽視しないこと</div></div>
+        <div class="point-item"><div class="point-icon icon-green"><img src="icons/icon_sakura.webp" alt=""></div><div>停止ルールを持つこと</div></div>
+        <div class="point-item"><div class="point-icon icon-green"><img src="icons/icon_sakura.webp" alt=""></div><div>初心忘るべからず</div></div>
       </div>
     </div>
   </div>

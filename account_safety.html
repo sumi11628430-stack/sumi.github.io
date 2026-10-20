@@ -59,6 +59,8 @@
   .safety-list { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
   .safety-item { display: flex; align-items: flex-start; gap: 12px; font-size: 14px; color: var(--text-muted); line-height: 1.6; }
   .safety-icon { flex-shrink: 0; width: 28px; height: 28px; border-radius: 6px; background: var(--accent2-soft); border: 1px solid rgba(16,185,129,0.2); color: #6ee7b7; display: flex; align-items: center; justify-content: center; font-size: 13px; margin-top: 2px; }
+  .safety-icon { width: 34px; height: 34px; background: none; border: none; border-radius: 22%; overflow: hidden; }
+  .safety-icon img { display: block; width: 100%; height: 100%; }
   .flow { display: flex; flex-direction: column; gap: 0; margin-top: 4px; }
   .flow-item { display: flex; align-items: flex-start; gap: 14px; font-size: 14px; color: var(--text-muted); position: relative; padding-bottom: 20px; }
   .flow-item:last-child { padding-bottom: 0; }
@@ -134,10 +136,10 @@
     <div class="card card-green">
       <h2>安全性について</h2>
       <div class="safety-list">
-        <div class="safety-item"><div class="safety-icon">🔒</div><div>口座番号は<strong>認証用途のみ</strong>に使用し、第三者への提供・開示は一切行いません</div></div>
-        <div class="safety-item"><div class="safety-icon">🛡</div><div>認証システムは外部の専用サービスを通じて管理しており、口座番号は<strong>暗号化されて保存</strong>されます</div></div>
-        <div class="safety-item"><div class="safety-icon">📋</div><div>口座番号はFX業者から届いたメールや MT4／MT5 の画面で確認できる<strong>数字のみの番号</strong>です。パスワードや個人情報とは異なります</div></div>
-        <div class="safety-item"><div class="safety-icon">✉️</div><div>ご不明な点があればいつでもお問い合わせください。<strong>納得いただいた上</strong>でのご提供をお願いしています</div></div>
+        <div class="safety-item"><div class="safety-icon"><img src="icons/icon_lock.webp" alt=""></div><div>口座番号は<strong>認証用途のみ</strong>に使用し、第三者への提供・開示は一切行いません</div></div>
+        <div class="safety-item"><div class="safety-icon"><img src="icons/icon_shield_key.webp" alt=""></div><div>認証システムは外部の専用サービスを通じて管理しており、口座番号は<strong>暗号化されて保存</strong>されます</div></div>
+        <div class="safety-item"><div class="safety-icon"><img src="icons/icon_clipboard.webp" alt=""></div><div>口座番号はFX業者から届いたメールや MT4／MT5 の画面で確認できる<strong>数字のみの番号</strong>です。パスワードや個人情報とは異なります</div></div>
+        <div class="safety-item"><div class="safety-icon"><img src="icons/icon_mail.webp" alt=""></div><div>ご不明な点があればいつでもお問い合わせください。<strong>納得いただいた上</strong>でのご提供をお願いしています</div></div>
       </div>
     </div>
   </div>

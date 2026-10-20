@@ -1,6 +1,7 @@
 /* サイトの BGM（経済指標カレンダーの見方のページ以外で読み込む）
    ・ページを移っても初めからにならない：再生位置をこのタブの間だけ覚えて（sessionStorage）、次のページで続きから鳴らす
    ・最初は「鳴らす」設定。右下の ♪ で止める／流す。止めた設定は次に来た時も覚えておく（localStorage）
+   ・サイトの中のリンクを押した時は、音を0.2秒で小さくしてから移り、次のページで0.6秒かけて元の大きさに戻す
    ・ブラウザは、ページを開いただけでは音を出させない。その時は、ページのどこかを最初に押した時に続きから鳴らす
    ・「動きを減らす」設定とは関係なく、♪ でいつでも止められる */
 (() => {
@@ -65,8 +66,8 @@
 
   const play = () => {
     const p = a.play();
-    if (p && p.then) p.then(() => { fadeTo(VOL, 900); ui(); }).catch(() => { ui(); waitGesture(); });
-    else { fadeTo(VOL, 900); ui(); }
+    if (p && p.then) p.then(() => { fadeTo(VOL, 600); ui(); }).catch(() => { ui(); waitGesture(); });
+    else { fadeTo(VOL, 600); ui(); }
   };
   // ブラウザに止められた時は、最初にどこかを押した時に鳴らす
   let waiting = false;
@@ -93,6 +94,26 @@
   });
   a.addEventListener('play', ui);
   a.addEventListener('pause', ui);
+  // サイトの中のリンクを押した時は、音を0.2秒で小さくしてから移る（途切れを目立たなくする）
+  // 新しいタブ・外のサイト・同じページの中の移動・修飾キー付きのクリックでは何もしない
+  document.addEventListener('click', (e) => {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const link = e.target.closest && e.target.closest('a[href]');
+    if (!link || link.hasAttribute('download')) return;
+    const tg = (link.getAttribute('target') || '').toLowerCase();
+    if (tg && tg !== '_self') return;
+    const to = new URL(link.href, location.href);
+    if (to.origin !== location.origin || to.protocol !== location.protocol) return;
+    if (to.pathname === location.pathname && to.search === location.search) return;   // 同じページの中（#…）
+    if (!on || a.paused || a.volume <= 0.01) return;      // 鳴っていない時は、ふつうに移る
+    e.preventDefault();
+    save();
+    let gone = false;
+    const leave = () => { if (gone) return; gone = true; save(); location.href = to.href; };
+    fadeTo(0, 200, leave);
+    setTimeout(leave, 350);                                 // 念のため（小さくし終わらなくても移る）
+  });
+
   // 戻るボタンでページが復元された時（bfcache）も続きから
   window.addEventListener('pageshow', (e) => { if (e.persisted && on && a.paused) play(); });
 

@@ -1,0 +1,47 @@
+/* アイコンのアニメーション（全ページ共通）
+   ・ゆっくり浮く：4秒で上下に3px（translate を使うので、マウスを乗せた時の transform の動きとぶつからない）
+   ・ときどき光が走る：6秒に1回、表面を光が通る
+   ・アイコンごとに時間をずらす（一斉に動かないように）
+   ・「動きを減らす」設定の人には止める */
+
+@keyframes ia-float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -3px; } }
+@keyframes ia-shine { 0%, 72% { transform: translateX(-140%) skewX(-20deg); } 88%, 100% { transform: translateX(260%) skewX(-20deg); } }
+@keyframes ia-shine-nav { 0%, 72% { transform: translateX(0) rotate(24deg); } 88%, 100% { transform: translateX(88px) rotate(24deg); } }
+
+/* 浮く */
+.nav-icon, .ea-icon, .coming-icon, .safety-icon, .point-icon, .header-icon {
+  animation: ia-float 4s ease-in-out infinite;
+}
+
+/* 光が走る（トップのアイコンは、もともとある光の筋を使う） */
+.nav-icon::after { animation: ia-shine-nav 6s ease-in-out infinite; }
+.ea-icon, .coming-icon, .safety-icon, .point-icon { position: relative; }
+.ea-icon::after, .coming-icon::after, .safety-icon::after, .point-icon::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 45%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.45), transparent);
+  transform: translateX(-140%) skewX(-20deg);
+  animation: ia-shine 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* 時間をずらす（並び順で） */
+.nav-grid > :nth-child(2) .nav-icon, .nav-grid > :nth-child(2) .nav-icon::after,
+.ea-list > :nth-child(2) .ea-icon, .ea-list > :nth-child(2) .ea-icon::after,
+.safety-item:nth-child(2) .safety-icon, .safety-item:nth-child(2) .safety-icon::after,
+.point-item:nth-child(2) .point-icon, .point-item:nth-child(2) .point-icon::after { animation-delay: -0.8s; }
+.nav-grid > :nth-child(3) .nav-icon, .nav-grid > :nth-child(3) .nav-icon::after,
+.ea-list > :nth-child(3) .coming-icon, .ea-list > :nth-child(3) .coming-icon::after,
+.safety-item:nth-child(3) .safety-icon, .safety-item:nth-child(3) .safety-icon::after,
+.point-item:nth-child(3) .point-icon, .point-item:nth-child(3) .point-icon::after { animation-delay: -1.6s; }
+.nav-grid > :nth-child(4) .nav-icon, .nav-grid > :nth-child(4) .nav-icon::after,
+.safety-item:nth-child(4) .safety-icon, .safety-item:nth-child(4) .safety-icon::after,
+.point-item:nth-child(4) .point-icon, .point-item:nth-child(4) .point-icon::after { animation-delay: -2.4s; }
+.nav-grid > :nth-child(5) .nav-icon, .nav-grid > :nth-child(5) .nav-icon::after { animation-delay: -3.2s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-icon, .ea-icon, .coming-icon, .safety-icon, .point-icon, .header-icon,
+  .nav-icon::after, .ea-icon::after, .coming-icon::after, .safety-icon::after, .point-icon::after { animation: none; }
+}

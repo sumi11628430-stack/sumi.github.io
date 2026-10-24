@@ -62,7 +62,7 @@
   .pc{display:inline-block;width:11px;height:11px;border:1px solid #8a8a8a;background:#fff;margin:0 8px -1px 0;}
   .pd td{background:#fffbe6;color:#333;font-size:12.5px;line-height:1.8;padding:8px 12px 10px 48px;border-top:1px solid #efe3b0;border-bottom:1px solid #efe3b0;}
   .pcap{font-size:12px;color:var(--text-muted);text-align:center;margin-top:10px;}
-  .phint{font-size:13px;color:var(--text-muted);margin:-4px 0 12px;line-height:1.7;}
+  .phint{font-size:14px;font-weight:700;color:#1f2937;background:#fde047;border:2px solid #facc15;border-radius:8px;padding:10px 14px;margin:0 0 14px;line-height:1.7;box-shadow:0 0 0 3px rgba(253,224,71,0.25);}
   @media(max-width:560px){.ptab{font-size:12px}.pn{padding-left:14px!important}.pd td{padding-left:16px}.pf{display:none}}
   .result-img{width:100%;border-radius:6px;border:1px solid var(--border);box-shadow:0 2px 12px rgba(0,0,0,0.4);display:block;}
   .warn-box{background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.25);border-radius:6px;padding:12px 16px;margin-top:14px;display:flex;gap:10px;align-items:flex-start;}
@@ -105,137 +105,128 @@
     <div class="section-label">01 — Parameters</div>
     <div class="card card-cyan">
       <h2>パラメーター画面と各項目の説明</h2>
-      <p class="phint">行を押すと、その項目の説明が開きます。値は初期値（そのまま使う時の値）です。MT4版も、名前・初期値・並びは同じです。</p>
+      <p class="phint">👆 行を押すと、その項目の説明が開きます。値は初期値（そのまま使う時の値）です。MT4版も、名前・初期値・並びは同じです。</p>
       <div class="pw">
       <table class="ptab">
         <tr><th>変数名</th><th>値</th></tr>
         <tr class="pg"><td colspan="2"><span class="pf"></span>取引方向設定</td></tr>
-        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>第１マジック　取引方向の選択（Longのみ／Shortのみ／両方向／停止）</td><td class="pv">両方向</td></tr>
-        <tr class="pd" hidden><td colspan="2">このマジックが取る方向を選びます。Longのみ＝買いだけ／Shortのみ＝売りだけ／両方向＝買いと売りの両方／停止＝このマジックは新しい注文を出しません。</td></tr>
-        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>第２マジック　取引方向の選択（Longのみ／Shortのみ／両方向／停止）</td><td class="pv">両方向</td></tr>
-        <tr class="pd" hidden><td colspan="2">このマジックが取る方向を選びます。Longのみ＝買いだけ／Shortのみ＝売りだけ／両方向＝買いと売りの両方／停止＝このマジックは新しい注文を出しません。</td></tr>
-        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>第３マジック　取引方向の選択（Longのみ／Shortのみ／両方向／停止）</td><td class="pv">両方向</td></tr>
-        <tr class="pd" hidden><td colspan="2">このマジックが取る方向を選びます。Longのみ＝買いだけ／Shortのみ＝売りだけ／両方向＝買いと売りの両方／停止＝このマジックは新しい注文を出しません。</td></tr>
-        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>第４マジック　取引方向の選択（Longのみ／Shortのみ／両方向／停止）</td><td class="pv">両方向</td></tr>
-        <tr class="pd" hidden><td colspan="2">このマジックが取る方向を選びます。Longのみ＝買いだけ／Shortのみ＝売りだけ／両方向＝買いと売りの両方／停止＝このマジックは新しい注文を出しません。</td></tr>
+        <tr class="pr alt" tabindex="0" data-run="1"><td class="pn"><span class="pc"></span>第１マジック　取引方向の選択（Longのみ／Shortのみ／両方向／停止）</td><td class="pv">両方向</td></tr>
+        <tr class="pr" tabindex="0" data-run="1"><td class="pn"><span class="pc"></span>第２マジック　取引方向の選択（Longのみ／Shortのみ／両方向／停止）</td><td class="pv">両方向</td></tr>
+        <tr class="pr alt" tabindex="0" data-run="1"><td class="pn"><span class="pc"></span>第３マジック　取引方向の選択（Longのみ／Shortのみ／両方向／停止）</td><td class="pv">両方向</td></tr>
+        <tr class="pr" tabindex="0" data-run="1"><td class="pn"><span class="pc"></span>第４マジック　取引方向の選択（Longのみ／Shortのみ／両方向／停止）</td><td class="pv">両方向</td></tr>
+        <tr class="pd" hidden data-run="1"><td colspan="2">（上の4行に共通）このマジックが取る方向を選びます。Longのみ＝買いだけ／Shortのみ＝売りだけ／両方向＝買いと売りの両方／停止＝このマジックは新しい注文を出しません。</td></tr>
         <tr class="pg"><td colspan="2"><span class="pf"></span>第１マジックパラメーター</td></tr>
-        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>第１ 初期ロット</td><td class="pv">0.01</td></tr>
-        <tr class="pd" hidden><td colspan="2">最初の1本（1段目）のロットです。</td></tr>
-        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>第１ 加算ロット・基準値（加算ロットタイプは二次加算となってます）</td><td class="pv">0.01</td></tr>
-        <tr class="pd" hidden><td colspan="2">加算ロットタイプは二次加算です。n段目（1段目を0）のロット＝初期ロット＋基準値×n(n+1)/2。前の段から足す量が「基準値×1、×2、×3…」と増えていきます。初期ロット0.01・基準値0.01なら、0.01 → 0.02 → 0.04 → 0.07 → 0.11 → 0.16 → 0.22 …</td></tr>
-        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>第１ 最大段数</td><td class="pv">30</td></tr>
-        <tr class="pd" hidden><td colspan="2">このマジックが、買い・売りそれぞれで持てる本数の上限です。</td></tr>
-        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>第１ ロット上限</td><td class="pv">99.0</td></tr>
-        <tr class="pd" hidden><td colspan="2">1本あたりのロットの上限です。計算したロットがこれより大きくなる時は、この値で止めます。</td></tr>
+        <tr class="pr alt" tabindex="0" data-run="2"><td class="pn"><span class="pc"></span>第１ 初期ロット</td><td class="pv">0.01</td></tr>
+        <tr class="pd" hidden data-run="2"><td colspan="2">最初の1本（1段目）のロットです。</td></tr>
+        <tr class="pr" tabindex="0" data-run="3"><td class="pn"><span class="pc"></span>第１ 加算ロット・基準値（加算ロットタイプは二次加算となってます）</td><td class="pv">0.01</td></tr>
+        <tr class="pd" hidden data-run="3"><td colspan="2">加算ロットタイプは二次加算です。n段目（1段目を0）のロット＝初期ロット＋基準値×n(n+1)/2。前の段から足す量が「基準値×1、×2、×3…」と増えていきます。初期ロット0.01・基準値0.01なら、0.01 → 0.02 → 0.04 → 0.07 → 0.11 → 0.16 → 0.22 …</td></tr>
+        <tr class="pr alt" tabindex="0" data-run="4"><td class="pn"><span class="pc"></span>第１ 最大段数</td><td class="pv">30</td></tr>
+        <tr class="pd" hidden data-run="4"><td colspan="2">このマジックが、買い・売りそれぞれで持てる本数の上限です。</td></tr>
+        <tr class="pr" tabindex="0" data-run="5"><td class="pn"><span class="pc"></span>第１ ロット上限</td><td class="pv">99.0</td></tr>
+        <tr class="pd" hidden data-run="5"><td colspan="2">1本あたりのロットの上限です。計算したロットがこれより大きくなる時は、この値で止めます。</td></tr>
         <tr class="pg"><td colspan="2"><span class="pf"></span>（第２・第４マジック共通）パラメーター</td></tr>
-        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>第２/第４ 初期ロット</td><td class="pv">0.01</td></tr>
-        <tr class="pd" hidden><td colspan="2">最初の1本（1段目）のロットです。第２・第４マジックで共通です。</td></tr>
-        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>第２/第４ 加算ロット・基準値（加算ロットタイプは二次加算となってます）</td><td class="pv">0.01</td></tr>
-        <tr class="pd" hidden><td colspan="2">加算ロットタイプは二次加算です。n段目（1段目を0）のロット＝初期ロット＋基準値×n(n+1)/2。前の段から足す量が「基準値×1、×2、×3…」と増えていきます。初期ロット0.01・基準値0.01なら、0.01 → 0.02 → 0.04 → 0.07 → 0.11 → 0.16 → 0.22 …（第２・第４マジックで共通）</td></tr>
-        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>第２/第４ 最大段数</td><td class="pv">30</td></tr>
-        <tr class="pd" hidden><td colspan="2">このマジックが、買い・売りそれぞれで持てる本数の上限です。第２・第４マジックで共通です。</td></tr>
-        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>第２/第４ ロット上限</td><td class="pv">99.0</td></tr>
-        <tr class="pd" hidden><td colspan="2">1本あたりのロットの上限です。第２・第４マジックで共通です。</td></tr>
+        <tr class="pr alt" tabindex="0" data-run="6"><td class="pn"><span class="pc"></span>第２/第４ 初期ロット</td><td class="pv">0.01</td></tr>
+        <tr class="pd" hidden data-run="6"><td colspan="2">最初の1本（1段目）のロットです。第２・第４マジックで共通です。</td></tr>
+        <tr class="pr" tabindex="0" data-run="7"><td class="pn"><span class="pc"></span>第２/第４ 加算ロット・基準値（加算ロットタイプは二次加算となってます）</td><td class="pv">0.01</td></tr>
+        <tr class="pd" hidden data-run="7"><td colspan="2">加算ロットタイプは二次加算です。n段目（1段目を0）のロット＝初期ロット＋基準値×n(n+1)/2。前の段から足す量が「基準値×1、×2、×3…」と増えていきます。初期ロット0.01・基準値0.01なら、0.01 → 0.02 → 0.04 → 0.07 → 0.11 → 0.16 → 0.22 …（第２・第４マジックで共通）</td></tr>
+        <tr class="pr alt" tabindex="0" data-run="8"><td class="pn"><span class="pc"></span>第２/第４ 最大段数</td><td class="pv">30</td></tr>
+        <tr class="pd" hidden data-run="8"><td colspan="2">このマジックが、買い・売りそれぞれで持てる本数の上限です。第２・第４マジックで共通です。</td></tr>
+        <tr class="pr" tabindex="0" data-run="9"><td class="pn"><span class="pc"></span>第２/第４ ロット上限</td><td class="pv">99.0</td></tr>
+        <tr class="pd" hidden data-run="9"><td colspan="2">1本あたりのロットの上限です。第２・第４マジックで共通です。</td></tr>
         <tr class="pg"><td colspan="2"><span class="pf"></span>第３マジックパラメーター</td></tr>
-        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>第３ 初期ロット</td><td class="pv">0.01</td></tr>
-        <tr class="pd" hidden><td colspan="2">最初の1本（1段目）のロットです。</td></tr>
-        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>第３ 加算ロット・基準値（加算ロットタイプは二次加算となってます）</td><td class="pv">0.01</td></tr>
-        <tr class="pd" hidden><td colspan="2">加算ロットタイプは二次加算です。n段目（1段目を0）のロット＝初期ロット＋基準値×n(n+1)/2。前の段から足す量が「基準値×1、×2、×3…」と増えていきます。初期ロット0.01・基準値0.01なら、0.01 → 0.02 → 0.04 → 0.07 → 0.11 → 0.16 → 0.22 …</td></tr>
-        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>第３ 最大段数</td><td class="pv">30</td></tr>
-        <tr class="pd" hidden><td colspan="2">このマジックが、買い・売りそれぞれで持てる本数の上限です。</td></tr>
-        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>第３ ロット上限</td><td class="pv">99.0</td></tr>
-        <tr class="pd" hidden><td colspan="2">1本あたりのロットの上限です。</td></tr>
+        <tr class="pr alt" tabindex="0" data-run="10"><td class="pn"><span class="pc"></span>第３ 初期ロット</td><td class="pv">0.01</td></tr>
+        <tr class="pd" hidden data-run="10"><td colspan="2">最初の1本（1段目）のロットです。</td></tr>
+        <tr class="pr" tabindex="0" data-run="11"><td class="pn"><span class="pc"></span>第３ 加算ロット・基準値（加算ロットタイプは二次加算となってます）</td><td class="pv">0.01</td></tr>
+        <tr class="pd" hidden data-run="11"><td colspan="2">加算ロットタイプは二次加算です。n段目（1段目を0）のロット＝初期ロット＋基準値×n(n+1)/2。前の段から足す量が「基準値×1、×2、×3…」と増えていきます。初期ロット0.01・基準値0.01なら、0.01 → 0.02 → 0.04 → 0.07 → 0.11 → 0.16 → 0.22 …</td></tr>
+        <tr class="pr alt" tabindex="0" data-run="12"><td class="pn"><span class="pc"></span>第３ 最大段数</td><td class="pv">30</td></tr>
+        <tr class="pd" hidden data-run="12"><td colspan="2">このマジックが、買い・売りそれぞれで持てる本数の上限です。</td></tr>
+        <tr class="pr" tabindex="0" data-run="13"><td class="pn"><span class="pc"></span>第３ ロット上限</td><td class="pv">99.0</td></tr>
+        <tr class="pd" hidden data-run="13"><td colspan="2">1本あたりのロットの上限です。</td></tr>
         <tr class="pg"><td colspan="2"><span class="pf"></span>グリッド/TP</td></tr>
-        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>最小インターバル（秒）（M1/M2/M3/M4共通）</td><td class="pv">0</td></tr>
-        <tr class="pd" hidden><td colspan="2">ナンピン（2本目以降）を出す時に、前の注文から最低何秒あけるかです。0＝あけません。第１〜第４マジックで共通です。</td></tr>
-        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>第１マジック BUY側利確値</td><td class="pv">30.0</td></tr>
-        <tr class="pd" hidden><td colspan="2">第１マジックの買いポジションを決済する目標の幅（pips。GOLDは1pips＝0.10ドル）です。買いの平均の建値から、この幅だけ上がったら、第１マジックの買いをまとめて決済します。</td></tr>
-        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>第１マジック SELL側利確値</td><td class="pv">20.0</td></tr>
-        <tr class="pd" hidden><td colspan="2">第１マジックの売りポジションを決済する目標の幅（pips。GOLDは1pips＝0.10ドル）です。売りの平均の建値から、この幅だけ下がったら、第１マジックの売りをまとめて決済します。</td></tr>
-        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>第２/第４マジック BUY/SELL共通利確値</td><td class="pv">15.0</td></tr>
-        <tr class="pd" hidden><td colspan="2">第２・第４マジックの利確の幅（pips）です。マジックごとに、買い・売りそれぞれの平均の建値から、この幅だけ有利に動いたら、その方向をまとめて決済します。</td></tr>
-        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>第３マジック BUY/SELL共通利確値</td><td class="pv">30.0</td></tr>
-        <tr class="pd" hidden><td colspan="2">第３マジックの利確の幅（pips）です。買い・売りどちらも同じ幅です。</td></tr>
+        <tr class="pr alt" tabindex="0" data-run="14"><td class="pn"><span class="pc"></span>最小インターバル（秒）（M1/M2/M3/M4共通）</td><td class="pv">0</td></tr>
+        <tr class="pd" hidden data-run="14"><td colspan="2">ナンピン（2本目以降）を出す時に、前の注文から最低何秒あけるかです。0＝あけません。第１〜第４マジックで共通です。</td></tr>
+        <tr class="pr" tabindex="0" data-run="15"><td class="pn"><span class="pc"></span>第１マジック BUY側利確値</td><td class="pv">30.0</td></tr>
+        <tr class="pd" hidden data-run="15"><td colspan="2">第１マジックの買いポジションを決済する目標の幅（pips。GOLDは1pips＝0.10ドル）です。買いの平均の建値から、この幅だけ上がったら、第１マジックの買いをまとめて決済します。</td></tr>
+        <tr class="pr alt" tabindex="0" data-run="16"><td class="pn"><span class="pc"></span>第１マジック SELL側利確値</td><td class="pv">20.0</td></tr>
+        <tr class="pd" hidden data-run="16"><td colspan="2">第１マジックの売りポジションを決済する目標の幅（pips。GOLDは1pips＝0.10ドル）です。売りの平均の建値から、この幅だけ下がったら、第１マジックの売りをまとめて決済します。</td></tr>
+        <tr class="pr" tabindex="0" data-run="17"><td class="pn"><span class="pc"></span>第２/第４マジック BUY/SELL共通利確値</td><td class="pv">15.0</td></tr>
+        <tr class="pd" hidden data-run="17"><td colspan="2">第２・第４マジックの利確の幅（pips）です。マジックごとに、買い・売りそれぞれの平均の建値から、この幅だけ有利に動いたら、その方向をまとめて決済します。</td></tr>
+        <tr class="pr alt" tabindex="0" data-run="18"><td class="pn"><span class="pc"></span>第３マジック BUY/SELL共通利確値</td><td class="pv">30.0</td></tr>
+        <tr class="pd" hidden data-run="18"><td colspan="2">第３マジックの利確の幅（pips）です。買い・売りどちらも同じ幅です。</td></tr>
         <tr class="pg"><td colspan="2"><span class="pf"></span>救済利確（①/②）</td></tr>
-        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>救済利確の使用</td><td class="pv">使用しない</td></tr>
-        <tr class="pd" hidden><td colspan="2">救済利確は、ポジションが増えた時に、利確の幅を小さくして早めに決済しやすくする仕組みです。発動すると、全マジックの利確の幅が「救済利確値」に切り替わります。使用しない／第1のみ有効／第2のみ有効／第1第2どちらも有効 から選びます。</td></tr>
-        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>救済利確条件①</td><td class="pv">保有ポジション数のみ</td></tr>
-        <tr class="pd" hidden><td colspan="2">救済利確の発動の条件です。保有ポジション数のみ＝本数で判定／含み損のみ＝発動含み損額で判定／両方＝どちらかを満たしたら発動。</td></tr>
-        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>発動含み損額①</td><td class="pv">50000.0</td></tr>
-        <tr class="pd" hidden><td colspan="2">条件が「含み損のみ」「両方」の時の発動の目安です。EAの中では、平均の建値から逆に動いた幅（pips）と比べています（名前は「額」ですが、円ではありません）。</td></tr>
-        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>発動段数①</td><td class="pv">10</td></tr>
-        <tr class="pd" hidden><td colspan="2">買い・売りのどちらかで、持っている本数（動いている全マジックの合計）がこの数以上になったら発動します。</td></tr>
-        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>救済利確値①</td><td class="pv">10.0</td></tr>
-        <tr class="pd" hidden><td colspan="2">発動した後の利確の幅（pips）です。各マジックの平均の建値から、この幅で決済します。0なら、建値を少しでも超えて含み益になった所で決済します。</td></tr>
-        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>救済利確条件②</td><td class="pv">保有ポジション数のみ</td></tr>
-        <tr class="pd" hidden><td colspan="2">救済利確の発動の条件です。保有ポジション数のみ＝本数で判定／含み損のみ＝発動含み損額で判定／両方＝どちらかを満たしたら発動。①と②の両方を満たす時は②が先です。</td></tr>
-        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>発動含み損額②</td><td class="pv">100000.0</td></tr>
-        <tr class="pd" hidden><td colspan="2">条件が「含み損のみ」「両方」の時の発動の目安です。EAの中では、平均の建値から逆に動いた幅（pips）と比べています（名前は「額」ですが、円ではありません）。</td></tr>
-        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>発動段数②</td><td class="pv">15</td></tr>
-        <tr class="pd" hidden><td colspan="2">買い・売りのどちらかで、持っている本数（動いている全マジックの合計）がこの数以上になったら発動します。</td></tr>
-        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>救済利確値②</td><td class="pv">0.0</td></tr>
-        <tr class="pd" hidden><td colspan="2">発動した後の利確の幅（pips）です。各マジックの平均の建値から、この幅で決済します。0なら、建値を少しでも超えて含み益になった所で決済します。</td></tr>
+        <tr class="pr alt" tabindex="0" data-run="19"><td class="pn"><span class="pc"></span>救済利確の使用</td><td class="pv">使用しない</td></tr>
+        <tr class="pd" hidden data-run="19"><td colspan="2">救済利確は、ポジションが増えた時に、利確の幅を小さくして早めに決済しやすくする仕組みです。発動すると、全マジックの利確の幅が「救済利確値」に切り替わります。使用しない／第1のみ有効／第2のみ有効／第1第2どちらも有効 から選びます。</td></tr>
+        <tr class="pr" tabindex="0" data-run="20"><td class="pn"><span class="pc"></span>救済利確条件①</td><td class="pv">保有ポジション数のみ</td></tr>
+        <tr class="pd" hidden data-run="20"><td colspan="2">救済利確の発動の条件です。保有ポジション数のみ＝本数で判定／含み損のみ＝発動含み損額で判定／両方＝どちらかを満たしたら発動。</td></tr>
+        <tr class="pr alt" tabindex="0" data-run="21"><td class="pn"><span class="pc"></span>発動含み損額①</td><td class="pv">50000.0</td></tr>
+        <tr class="pd" hidden data-run="21"><td colspan="2">条件が「含み損のみ」「両方」の時の発動の目安です。EAの中では、平均の建値から逆に動いた幅（pips）と比べています（名前は「額」ですが、円ではありません）。</td></tr>
+        <tr class="pr" tabindex="0" data-run="22"><td class="pn"><span class="pc"></span>発動段数①</td><td class="pv">10</td></tr>
+        <tr class="pd" hidden data-run="22"><td colspan="2">買い・売りのどちらかで、持っている本数（動いている全マジックの合計）がこの数以上になったら発動します。</td></tr>
+        <tr class="pr alt" tabindex="0" data-run="23"><td class="pn"><span class="pc"></span>救済利確値①</td><td class="pv">10.0</td></tr>
+        <tr class="pd" hidden data-run="23"><td colspan="2">発動した後の利確の幅（pips）です。各マジックの平均の建値から、この幅で決済します。0なら、建値を少しでも超えて含み益になった所で決済します。</td></tr>
+        <tr class="pr" tabindex="0" data-run="24"><td class="pn"><span class="pc"></span>救済利確条件②</td><td class="pv">保有ポジション数のみ</td></tr>
+        <tr class="pd" hidden data-run="24"><td colspan="2">救済利確の発動の条件です。保有ポジション数のみ＝本数で判定／含み損のみ＝発動含み損額で判定／両方＝どちらかを満たしたら発動。①と②の両方を満たす時は②が先です。</td></tr>
+        <tr class="pr alt" tabindex="0" data-run="25"><td class="pn"><span class="pc"></span>発動含み損額②</td><td class="pv">100000.0</td></tr>
+        <tr class="pd" hidden data-run="25"><td colspan="2">条件が「含み損のみ」「両方」の時の発動の目安です。EAの中では、平均の建値から逆に動いた幅（pips）と比べています（名前は「額」ですが、円ではありません）。</td></tr>
+        <tr class="pr" tabindex="0" data-run="26"><td class="pn"><span class="pc"></span>発動段数②</td><td class="pv">15</td></tr>
+        <tr class="pd" hidden data-run="26"><td colspan="2">買い・売りのどちらかで、持っている本数（動いている全マジックの合計）がこの数以上になったら発動します。</td></tr>
+        <tr class="pr alt" tabindex="0" data-run="27"><td class="pn"><span class="pc"></span>救済利確値②</td><td class="pv">0.0</td></tr>
+        <tr class="pd" hidden data-run="27"><td colspan="2">発動した後の利確の幅（pips）です。各マジックの平均の建値から、この幅で決済します。0なら、建値を少しでも超えて含み益になった所で決済します。</td></tr>
         <tr class="pg"><td colspan="2"><span class="pf"></span>チャート表示</td></tr>
-        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>TP決済点のラベル表示内容</td><td class="pv">日時と価格</td></tr>
-        <tr class="pd" hidden><td colspan="2">チャートの決済した所に出す文字の中身です。非表示／日時のみ／価格のみ／日時と価格。</td></tr>
-        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>TP決済点のラベル文字色</td><td class="pv">黄</td></tr>
-        <tr class="pd" hidden><td colspan="2">その文字の色です。</td></tr>
-        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>ステータス表示エリアの背景（ボックス化=黒+枠/透明化=背景なし枠なし）</td><td class="pv">ボックス化</td></tr>
-        <tr class="pd" hidden><td colspan="2">チャートに出る状態表示の背景です。ボックス化＝黒い背景と枠／透明化＝背景も枠もなし。</td></tr>
+        <tr class="pr alt" tabindex="0" data-run="28"><td class="pn"><span class="pc"></span>TP決済点のラベル表示内容</td><td class="pv">日時と価格</td></tr>
+        <tr class="pd" hidden data-run="28"><td colspan="2">チャートの決済した所に出す文字の中身です。非表示／日時のみ／価格のみ／日時と価格。</td></tr>
+        <tr class="pr" tabindex="0" data-run="29"><td class="pn"><span class="pc"></span>TP決済点のラベル文字色</td><td class="pv">黄</td></tr>
+        <tr class="pd" hidden data-run="29"><td colspan="2">その文字の色です。</td></tr>
+        <tr class="pr alt" tabindex="0" data-run="30"><td class="pn"><span class="pc"></span>ステータス表示エリアの背景（ボックス化=黒+枠/透明化=背景なし枠なし）</td><td class="pv">ボックス化</td></tr>
+        <tr class="pd" hidden data-run="30"><td colspan="2">チャートに出る状態表示の背景です。ボックス化＝黒い背景と枠／透明化＝背景も枠もなし。</td></tr>
         <tr class="pg"><td colspan="2"><span class="pf"></span>マジック番号</td></tr>
-        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>第１マジック</td><td class="pv">10001</td></tr>
-        <tr class="pd" hidden><td colspan="2">このマジックの注文に付ける番号です。ほかのEAと同じ番号にならないようにします。ふつうは変えなくて大丈夫です。</td></tr>
-        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>第２マジック</td><td class="pv">10002</td></tr>
-        <tr class="pd" hidden><td colspan="2">このマジックの注文に付ける番号です。ふつうは変えなくて大丈夫です。</td></tr>
-        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>第３マジック</td><td class="pv">10003</td></tr>
-        <tr class="pd" hidden><td colspan="2">このマジックの注文に付ける番号です。ふつうは変えなくて大丈夫です。</td></tr>
-        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>第４マジック</td><td class="pv">10004</td></tr>
-        <tr class="pd" hidden><td colspan="2">このマジックの注文に付ける番号です。ふつうは変えなくて大丈夫です。</td></tr>
+        <tr class="pr alt" tabindex="0" data-run="31"><td class="pn"><span class="pc"></span>第１マジック</td><td class="pv">10001</td></tr>
+        <tr class="pr" tabindex="0" data-run="31"><td class="pn"><span class="pc"></span>第２マジック</td><td class="pv">10002</td></tr>
+        <tr class="pr alt" tabindex="0" data-run="31"><td class="pn"><span class="pc"></span>第３マジック</td><td class="pv">10003</td></tr>
+        <tr class="pr" tabindex="0" data-run="31"><td class="pn"><span class="pc"></span>第４マジック</td><td class="pv">10004</td></tr>
+        <tr class="pd" hidden data-run="31"><td colspan="2">（上の4行に共通）それぞれのマジックの注文に付ける番号です。ほかのEAと同じ番号にならないようにします。ふつうは変えなくて大丈夫です。</td></tr>
         <tr class="pg"><td colspan="2"><span class="pf"></span>稼働時間</td></tr>
-        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>稼働A</td><td class="pv">OFF</td></tr>
-        <tr class="pd" hidden><td colspan="2">ONにすると、下の開始時刻〜停止時刻の間だけ、最初の1本を出します。時間外でも、持っているポジションのナンピンと決済は続きます。稼働Aと稼働Bを両方ONにすると、どちらかの時間内なら出します。</td></tr>
-        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>開始時刻　（必ず &quot;HH:MM&quot; 形式で入力）</td><td class="pv">00:30</td></tr>
-        <tr class="pd" hidden><td colspan="2">稼働Aの始まりの時刻です。時刻は MT5 の時計（サーバー時間）で、必ず HH:MM の形で入れます。日をまたぐ時間（例：22:00〜03:00）も指定できます。</td></tr>
-        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>停止時刻　（必ず &quot;HH:MM&quot; 形式で入力）</td><td class="pv">20:30</td></tr>
-        <tr class="pd" hidden><td colspan="2">稼働Aの終わりの時刻です。時刻は MT5 の時計（サーバー時間）で、必ず HH:MM の形で入れます。日をまたぐ時間（例：22:00〜03:00）も指定できます。</td></tr>
-        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>稼働B</td><td class="pv">OFF</td></tr>
-        <tr class="pd" hidden><td colspan="2">稼働Aと同じ仕組みの、もう1つの時間帯です。</td></tr>
-        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>開始時刻　（必ず &quot;HH:MM&quot; 形式で入力）</td><td class="pv">08:00</td></tr>
-        <tr class="pd" hidden><td colspan="2">稼働Bの始まりの時刻です。時刻は MT5 の時計（サーバー時間）で、必ず HH:MM の形で入れます。日をまたぐ時間（例：22:00〜03:00）も指定できます。</td></tr>
-        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>停止時刻　（必ず &quot;HH:MM&quot; 形式で入力）</td><td class="pv">22:00</td></tr>
-        <tr class="pd" hidden><td colspan="2">稼働Bの終わりの時刻です。時刻は MT5 の時計（サーバー時間）で、必ず HH:MM の形で入れます。日をまたぐ時間（例：22:00〜03:00）も指定できます。</td></tr>
+        <tr class="pr alt" tabindex="0" data-run="32"><td class="pn"><span class="pc"></span>稼働A</td><td class="pv">OFF</td></tr>
+        <tr class="pd" hidden data-run="32"><td colspan="2">ONにすると、下の開始時刻〜停止時刻の間だけ、最初の1本を出します。時間外でも、持っているポジションのナンピンと決済は続きます。稼働Aと稼働Bを両方ONにすると、どちらかの時間内なら出します。</td></tr>
+        <tr class="pr" tabindex="0" data-run="33"><td class="pn"><span class="pc"></span>開始時刻　（必ず &quot;HH:MM&quot; 形式で入力）</td><td class="pv">00:30</td></tr>
+        <tr class="pd" hidden data-run="33"><td colspan="2">稼働Aの始まりの時刻です。時刻は MT5 の時計（サーバー時間）で、必ず HH:MM の形で入れます。日をまたぐ時間（例：22:00〜03:00）も指定できます。</td></tr>
+        <tr class="pr alt" tabindex="0" data-run="34"><td class="pn"><span class="pc"></span>停止時刻　（必ず &quot;HH:MM&quot; 形式で入力）</td><td class="pv">20:30</td></tr>
+        <tr class="pd" hidden data-run="34"><td colspan="2">稼働Aの終わりの時刻です。時刻は MT5 の時計（サーバー時間）で、必ず HH:MM の形で入れます。日をまたぐ時間（例：22:00〜03:00）も指定できます。</td></tr>
+        <tr class="pr" tabindex="0" data-run="35"><td class="pn"><span class="pc"></span>稼働B</td><td class="pv">OFF</td></tr>
+        <tr class="pd" hidden data-run="35"><td colspan="2">稼働Aと同じ仕組みの、もう1つの時間帯です。</td></tr>
+        <tr class="pr alt" tabindex="0" data-run="36"><td class="pn"><span class="pc"></span>開始時刻　（必ず &quot;HH:MM&quot; 形式で入力）</td><td class="pv">08:00</td></tr>
+        <tr class="pd" hidden data-run="36"><td colspan="2">稼働Bの始まりの時刻です。時刻は MT5 の時計（サーバー時間）で、必ず HH:MM の形で入れます。日をまたぐ時間（例：22:00〜03:00）も指定できます。</td></tr>
+        <tr class="pr" tabindex="0" data-run="37"><td class="pn"><span class="pc"></span>停止時刻　（必ず &quot;HH:MM&quot; 形式で入力）</td><td class="pv">22:00</td></tr>
+        <tr class="pd" hidden data-run="37"><td colspan="2">稼働Bの終わりの時刻です。時刻は MT5 の時計（サーバー時間）で、必ず HH:MM の形で入れます。日をまたぐ時間（例：22:00〜03:00）も指定できます。</td></tr>
         <tr class="pg"><td colspan="2"><span class="pf"></span>ロット自動増加</td></tr>
-        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>ロット自動増加の口座タイプ（ログイン中の口座と同じにする・極はスタンダード）</td><td class="pv">スタンダード口座</td></tr>
-        <tr class="pd" hidden><td colspan="2">ロット自動増加の増え方を決める口座の種類です。ログイン中の口座と同じものを選びます（極口座はスタンダード口座を選びます）。</td></tr>
-        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>※違う口座タイプを選ぶと、ロットの増え方が大きく狂います</td><td class="pv"></td></tr>
-        <tr class="pd" hidden><td colspan="2">注意書きの行です（値はありません）。</td></tr>
-        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>M1(10001) ロット自動増加（口座資金に応じてロット増加）</td><td class="pv">false</td></tr>
-        <tr class="pd" hidden><td colspan="2">trueにすると、口座の残高に応じて、このマジックの「初期ロット」と「加算ロット・基準値」を自動で増やします。スタンダード口座では、残高が200万円を超えた分の200万円ごとに、どちらも＋0.01（上限0.1）。例：残高400万円なら0.01→0.02。micro口座では、10万円を超えた分の50万円ごとに＋0.1（上限1.0）。ポジションを持っていない時に計算し直します。</td></tr>
-        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>M2(10002) ロット自動増加（口座資金に応じてロット増加）</td><td class="pv">false</td></tr>
-        <tr class="pd" hidden><td colspan="2">trueにすると、口座の残高に応じて、このマジックの「初期ロット」と「加算ロット・基準値」を自動で増やします。スタンダード口座では、残高が200万円を超えた分の200万円ごとに、どちらも＋0.01（上限0.1）。例：残高400万円なら0.01→0.02。micro口座では、10万円を超えた分の50万円ごとに＋0.1（上限1.0）。ポジションを持っていない時に計算し直します。</td></tr>
-        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>M3(10003) ロット自動増加（口座資金に応じてロット増加）</td><td class="pv">false</td></tr>
-        <tr class="pd" hidden><td colspan="2">trueにすると、口座の残高に応じて、このマジックの「初期ロット」と「加算ロット・基準値」を自動で増やします。スタンダード口座では、残高が200万円を超えた分の200万円ごとに、どちらも＋0.01（上限0.1）。例：残高400万円なら0.01→0.02。micro口座では、10万円を超えた分の50万円ごとに＋0.1（上限1.0）。ポジションを持っていない時に計算し直します。</td></tr>
-        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>M4(10004) ロット自動増加（口座資金に応じてロット増加）</td><td class="pv">false</td></tr>
-        <tr class="pd" hidden><td colspan="2">trueにすると、口座の残高に応じて、このマジックの「初期ロット」と「加算ロット・基準値」を自動で増やします。スタンダード口座では、残高が200万円を超えた分の200万円ごとに、どちらも＋0.01（上限0.1）。例：残高400万円なら0.01→0.02。micro口座では、10万円を超えた分の50万円ごとに＋0.1（上限1.0）。ポジションを持っていない時に計算し直します。</td></tr>
-        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>損切金額もロットの増え方に合わせる（損切の方式が金額の時）</td><td class="pv">OFF</td></tr>
-        <tr class="pd" hidden><td colspan="2">ONにすると、損切の金額（DD損切_金額）を、ロット自動増加で増えたロットの倍率に合わせて大きくします。ロットが2倍なら、150万円の損切は300万円で発動します。詳しくは ver2 のページの「ロット自動増加と損切の関係」をご覧ください。</td></tr>
-        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>※ONの例：ロットが2倍なら、150万円の損切は300万円で発動</td><td class="pv"></td></tr>
-        <tr class="pd" hidden><td colspan="2">注意書きの行です（値はありません）。</td></tr>
+        <tr class="pr alt" tabindex="0" data-run="38"><td class="pn"><span class="pc"></span>ロット自動増加の口座タイプ（ログイン中の口座と同じにする・極はスタンダード）</td><td class="pv">スタンダード口座</td></tr>
+        <tr class="pd" hidden data-run="38"><td colspan="2">ロット自動増加の増え方を決める口座の種類です。ログイン中の口座と同じものを選びます（極口座はスタンダード口座を選びます）。</td></tr>
+        <tr class="pr" tabindex="0" data-run="39"><td class="pn"><span class="pc"></span>※違う口座タイプを選ぶと、ロットの増え方が大きく狂います</td><td class="pv"></td></tr>
+        <tr class="pd" hidden data-run="39"><td colspan="2">注意書きの行です（値はありません）。</td></tr>
+        <tr class="pr alt" tabindex="0" data-run="40"><td class="pn"><span class="pc"></span>M1(10001) ロット自動増加（口座資金に応じてロット増加）</td><td class="pv">false</td></tr>
+        <tr class="pr" tabindex="0" data-run="40"><td class="pn"><span class="pc"></span>M2(10002) ロット自動増加（口座資金に応じてロット増加）</td><td class="pv">false</td></tr>
+        <tr class="pr alt" tabindex="0" data-run="40"><td class="pn"><span class="pc"></span>M3(10003) ロット自動増加（口座資金に応じてロット増加）</td><td class="pv">false</td></tr>
+        <tr class="pr" tabindex="0" data-run="40"><td class="pn"><span class="pc"></span>M4(10004) ロット自動増加（口座資金に応じてロット増加）</td><td class="pv">false</td></tr>
+        <tr class="pd" hidden data-run="40"><td colspan="2">（上の4行に共通）trueにすると、口座の残高に応じて、このマジックの「初期ロット」と「加算ロット・基準値」を自動で増やします。スタンダード口座では、残高が200万円を超えた分の200万円ごとに、どちらも＋0.01（上限0.1）。例：残高400万円なら0.01→0.02。micro口座では、10万円を超えた分の50万円ごとに＋0.1（上限1.0）。ポジションを持っていない時に計算し直します。</td></tr>
+        <tr class="pr alt" tabindex="0" data-run="41"><td class="pn"><span class="pc"></span>損切金額もロットの増え方に合わせる（損切の方式が金額の時）</td><td class="pv">OFF</td></tr>
+        <tr class="pd" hidden data-run="41"><td colspan="2">ONにすると、損切の金額（DD損切_金額）を、ロット自動増加で増えたロットの倍率に合わせて大きくします。ロットが2倍なら、150万円の損切は300万円で発動します。詳しくは ver2 のページの「ロット自動増加と損切の関係」をご覧ください。</td></tr>
+        <tr class="pr" tabindex="0" data-run="42"><td class="pn"><span class="pc"></span>※ONの例：ロットが2倍なら、150万円の損切は300万円で発動</td><td class="pv"></td></tr>
+        <tr class="pd" hidden data-run="42"><td colspan="2">注意書きの行です（値はありません）。</td></tr>
         <tr class="pg"><td colspan="2"><span class="pf"></span>損切：合計DD（¥ or pips）で一括決済</td></tr>
-        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>DD損切_方式</td><td class="pv">無効</td></tr>
-        <tr class="pd" hidden><td colspan="2">損切のやり方です。無効＝損切しない／金額＝この銘柄のポジションの含み損の合計が DD損切_金額 を超えたら／DD_pips＝含み損のポジションの平均の逆行の幅が DD損切_pips を超えたら、全マジックのポジションをまとめて決済します。取引時間の外では判定しません。</td></tr>
-        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>DD損切_金額</td><td class="pv">0.0</td></tr>
-        <tr class="pd" hidden><td colspan="2">方式が「金額」の時の損切の金額（円）です。0なら損切しません。</td></tr>
-        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>※ロット自動増加の見出しで損切金額を合わせる設定がONなら、入力額×倍率で損切</td><td class="pv"></td></tr>
-        <tr class="pd" hidden><td colspan="2">注意書きの行です（値はありません）。</td></tr>
-        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>DD損切_pips</td><td class="pv">0.0</td></tr>
-        <tr class="pd" hidden><td colspan="2">方式が「DD_pips」の時の損切の幅（pips）です。0なら損切しません。</td></tr>
-        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>損切後の停止期間　【完全停止はチャートのボタンで再開】</td><td class="pv">完全停止</td></tr>
-        <tr class="pd" hidden><td colspan="2">損切した後に、新しい最初の1本を止める期間です。完全停止＝チャートのボタンで再開するまで止める／時間で指定／日数で指定／停止しない。</td></tr>
-        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>停止する時間（時間で指定の時）</td><td class="pv">24</td></tr>
-        <tr class="pd" hidden><td colspan="2">「時間で指定」の時に止める時間（時間）です。</td></tr>
-        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>停止する日数（日数で指定の時）</td><td class="pv">3</td></tr>
-        <tr class="pd" hidden><td colspan="2">「日数で指定」の時に止める日数（日）です。</td></tr>
+        <tr class="pr alt" tabindex="0" data-run="43"><td class="pn"><span class="pc"></span>DD損切_方式</td><td class="pv">無効</td></tr>
+        <tr class="pd" hidden data-run="43"><td colspan="2">損切のやり方です。無効＝損切しない／金額＝この銘柄のポジションの含み損の合計が DD損切_金額 を超えたら／DD_pips＝含み損のポジションの平均の逆行の幅が DD損切_pips を超えたら、全マジックのポジションをまとめて決済します。取引時間の外では判定しません。</td></tr>
+        <tr class="pr" tabindex="0" data-run="44"><td class="pn"><span class="pc"></span>DD損切_金額</td><td class="pv">0.0</td></tr>
+        <tr class="pd" hidden data-run="44"><td colspan="2">方式が「金額」の時の損切の金額（円）です。0なら損切しません。</td></tr>
+        <tr class="pr alt" tabindex="0" data-run="45"><td class="pn"><span class="pc"></span>※ロット自動増加の見出しで損切金額を合わせる設定がONなら、入力額×倍率で損切</td><td class="pv"></td></tr>
+        <tr class="pd" hidden data-run="45"><td colspan="2">注意書きの行です（値はありません）。</td></tr>
+        <tr class="pr" tabindex="0" data-run="46"><td class="pn"><span class="pc"></span>DD損切_pips</td><td class="pv">0.0</td></tr>
+        <tr class="pd" hidden data-run="46"><td colspan="2">方式が「DD_pips」の時の損切の幅（pips）です。0なら損切しません。</td></tr>
+        <tr class="pr alt" tabindex="0" data-run="47"><td class="pn"><span class="pc"></span>損切後の停止期間　【完全停止はチャートのボタンで再開】</td><td class="pv">完全停止</td></tr>
+        <tr class="pd" hidden data-run="47"><td colspan="2">損切した後に、新しい最初の1本を止める期間です。完全停止＝チャートのボタンで再開するまで止める／時間で指定／日数で指定／停止しない。</td></tr>
+        <tr class="pr" tabindex="0" data-run="48"><td class="pn"><span class="pc"></span>停止する時間（時間で指定の時）</td><td class="pv">24</td></tr>
+        <tr class="pd" hidden data-run="48"><td colspan="2">「時間で指定」の時に止める時間（時間）です。</td></tr>
+        <tr class="pr alt" tabindex="0" data-run="49"><td class="pn"><span class="pc"></span>停止する日数（日数で指定の時）</td><td class="pv">3</td></tr>
+        <tr class="pd" hidden data-run="49"><td colspan="2">「日数で指定」の時に止める日数（日）です。</td></tr>
       </table>
       </div>
       <p class="pcap">MT5のパラメーター画面（再現）</p>
@@ -454,7 +445,8 @@ requestAnimationFrame(loop);
 </script>
 <script>
 document.querySelectorAll('.pr').forEach(function(tr){
-  function t(){ var d=tr.nextElementSibling; var o=d.hidden; d.hidden=!o; tr.classList.toggle('open', o); }
+  function t(){ var k=tr.dataset.run, d=document.querySelector('.pd[data-run="'+k+'"]'), o=d.hidden; d.hidden=!o;
+    document.querySelectorAll('.pr[data-run="'+k+'"]').forEach(function(x){ x.classList.toggle('open', o); }); }
   tr.addEventListener('click', t);
   tr.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); t(); } });
 });

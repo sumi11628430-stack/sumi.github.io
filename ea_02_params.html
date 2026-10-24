@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>パラメーター画面と各項目の説明 | Re：【STYLE】クラスター_iF~.ver2</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#080e1f;
+    --bg2:#0d1530;
+    --accent:#00c4ff;
+    --accent2:#00ff9d;
+    --accent-red:#ff4060;
+    --text:#e2e8f0;
+    --text-muted:#b0c4d8;
+    --text-dim:#8ba8c4;
+    --border:rgba(0,196,255,0.15);
+    --card-bg:rgba(8,20,50,0.82);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--text);font-family:'Noto Sans JP',sans-serif;font-weight:300;line-height:1.8;min-height:100vh;overflow-x:hidden;}
+  #bg{position:fixed;inset:0;z-index:0;}
+  .container{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:60px 24px 80px;}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--text-muted);font-size:13px;text-decoration:none;border-bottom:none;margin-bottom:40px;opacity:0.7;transition:opacity 0.2s;}
+  .back-link:hover{opacity:1;}
+  .header{text-align:center;margin-bottom:48px;animation:fadeUp 0.8s ease both;}
+  .header-badge{display:inline-block;background:rgba(0,196,255,0.1);border:1px solid rgba(0,196,255,0.3);color:var(--accent);font-size:11px;letter-spacing:0.2em;padding:5px 14px;border-radius:4px;margin-bottom:20px;font-family:'Noto Serif JP',serif;text-transform:uppercase;}
+  h1{font-family:'Noto Serif JP',serif;font-weight:600;font-size:clamp(17px,3.5vw,24px);line-height:1.6;letter-spacing:0.04em;margin-bottom:8px;color:var(--text);}
+  .header-sub{color:var(--text-muted);font-size:13px;letter-spacing:0.05em;}
+  .section{margin-bottom:22px;animation:fadeUp 0.7s ease both;}
+  .section:nth-child(2){animation-delay:0.08s}.section:nth-child(3){animation-delay:0.16s}
+  .section-label{display:flex;align-items:center;gap:10px;font-size:11px;letter-spacing:0.18em;color:var(--accent);text-transform:uppercase;margin-bottom:12px;font-weight:500;}
+  .section-label::after{content:'';flex:1;height:1px;background:var(--border);}
+  .card{background:var(--card-bg);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--border);border-radius:8px;padding:22px 26px;box-shadow:0 4px 24px rgba(0,0,0,0.4);}
+  .card-cyan {border-left:3px solid var(--accent);}
+  .card-green{border-left:3px solid var(--accent2);}
+  .card-amber{border-left:3px solid #f59e0b;}
+  h2{font-family:'Noto Serif JP',serif;font-size:16px;font-weight:600;margin-bottom:14px;color:var(--text);}
+  .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+  @media(max-width:500px){.info-grid{grid-template-columns:1fr;}}
+  .info-item{background:rgba(0,196,255,0.05);border:1px solid rgba(0,196,255,0.12);border-radius:6px;padding:10px 14px;}
+  .info-label{font-size:11px;color:#b0c4d8;margin-bottom:2px;letter-spacing:0.05em;}
+  .info-value{font-size:14px;color:#e8f0f8;font-weight:500;}
+  .info-value.green{color:var(--accent2);}
+  .info-value.red{color:var(--accent-red);}
+  .info-value.cyan{color:var(--accent);}
+  .pw{background:#fff;border:1px solid #c8c8c8;border-radius:4px;overflow-x:auto;box-shadow:0 2px 12px rgba(0,0,0,0.45);}
+  .ptab{width:100%;border-collapse:collapse;font-family:'Segoe UI','Meiryo','Noto Sans JP',sans-serif;font-size:13px;color:#000;}
+  .ptab th{font-weight:400;text-align:left;padding:4px 8px;border-bottom:1px solid #d6d6d6;color:#333;background:#fff;}
+  .ptab th+th,.ptab td.pv{border-left:1px solid #d6d6d6;}
+  .ptab td{padding:3px 8px;line-height:1.55;}
+  .ptab td.pv{width:30%;min-width:110px;}
+  .pg td{font-weight:700;padding:4px 6px;}
+  .pf{display:inline-block;width:16px;height:12px;margin:0 6px -1px 0;background:linear-gradient(#f6d365,#e8b931);border:1px solid #c79a1e;border-radius:1px 3px 2px 2px;position:relative;}
+  .pf::before{content:'';position:absolute;left:-1px;top:-4px;width:7px;height:3px;background:#e8b931;border:1px solid #c79a1e;border-bottom:none;border-radius:2px 2px 0 0;}
+  .pr{cursor:pointer;}
+  .pr.alt td{background:#efefef;}
+  .pr:hover td,.pr:focus td{background:#e5f1fb;outline:none;}
+  .pr.open td{background:#cce8ff;}
+  .pn{padding-left:28px!important;}
+  .pc{display:inline-block;width:11px;height:11px;border:1px solid #8a8a8a;background:#fff;margin:0 8px -1px 0;}
+  .pd td{background:#fffbe6;color:#333;font-size:12.5px;line-height:1.8;padding:8px 12px 10px 48px;border-top:1px solid #efe3b0;border-bottom:1px solid #efe3b0;}
+  .pcap{font-size:12px;color:var(--text-muted);text-align:center;margin-top:10px;}
+  .phint{font-size:13px;color:var(--text-muted);margin:-4px 0 12px;line-height:1.7;}
+  @media(max-width:560px){.ptab{font-size:12px}.pn{padding-left:14px!important}.pd td{padding-left:16px}.pf{display:none}}
+  .result-img{width:100%;border-radius:6px;border:1px solid var(--border);box-shadow:0 2px 12px rgba(0,0,0,0.4);display:block;}
+  .warn-box{background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.25);border-radius:6px;padding:12px 16px;margin-top:14px;display:flex;gap:10px;align-items:flex-start;}
+  .warn-icon{flex-shrink:0;font-size:15px;}
+  .warn-text{font-size:12px;color:#d97706;line-height:1.75;}
+  .summary-card{background:var(--card-bg);backdrop-filter:blur(14px);border:1px solid rgba(0,196,255,0.2);border-radius:8px;padding:24px 28px;text-align:center;box-shadow:0 4px 24px rgba(0,0,0,0.4);}
+  .summary-card p{font-size:14px;color:var(--text-muted);line-height:1.9;}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(0,196,255,0.3);}
+  a:hover{border-color:var(--accent);}
+  strong{color:var(--text);font-weight:500;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+  @media(max-width:500px){.card{padding:16px 14px}}
+  /* MT5レポート（白カード）挿入用 */
+  .mt5-report{background:#fff;color:#000;border:1px solid #b8b8b8;border-radius:6px;padding:16px 12px 18px;font-family:Tahoma,Arial,'Noto Sans JP',sans-serif;font-size:11px;line-height:1.4;overflow-x:auto;box-shadow:0 2px 12px rgba(0,0,0,0.45);}
+  .mt5-head{text-align:center;font-weight:bold;font-size:13px;margin-bottom:2px;}
+  .mt5-sub{text-align:center;color:#555;font-size:11px;margin-bottom:12px;}
+  .mt5-ttl{text-align:center;font-weight:bold;font-size:13px;padding:10px 0 5px;}
+  .mt5{border-collapse:collapse;margin:0 auto;}
+  .mt5 td{padding:1px 4px;white-space:nowrap;vertical-align:top;font-size:11px;}
+  .mt5 td.l{text-align:right;color:#000;}
+  .mt5 td.v{font-weight:bold;text-align:left;padding-right:10px;}
+  .mt5-graph{margin:16px auto 0;border:1px solid #999;padding:6px 8px 4px;max-width:900px;}
+  .mt5-graph .gl{font-size:11px;color:#000;margin-bottom:2px;}
+  #balChart{width:100%;height:auto;display:block;}
+  @media(max-width:560px){.mt5-report{font-size:9.5px;padding:10px 6px}.mt5 td{padding:1px 2px;font-size:9.5px}.mt5 td.v{padding-right:5px}}
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+<div class="container">
+  <a href="ea_02.html" class="back-link">← EA詳細へ戻る</a>
+  <div class="header">
+    <div class="header-badge">Parameters</div>
+    <h1>Re：【STYLE】クラスター_iF~.ver2</h1>
+    <p class="header-sub">MT5 / MT4 共通 ｜ パラメーター画面の再現と、各項目の説明</p>
+  </div>
+
+  <!-- パラメーター画面（再現） -->
+  <div class="section">
+    <div class="section-label">01 — Parameters</div>
+    <div class="card card-cyan">
+      <h2>パラメーター画面と各項目の説明</h2>
+      <p class="phint">行を押すと、その項目の説明が開きます。値は初期値（そのまま使う時の値）です。MT4版も、名前・初期値・並びは同じです。</p>
+      <div class="pw">
+      <table class="ptab">
+        <tr><th>変数名</th><th>値</th></tr>
+        <tr class="pg"><td colspan="2"><span class="pf"></span>取引方向設定</td></tr>
+        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>第１マジック　取引方向の選択（Longのみ／Shortのみ／両方向／停止）</td><td class="pv">両方向</td></tr>
+        <tr class="pd" hidden><td colspan="2">このマジックが取る方向を選びます。Longのみ＝買いだけ／Shortのみ＝売りだけ／両方向＝買いと売りの両方／停止＝このマジックは新しい注文を出しません。</td></tr>
+        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>第２マジック　取引方向の選択（Longのみ／Shortのみ／両方向／停止）</td><td class="pv">両方向</td></tr>
+        <tr class="pd" hidden><td colspan="2">このマジックが取る方向を選びます。Longのみ＝買いだけ／Shortのみ＝売りだけ／両方向＝買いと売りの両方／停止＝このマジックは新しい注文を出しません。</td></tr>
+        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>第３マジック　取引方向の選択（Longのみ／Shortのみ／両方向／停止）</td><td class="pv">両方向</td></tr>
+        <tr class="pd" hidden><td colspan="2">このマジックが取る方向を選びます。Longのみ＝買いだけ／Shortのみ＝売りだけ／両方向＝買いと売りの両方／停止＝このマジックは新しい注文を出しません。</td></tr>
+        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>第４マジック　取引方向の選択（Longのみ／Shortのみ／両方向／停止）</td><td class="pv">両方向</td></tr>
+        <tr class="pd" hidden><td colspan="2">このマジックが取る方向を選びます。Longのみ＝買いだけ／Shortのみ＝売りだけ／両方向＝買いと売りの両方／停止＝このマジックは新しい注文を出しません。</td></tr>
+        <tr class="pg"><td colspan="2"><span class="pf"></span>第１マジックパラメーター</td></tr>
+        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>第１ 初期ロット</td><td class="pv">0.01</td></tr>
+        <tr class="pd" hidden><td colspan="2">最初の1本（1段目）のロットです。</td></tr>
+        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>第１ 加算ロット・基準値（加算ロットタイプは二次加算となってます）</td><td class="pv">0.01</td></tr>
+        <tr class="pd" hidden><td colspan="2">加算ロットタイプは二次加算です。n段目（1段目を0）のロット＝初期ロット＋基準値×n(n+1)/2。前の段から足す量が「基準値×1、×2、×3…」と増えていきます。初期ロット0.01・基準値0.01なら、0.01 → 0.02 → 0.04 → 0.07 → 0.11 → 0.16 → 0.22 …</td></tr>
+        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>第１ 最大段数</td><td class="pv">30</td></tr>
+        <tr class="pd" hidden><td colspan="2">このマジックが、買い・売りそれぞれで持てる本数の上限です。</td></tr>
+        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>第１ ロット上限</td><td class="pv">99.0</td></tr>
+        <tr class="pd" hidden><td colspan="2">1本あたりのロットの上限です。計算したロットがこれより大きくなる時は、この値で止めます。</td></tr>
+        <tr class="pg"><td colspan="2"><span class="pf"></span>（第２・第４マジック共通）パラメーター</td></tr>
+        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>第２/第４ 初期ロット</td><td class="pv">0.01</td></tr>
+        <tr class="pd" hidden><td colspan="2">最初の1本（1段目）のロットです。第２・第４マジックで共通です。</td></tr>
+        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>第２/第４ 加算ロット・基準値（加算ロットタイプは二次加算となってます）</td><td class="pv">0.01</td></tr>
+        <tr class="pd" hidden><td colspan="2">加算ロットタイプは二次加算です。n段目（1段目を0）のロット＝初期ロット＋基準値×n(n+1)/2。前の段から足す量が「基準値×1、×2、×3…」と増えていきます。初期ロット0.01・基準値0.01なら、0.01 → 0.02 → 0.04 → 0.07 → 0.11 → 0.16 → 0.22 …（第２・第４マジックで共通）</td></tr>
+        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>第２/第４ 最大段数</td><td class="pv">30</td></tr>
+        <tr class="pd" hidden><td colspan="2">このマジックが、買い・売りそれぞれで持てる本数の上限です。第２・第４マジックで共通です。</td></tr>
+        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>第２/第４ ロット上限</td><td class="pv">99.0</td></tr>
+        <tr class="pd" hidden><td colspan="2">1本あたりのロットの上限です。第２・第４マジックで共通です。</td></tr>
+        <tr class="pg"><td colspan="2"><span class="pf"></span>第３マジックパラメーター</td></tr>
+        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>第３ 初期ロット</td><td class="pv">0.01</td></tr>
+        <tr class="pd" hidden><td colspan="2">最初の1本（1段目）のロットです。</td></tr>
+        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>第３ 加算ロット・基準値（加算ロットタイプは二次加算となってます）</td><td class="pv">0.01</td></tr>
+        <tr class="pd" hidden><td colspan="2">加算ロットタイプは二次加算です。n段目（1段目を0）のロット＝初期ロット＋基準値×n(n+1)/2。前の段から足す量が「基準値×1、×2、×3…」と増えていきます。初期ロット0.01・基準値0.01なら、0.01 → 0.02 → 0.04 → 0.07 → 0.11 → 0.16 → 0.22 …</td></tr>
+        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>第３ 最大段数</td><td class="pv">30</td></tr>
+        <tr class="pd" hidden><td colspan="2">このマジックが、買い・売りそれぞれで持てる本数の上限です。</td></tr>
+        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>第３ ロット上限</td><td class="pv">99.0</td></tr>
+        <tr class="pd" hidden><td colspan="2">1本あたりのロットの上限です。</td></tr>
+        <tr class="pg"><td colspan="2"><span class="pf"></span>グリッド/TP</td></tr>
+        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>最小インターバル（秒）（M1/M2/M3/M4共通）</td><td class="pv">0</td></tr>
+        <tr class="pd" hidden><td colspan="2">ナンピン（2本目以降）を出す時に、前の注文から最低何秒あけるかです。0＝あけません。第１〜第４マジックで共通です。</td></tr>
+        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>第１マジック BUY側利確値</td><td class="pv">30.0</td></tr>
+        <tr class="pd" hidden><td colspan="2">第１マジックの買いポジションを決済する目標の幅（pips。GOLDは1pips＝0.10ドル）です。買いの平均の建値から、この幅だけ上がったら、第１マジックの買いをまとめて決済します。</td></tr>
+        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>第１マジック SELL側利確値</td><td class="pv">20.0</td></tr>
+        <tr class="pd" hidden><td colspan="2">第１マジックの売りポジションを決済する目標の幅（pips。GOLDは1pips＝0.10ドル）です。売りの平均の建値から、この幅だけ下がったら、第１マジックの売りをまとめて決済します。</td></tr>
+        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>第２/第４マジック BUY/SELL共通利確値</td><td class="pv">15.0</td></tr>
+        <tr class="pd" hidden><td colspan="2">第２・第４マジックの利確の幅（pips）です。マジックごとに、買い・売りそれぞれの平均の建値から、この幅だけ有利に動いたら、その方向をまとめて決済します。</td></tr>
+        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>第３マジック BUY/SELL共通利確値</td><td class="pv">30.0</td></tr>
+        <tr class="pd" hidden><td colspan="2">第３マジックの利確の幅（pips）です。買い・売りどちらも同じ幅です。</td></tr>
+        <tr class="pg"><td colspan="2"><span class="pf"></span>救済利確（①/②）</td></tr>
+        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>救済利確の使用</td><td class="pv">使用しない</td></tr>
+        <tr class="pd" hidden><td colspan="2">救済利確は、ポジションが増えた時に、利確の幅を小さくして早めに決済しやすくする仕組みです。発動すると、全マジックの利確の幅が「救済利確値」に切り替わります。使用しない／第1のみ有効／第2のみ有効／第1第2どちらも有効 から選びます。</td></tr>
+        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>救済利確条件①</td><td class="pv">保有ポジション数のみ</td></tr>
+        <tr class="pd" hidden><td colspan="2">救済利確の発動の条件です。保有ポジション数のみ＝本数で判定／含み損のみ＝発動含み損額で判定／両方＝どちらかを満たしたら発動。</td></tr>
+        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>発動含み損額①</td><td class="pv">50000.0</td></tr>
+        <tr class="pd" hidden><td colspan="2">条件が「含み損のみ」「両方」の時の発動の目安です。EAの中では、平均の建値から逆に動いた幅（pips）と比べています（名前は「額」ですが、円ではありません）。</td></tr>
+        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>発動段数①</td><td class="pv">10</td></tr>
+        <tr class="pd" hidden><td colspan="2">買い・売りのどちらかで、持っている本数（動いている全マジックの合計）がこの数以上になったら発動します。</td></tr>
+        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>救済利確値①</td><td class="pv">10.0</td></tr>
+        <tr class="pd" hidden><td colspan="2">発動した後の利確の幅（pips）です。各マジックの平均の建値から、この幅で決済します。0なら、建値を少しでも超えて含み益になった所で決済します。</td></tr>
+        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>救済利確条件②</td><td class="pv">保有ポジション数のみ</td></tr>
+        <tr class="pd" hidden><td colspan="2">救済利確の発動の条件です。保有ポジション数のみ＝本数で判定／含み損のみ＝発動含み損額で判定／両方＝どちらかを満たしたら発動。①と②の両方を満たす時は②が先です。</td></tr>
+        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>発動含み損額②</td><td class="pv">100000.0</td></tr>
+        <tr class="pd" hidden><td colspan="2">条件が「含み損のみ」「両方」の時の発動の目安です。EAの中では、平均の建値から逆に動いた幅（pips）と比べています（名前は「額」ですが、円ではありません）。</td></tr>
+        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>発動段数②</td><td class="pv">15</td></tr>
+        <tr class="pd" hidden><td colspan="2">買い・売りのどちらかで、持っている本数（動いている全マジックの合計）がこの数以上になったら発動します。</td></tr>
+        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>救済利確値②</td><td class="pv">0.0</td></tr>
+        <tr class="pd" hidden><td colspan="2">発動した後の利確の幅（pips）です。各マジックの平均の建値から、この幅で決済します。0なら、建値を少しでも超えて含み益になった所で決済します。</td></tr>
+        <tr class="pg"><td colspan="2"><span class="pf"></span>チャート表示</td></tr>
+        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>TP決済点のラベル表示内容</td><td class="pv">日時と価格</td></tr>
+        <tr class="pd" hidden><td colspan="2">チャートの決済した所に出す文字の中身です。非表示／日時のみ／価格のみ／日時と価格。</td></tr>
+        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>TP決済点のラベル文字色</td><td class="pv">黄</td></tr>
+        <tr class="pd" hidden><td colspan="2">その文字の色です。</td></tr>
+        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>ステータス表示エリアの背景（ボックス化=黒+枠/透明化=背景なし枠なし）</td><td class="pv">ボックス化</td></tr>
+        <tr class="pd" hidden><td colspan="2">チャートに出る状態表示の背景です。ボックス化＝黒い背景と枠／透明化＝背景も枠もなし。</td></tr>
+        <tr class="pg"><td colspan="2"><span class="pf"></span>マジック番号</td></tr>
+        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>第１マジック</td><td class="pv">10001</td></tr>
+        <tr class="pd" hidden><td colspan="2">このマジックの注文に付ける番号です。ほかのEAと同じ番号にならないようにします。ふつうは変えなくて大丈夫です。</td></tr>
+        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>第２マジック</td><td class="pv">10002</td></tr>
+        <tr class="pd" hidden><td colspan="2">このマジックの注文に付ける番号です。ふつうは変えなくて大丈夫です。</td></tr>
+        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>第３マジック</td><td class="pv">10003</td></tr>
+        <tr class="pd" hidden><td colspan="2">このマジックの注文に付ける番号です。ふつうは変えなくて大丈夫です。</td></tr>
+        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>第４マジック</td><td class="pv">10004</td></tr>
+        <tr class="pd" hidden><td colspan="2">このマジックの注文に付ける番号です。ふつうは変えなくて大丈夫です。</td></tr>
+        <tr class="pg"><td colspan="2"><span class="pf"></span>稼働時間</td></tr>
+        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>稼働A</td><td class="pv">OFF</td></tr>
+        <tr class="pd" hidden><td colspan="2">ONにすると、下の開始時刻〜停止時刻の間だけ、最初の1本を出します。時間外でも、持っているポジションのナンピンと決済は続きます。稼働Aと稼働Bを両方ONにすると、どちらかの時間内なら出します。</td></tr>
+        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>開始時刻　（必ず &quot;HH:MM&quot; 形式で入力）</td><td class="pv">00:30</td></tr>
+        <tr class="pd" hidden><td colspan="2">稼働Aの始まりの時刻です。時刻は MT5 の時計（サーバー時間）で、必ず HH:MM の形で入れます。日をまたぐ時間（例：22:00〜03:00）も指定できます。</td></tr>
+        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>停止時刻　（必ず &quot;HH:MM&quot; 形式で入力）</td><td class="pv">20:30</td></tr>
+        <tr class="pd" hidden><td colspan="2">稼働Aの終わりの時刻です。時刻は MT5 の時計（サーバー時間）で、必ず HH:MM の形で入れます。日をまたぐ時間（例：22:00〜03:00）も指定できます。</td></tr>
+        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>稼働B</td><td class="pv">OFF</td></tr>
+        <tr class="pd" hidden><td colspan="2">稼働Aと同じ仕組みの、もう1つの時間帯です。</td></tr>
+        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>開始時刻　（必ず &quot;HH:MM&quot; 形式で入力）</td><td class="pv">08:00</td></tr>
+        <tr class="pd" hidden><td colspan="2">稼働Bの始まりの時刻です。時刻は MT5 の時計（サーバー時間）で、必ず HH:MM の形で入れます。日をまたぐ時間（例：22:00〜03:00）も指定できます。</td></tr>
+        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>停止時刻　（必ず &quot;HH:MM&quot; 形式で入力）</td><td class="pv">22:00</td></tr>
+        <tr class="pd" hidden><td colspan="2">稼働Bの終わりの時刻です。時刻は MT5 の時計（サーバー時間）で、必ず HH:MM の形で入れます。日をまたぐ時間（例：22:00〜03:00）も指定できます。</td></tr>
+        <tr class="pg"><td colspan="2"><span class="pf"></span>ロット自動増加</td></tr>
+        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>ロット自動増加の口座タイプ（ログイン中の口座と同じにする・極はスタンダード）</td><td class="pv">スタンダード口座</td></tr>
+        <tr class="pd" hidden><td colspan="2">ロット自動増加の増え方を決める口座の種類です。ログイン中の口座と同じものを選びます（極口座はスタンダード口座を選びます）。</td></tr>
+        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>※違う口座タイプを選ぶと、ロットの増え方が大きく狂います</td><td class="pv"></td></tr>
+        <tr class="pd" hidden><td colspan="2">注意書きの行です（値はありません）。</td></tr>
+        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>M1(10001) ロット自動増加（口座資金に応じてロット増加）</td><td class="pv">false</td></tr>
+        <tr class="pd" hidden><td colspan="2">trueにすると、口座の残高に応じて、このマジックの「初期ロット」と「加算ロット・基準値」を自動で増やします。スタンダード口座では、残高が200万円を超えた分の200万円ごとに、どちらも＋0.01（上限0.1）。例：残高400万円なら0.01→0.02。micro口座では、10万円を超えた分の50万円ごとに＋0.1（上限1.0）。ポジションを持っていない時に計算し直します。</td></tr>
+        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>M2(10002) ロット自動増加（口座資金に応じてロット増加）</td><td class="pv">false</td></tr>
+        <tr class="pd" hidden><td colspan="2">trueにすると、口座の残高に応じて、このマジックの「初期ロット」と「加算ロット・基準値」を自動で増やします。スタンダード口座では、残高が200万円を超えた分の200万円ごとに、どちらも＋0.01（上限0.1）。例：残高400万円なら0.01→0.02。micro口座では、10万円を超えた分の50万円ごとに＋0.1（上限1.0）。ポジションを持っていない時に計算し直します。</td></tr>
+        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>M3(10003) ロット自動増加（口座資金に応じてロット増加）</td><td class="pv">false</td></tr>
+        <tr class="pd" hidden><td colspan="2">trueにすると、口座の残高に応じて、このマジックの「初期ロット」と「加算ロット・基準値」を自動で増やします。スタンダード口座では、残高が200万円を超えた分の200万円ごとに、どちらも＋0.01（上限0.1）。例：残高400万円なら0.01→0.02。micro口座では、10万円を超えた分の50万円ごとに＋0.1（上限1.0）。ポジションを持っていない時に計算し直します。</td></tr>
+        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>M4(10004) ロット自動増加（口座資金に応じてロット増加）</td><td class="pv">false</td></tr>
+        <tr class="pd" hidden><td colspan="2">trueにすると、口座の残高に応じて、このマジックの「初期ロット」と「加算ロット・基準値」を自動で増やします。スタンダード口座では、残高が200万円を超えた分の200万円ごとに、どちらも＋0.01（上限0.1）。例：残高400万円なら0.01→0.02。micro口座では、10万円を超えた分の50万円ごとに＋0.1（上限1.0）。ポジションを持っていない時に計算し直します。</td></tr>
+        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>損切金額もロットの増え方に合わせる（損切の方式が金額の時）</td><td class="pv">OFF</td></tr>
+        <tr class="pd" hidden><td colspan="2">ONにすると、損切の金額（DD損切_金額）を、ロット自動増加で増えたロットの倍率に合わせて大きくします。ロットが2倍なら、150万円の損切は300万円で発動します。詳しくは ver2 のページの「ロット自動増加と損切の関係」をご覧ください。</td></tr>
+        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>※ONの例：ロットが2倍なら、150万円の損切は300万円で発動</td><td class="pv"></td></tr>
+        <tr class="pd" hidden><td colspan="2">注意書きの行です（値はありません）。</td></tr>
+        <tr class="pg"><td colspan="2"><span class="pf"></span>損切：合計DD（¥ or pips）で一括決済</td></tr>
+        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>DD損切_方式</td><td class="pv">無効</td></tr>
+        <tr class="pd" hidden><td colspan="2">損切のやり方です。無効＝損切しない／金額＝この銘柄のポジションの含み損の合計が DD損切_金額 を超えたら／DD_pips＝含み損のポジションの平均の逆行の幅が DD損切_pips を超えたら、全マジックのポジションをまとめて決済します。取引時間の外では判定しません。</td></tr>
+        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>DD損切_金額</td><td class="pv">0.0</td></tr>
+        <tr class="pd" hidden><td colspan="2">方式が「金額」の時の損切の金額（円）です。0なら損切しません。</td></tr>
+        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>※ロット自動増加の見出しで損切金額を合わせる設定がONなら、入力額×倍率で損切</td><td class="pv"></td></tr>
+        <tr class="pd" hidden><td colspan="2">注意書きの行です（値はありません）。</td></tr>
+        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>DD損切_pips</td><td class="pv">0.0</td></tr>
+        <tr class="pd" hidden><td colspan="2">方式が「DD_pips」の時の損切の幅（pips）です。0なら損切しません。</td></tr>
+        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>損切後の停止期間　【完全停止はチャートのボタンで再開】</td><td class="pv">完全停止</td></tr>
+        <tr class="pd" hidden><td colspan="2">損切した後に、新しい最初の1本を止める期間です。完全停止＝チャートのボタンで再開するまで止める／時間で指定／日数で指定／停止しない。</td></tr>
+        <tr class="pr" tabindex="0"><td class="pn"><span class="pc"></span>停止する時間（時間で指定の時）</td><td class="pv">24</td></tr>
+        <tr class="pd" hidden><td colspan="2">「時間で指定」の時に止める時間（時間）です。</td></tr>
+        <tr class="pr alt" tabindex="0"><td class="pn"><span class="pc"></span>停止する日数（日数で指定の時）</td><td class="pv">3</td></tr>
+        <tr class="pd" hidden><td colspan="2">「日数で指定」の時に止める日数（日）です。</td></tr>
+      </table>
+      </div>
+      <p class="pcap">MT5のパラメーター画面（再現）</p>
+    </div>
+  </div>
+  <div class="section">
+    <div class="summary-card">
+      <p>ご質問は<strong>公式 LINE</strong> よりお気軽にどうぞ。</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById('bg');
+const ctx = canvas.getContext('2d');
+function resize(){
+  canvas.width = window.innerWidth;
+  canvas.height = Math.max(window.innerHeight, document.body.scrollHeight);
+}
+resize();
+window.addEventListener('resize', resize);
+
+// ローソク足データ生成
+function generateCandles(n, startPrice, volatility) {
+  const candles = [];
+  let price = startPrice;
+  for(let i = 0; i < n; i++) {
+    const open = price;
+    const change = (Math.random() - 0.48) * volatility;
+    const close = open + change;
+    const high = Math.max(open, close) + Math.random() * volatility * 0.5;
+    const low  = Math.min(open, close) - Math.random() * volatility * 0.5;
+    candles.push({ open, close, high, low });
+    price = close;
+  }
+  return candles;
+}
+
+// 複数列のローソク足データ
+const candleSets = [];
+const numSets = 6;
+for(let i = 0; i < numSets; i++) {
+  candleSets.push(generateCandles(80, 1800 + Math.random() * 400, 12 + Math.random() * 8));
+}
+
+function drawBackground(t) {
+  const W = canvas.width, H = canvas.height;
+
+  // ダークネイビー背景グラデーション
+  const bg = ctx.createLinearGradient(0, 0, W, H);
+  bg.addColorStop(0, '#060c1a');
+  bg.addColorStop(0.5, '#080e20');
+  bg.addColorStop(1, '#060c1a');
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, W, H);
+
+  // グリッド線
+  ctx.strokeStyle = 'rgba(0,196,255,0.04)';
+  ctx.lineWidth = 1;
+  const gridX = 60, gridY = 40;
+  for(let x = 0; x < W; x += gridX) {
+    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+  }
+  for(let y = 0; y < H; y += gridY) {
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+  }
+
+  // ローソク足を複数列で描画
+  const speed = t * 0.0045;
+  for(let s = 0; s < numSets; s++) {
+    const candles = candleSets[s];
+    const colW = W / numSets;
+    const startX = s * colW;
+    const candleW = colW / candles.length;
+    const offsetX = (speed * 6 * (s % 2 === 0 ? 1 : -1)) % (candleW * candles.length);
+
+    // 価格範囲
+    const prices = candles.flatMap(c => [c.high, c.low]);
+    const minP = Math.min(...prices), maxP = Math.max(...prices);
+    const priceRange = maxP - minP || 1;
+
+    const zoneH = H * (0.15 + (s % 3) * 0.12);
+    const zoneY = (s < 3 ? 0 : H - zoneH);
+    const alpha = 0.18 + Math.sin(t * 0.0005 + s) * 0.06;
+
+    candles.forEach((c, i) => {
+      const x = startX + ((i * candleW - offsetX + colW * candles.length) % (colW * candles.length));
+      if(x < startX - candleW || x > startX + colW + candleW) return;
+
+      const isUp = c.close >= c.open;
+      const color = isUp ? `rgba(0,255,157,${alpha})` : `rgba(255,64,96,${alpha})`;
+
+      const openY  = zoneY + (1 - (c.open  - minP) / priceRange) * zoneH;
+      const closeY = zoneY + (1 - (c.close - minP) / priceRange) * zoneH;
+      const highY  = zoneY + (1 - (c.high  - minP) / priceRange) * zoneH;
+      const lowY   = zoneY + (1 - (c.low   - minP) / priceRange) * zoneH;
+
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(x + candleW * 0.5, highY);
+      ctx.lineTo(x + candleW * 0.5, lowY);
+      ctx.stroke();
+
+      ctx.fillStyle = color;
+      const bodyY = Math.min(openY, closeY);
+      const bodyH = Math.max(Math.abs(closeY - openY), 1);
+      ctx.fillRect(x + 1, bodyY, candleW - 3, bodyH);
+    });
+  }
+
+  // 右上に大きめのローソク足チャート（アクセント）
+  {
+    const candles = candleSets[0];
+    const cW = Math.min(W * 0.38, 340);
+    const cH = H * 0.22;
+    const cX = W - cW - 10;
+    const cY = 10;
+    const candleW = cW / candles.length;
+    const offsetX = (speed * 7.5) % (candleW * candles.length);
+    const prices = candles.flatMap(c => [c.high, c.low]);
+    const minP = Math.min(...prices), maxP = Math.max(...prices);
+    const priceRange = maxP - minP || 1;
+
+    candles.forEach((c, i) => {
+      const x = cX + ((i * candleW - offsetX + cW * candles.length) % (cW * candles.length));
+      if(x < cX - candleW || x > cX + cW + candleW) return;
+      const isUp = c.close >= c.open;
+      const alpha = 0.55;
+      const color = isUp ? `rgba(0,255,157,${alpha})` : `rgba(255,64,96,${alpha})`;
+      const openY  = cY + (1 - (c.open  - minP) / priceRange) * cH;
+      const closeY = cY + (1 - (c.close - minP) / priceRange) * cH;
+      const highY  = cY + (1 - (c.high  - minP) / priceRange) * cH;
+      const lowY   = cY + (1 - (c.low   - minP) / priceRange) * cH;
+
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(x + candleW * 0.5, highY);
+      ctx.lineTo(x + candleW * 0.5, lowY);
+      ctx.stroke();
+      ctx.fillStyle = color;
+      const bodyY = Math.min(openY, closeY);
+      const bodyH = Math.max(Math.abs(closeY - openY), 1);
+      ctx.fillRect(x + 1, bodyY, candleW - 3, bodyH);
+    });
+
+    // チャートエリアの枠線
+    ctx.strokeStyle = 'rgba(0,196,255,0.12)';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(cX, cY, cW, cH);
+  }
+
+  // 上部に青いグロー
+  const topGlow = ctx.createLinearGradient(0, 0, 0, H * 0.3);
+  topGlow.addColorStop(0, 'rgba(0,100,200,0.12)');
+  topGlow.addColorStop(1, 'rgba(0,100,200,0)');
+  ctx.fillStyle = topGlow;
+  ctx.fillRect(0, 0, W, H * 0.3);
+
+  // コンテンツ読みやすさのための暗幕
+  ctx.fillStyle = 'rgba(6,12,26,0.55)';
+  ctx.fillRect(0, 0, W, H);
+}
+
+let st = null;
+function loop(ts) {
+  if(!st) st = ts;
+  drawBackground(ts - st);
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+// ── 残高推移グラフ（取引履歴の実データ・約100件ごとに間引き）──
+(function(){
+  const bal=[];
+  const cv=document.getElementById('balChart');
+  if(!cv) return;
+  const c=cv.getContext('2d');
+  const W=cv.width, H=cv.height;
+  const padL=8, padR=78, padT=12, padB=24;
+  const gw=W-padL-padR, gh=H-padT-padB;
+  let mn=Math.min(...bal), mx=Math.max(...bal);
+  const ticks=6;
+  const niceMin=Math.floor(mn/50000)*50000;
+  const niceMax=Math.ceil(mx/50000)*50000;
+  const X=i=>padL+gw*i/(bal.length-1);
+  const Y=v=>padT+gh*(1-(v-niceMin)/(niceMax-niceMin));
+  // 背景
+  c.fillStyle='#fff'; c.fillRect(0,0,W,H);
+  // グリッド＋Y軸ラベル
+  c.font='10px Tahoma,Arial'; c.fillStyle='#333'; c.textBaseline='middle';
+  c.strokeStyle='#dcdcdc'; c.lineWidth=1;
+  for(let i=0;i<=ticks;i++){
+    const v=niceMin+(niceMax-niceMin)*i/ticks;
+    const y=Y(v);
+    c.beginPath(); c.setLineDash([3,3]); c.moveTo(padL,y); c.lineTo(padL+gw,y); c.stroke(); c.setLineDash([]);
+    c.textAlign='left'; c.fillText(Math.round(v).toLocaleString('en-US'), padL+gw+6, y);
+  }
+  // X軸ラベル（取引番号）
+  const maxDeal=22010;
+  c.textAlign='center'; c.textBaseline='top';
+  for(let i=0;i<=9;i++){
+    const x=padL+gw*i/9;
+    const deal=Math.round(maxDeal*i/9);
+    c.strokeStyle='#ececec'; c.beginPath(); c.moveTo(x,padT); c.lineTo(x,padT+gh); c.stroke();
+    c.fillStyle='#333'; c.fillText(deal.toLocaleString('en-US'), x, padT+gh+5);
+  }
+  // 枠
+  c.strokeStyle='#aaa'; c.strokeRect(padL,padT,gw,gh);
+  // 残高ライン
+  c.strokeStyle='#0030c0'; c.lineWidth=1.4; c.beginPath();
+  bal.forEach((v,i)=>{ const x=X(i),y=Y(v); i?c.lineTo(x,y):c.moveTo(x,y); });
+  c.stroke();
+})();
+</script>
+<script>
+document.querySelectorAll('.pr').forEach(function(tr){
+  function t(){ var d=tr.nextElementSibling; var o=d.hidden; d.hidden=!o; tr.classList.toggle('open', o); }
+  tr.addEventListener('click', t);
+  tr.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); t(); } });
+});
+</script>
+<script src="bgm.js"></script>
+</body>
+</html>

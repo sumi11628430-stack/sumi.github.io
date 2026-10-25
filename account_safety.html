@@ -13,17 +13,18 @@
     --accent2-soft: rgba(16,185,129,0.12);
     --warn: #f59e0b;
     --text: #e2e8f0;
-    --text-muted: #94a3b8;
+    --text-muted: #c4cbd8;
     --text-dim: #64748b;
     --border: rgba(255,255,255,0.08);
-    --card-bg: rgba(14,17,23,0.78);
+    --card-bg: rgba(24,16,48,0.72);
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: #0e1117; color: var(--text); font-family: 'Noto Sans JP', sans-serif; font-weight: 300; line-height: 1.8; min-height: 100vh; overflow-x: hidden; }
   #bg { position: fixed; inset: 0; z-index: 0; }
   .container { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; padding: 60px 24px 80px; }
   .back-link { display:inline-flex; align-items:center; gap:6px; color:#93c5fd; font-size:13px; text-decoration:none; border-bottom:none; margin-bottom:40px; padding:8px 16px; background:rgba(59,130,246,0.10); border:1px solid rgba(59,130,246,0.28); border-radius:8px; transition:background 0.2s,border-color 0.2s; }
-  .back-link:hover { background:rgba(59,130,246,0.18); border-color:rgba(59,130,246,0.5); }
+  .back-link:hover { background:rgba(20,12,44,0.72); border-color:rgba(255,255,255,0.4); }
+  .back-link { color:#fff!important; background:rgba(20,12,44,0.55)!important; border-color:rgba(255,255,255,0.22)!important; backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); }
   .header { text-align: center; margin-bottom: 56px; animation: fadeUp 0.8s ease both; }
   .header-badge { display: inline-block; background: rgba(14,17,23,0.75); border: 1px solid rgba(255,255,255,0.15); color: var(--text); font-size: 11px; letter-spacing: 0.15em; padding: 5px 14px; border-radius: 20px; margin-bottom: 24px; font-family: 'Noto Serif JP', serif; text-shadow: 0 1px 4px rgba(0,0,0,0.8); }
   h1 { font-family: 'Noto Serif JP', serif; font-weight: 600; font-size: clamp(22px, 5vw, 32px); line-height: 1.5; letter-spacing: 0.05em; margin-bottom: 16px; text-shadow: 0 2px 10px rgba(0,0,0,0.9); }
@@ -32,13 +33,14 @@
   .section:nth-child(2){animation-delay:0.15s} .section:nth-child(3){animation-delay:0.25s}
   .section:nth-child(4){animation-delay:0.35s} .section:nth-child(5){animation-delay:0.45s}
   .section:nth-child(6){animation-delay:0.55s}
-  .card { background: var(--card-bg); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid var(--border); border-radius: 12px; padding: 28px 32px; transition: border-color 0.3s; }
-  .card:hover { border-color: rgba(255,255,255,0.15); }
+  .card { background: var(--card-bg); backdrop-filter: blur(22px) saturate(1.2); -webkit-backdrop-filter: blur(22px) saturate(1.2); border: 1px solid rgba(255,255,255,0.16); border-radius: 16px; padding: 28px 32px; transition: border-color 0.3s, box-shadow 0.3s; box-shadow: 0 10px 34px rgba(20,8,60,0.35), inset 0 1px 0 rgba(255,255,255,0.08); }
+  .card:hover { border-color: rgba(255,255,255,0.28); box-shadow: 0 14px 40px rgba(20,8,60,0.45), inset 0 1px 0 rgba(255,255,255,0.1); }
   .card-accent { border-left: 3px solid var(--accent); }
   .card-green  { border-left: 3px solid var(--accent2); }
   .card-warn   { border-left: 3px solid var(--warn); }
-  .section-label { display: flex; align-items: center; gap: 10px; font-size: 11px; letter-spacing: 0.15em; color: var(--accent); text-transform: uppercase; margin-bottom: 14px; font-weight: 500; }
-  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .section-label { display: flex; align-items: center; gap: 10px; font-size: 11px; letter-spacing: 0.15em; color: #fff; text-transform: uppercase; margin-bottom: 14px; font-weight: 600; }
+  .section-label > span.lb { background: rgba(20,12,44,0.62); border: 1px solid rgba(255,255,255,0.18); border-radius: 999px; padding: 3px 12px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.35); }
   h2 { font-family: 'Noto Serif JP', serif; font-size: 17px; font-weight: 600; margin-bottom: 12px; letter-spacing: 0.03em; color: var(--text); }
   p { font-size: 14px; color: var(--text-muted); margin-bottom: 10px; }
   p:last-child { margin-bottom: 0; }
@@ -96,7 +98,7 @@
     <p class="header-sub">EA配布に際し、口座番号をお尋ねする理由と安全性をご説明します</p>
   </div>
   <div class="section">
-    <div class="section-label">01 — Why</div>
+    <div class="section-label"><span class="lb">01 — Why</span></div>
     <div class="card card-accent">
       <h2>なぜ口座番号が必要なのか？</h2>
       <p>本EAは、<strong>正規にお渡しした方のみ</strong>がご利用いただけるよう、口座認証システムを採用しています。</p>
@@ -110,7 +112,7 @@
     </div>
   </div>
   <div class="section">
-    <div class="section-label">02 — Scope</div>
+    <div class="section-label"><span class="lb">02 — Scope</span></div>
     <div class="card">
       <h2>口座番号でできること・できないこと</h2>
       <p>口座番号は「認証キー」としてのみ使用します。以下をご確認ください。</p>
@@ -133,7 +135,7 @@
     </div>
   </div>
   <div class="section">
-    <div class="section-label">03 — Safety</div>
+    <div class="section-label"><span class="lb">03 — Safety</span></div>
     <div class="card card-green">
       <h2>安全性について</h2>
       <div class="safety-list">
@@ -145,7 +147,7 @@
     </div>
   </div>
   <div class="section">
-    <div class="section-label">04 — How To</div>
+    <div class="section-label"><span class="lb">04 — How To</span></div>
     <div class="card">
       <h2>口座番号の確認方法（MT4 / MT5）</h2>
       <div class="flow">
@@ -161,7 +163,7 @@
     </div>
   </div>
   <div class="section">
-    <div class="section-label">05 — Notice</div>
+    <div class="section-label"><span class="lb">05 — Notice</span></div>
     <div class="card card-warn">
       <h2>ご注意事項</h2>
       <p>・口座番号は<strong>EA を稼働させたい MT4／MT5 の口座のもの</strong>をお知らせください。複数口座をお持ちの場合は、実際に使用する口座の番号をご指定ください。</p>
@@ -198,7 +200,7 @@ let W,H,triLayer;
 function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
 
 // 虹色グラデーション用のカラーブロブ
-const blobColors=['#7b2ff7','#3a86ff','#00bbf9','#06d6a0','#a3e635','#ffd166','#fb8500','#ff5d8f','#9b5de5'];
+const blobColors=['#7b2ff7','#f72585','#3a86ff','#ffd166','#00bbf9','#ff5d8f','#06d6a0','#fb8500','#4361ee','#a3e635','#b5179e','#4cc9f0','#f3722c','#9b5de5','#80ed99','#ff99c8','#2ec4b6','#f9c74f'];
 // 三角形の色（白を多めに、差し色で紫・青・ピンク）
 const triColors=['255,255,255','255,255,255','255,255,255','124,58,237','59,130,246','236,72,153'];
 
@@ -237,23 +239,22 @@ function drawTri(g,tr){
   g.restore();
 }
 
-// 三角形レイヤーを一度だけ生成
+// 三角形を1つずつ小さな絵にしておき、毎回は貼るだけ（ゆっくり漂って回る）
+let tris=[];
 function buildTriangles(){
   const rng=mulberry32(424242);
-  triLayer=document.createElement('canvas');
-  triLayer.width=W;triLayer.height=H;
-  const g=triLayer.getContext('2d');
-  g.lineJoin='round';
   const styles=['outline','stripe','line','fill'];
   const n=Math.round((W*H)/42000);
+  tris=[];
   for(let i=0;i<n;i++){
-    drawTri(g,{
-      x:rng()*W,y:rng()*H,
-      size:22+rng()*70,
-      rot:rng()*Math.PI*2,
-      style:styles[Math.floor(rng()*styles.length)],
-      color:triColors[Math.floor(rng()*triColors.length)]
-    });
+    const tr={x:rng()*W,y:rng()*H,size:22+rng()*70,rot:rng()*Math.PI*2,
+      style:styles[Math.floor(rng()*styles.length)],color:triColors[Math.floor(rng()*triColors.length)]};
+    const pad=4,S=Math.ceil(tr.size*2+pad*2);
+    const c=document.createElement('canvas');c.width=c.height=S;
+    const g=c.getContext('2d');g.lineJoin='round';
+    drawTri(g,{...tr,x:S/2,y:S/2,rot:0});
+    tris.push({img:c,S,x:tr.x,y:tr.y,rot:tr.rot,
+      vr:(rng()-0.5)*0.00012,ax:6+rng()*14,ay:6+rng()*14,ph:rng()*Math.PI*2,sp:0.00012+rng()*0.00016});
   }
 }
 
@@ -265,21 +266,30 @@ function resize(){
 resize();
 window.addEventListener('resize',resize);
 
+// グラデーションは 1/4 の大きさで描いてから拡大（色を18にしても軽い）
+const mesh=document.createElement('canvas'),mctx=mesh.getContext('2d');
 function draw(t){
+  const mw=Math.max(2,Math.round(W/4)),mh=Math.max(2,Math.round(H/4));
+  if(mesh.width!==mw||mesh.height!==mh){mesh.width=mw;mesh.height=mh;}
   // ベース＋ゆっくり動く虹色のメッシュグラデーション
-  ctx.fillStyle='#6a3df0';
-  ctx.fillRect(0,0,W,H);
+  mctx.fillStyle='#6a3df0';
+  mctx.fillRect(0,0,mw,mh);
   for(let i=0;i<blobColors.length;i++){
-    const cx=W*(0.5+0.46*Math.sin(t*0.0001*(1+i*0.12)+i*1.7));
-    const cy=H*(0.5+0.46*Math.cos(t*0.00012*(1+i*0.08)+i*2.1));
-    const r=Math.max(W,H)*(0.36+0.1*Math.sin(t*0.0002+i));
-    const g=ctx.createRadialGradient(cx,cy,0,cx,cy,r);
-    g.addColorStop(0,blobColors[i]+'cc');
+    const cx=mw*(0.5+0.48*Math.sin(t*0.0001*(1+i*0.07)+i*1.7));
+    const cy=mh*(0.5+0.48*Math.cos(t*0.00012*(1+i*0.05)+i*2.1));
+    const r=Math.max(mw,mh)*(0.28+0.08*Math.sin(t*0.0002+i));
+    const g=mctx.createRadialGradient(cx,cy,0,cx,cy,r);
+    g.addColorStop(0,blobColors[i]+'bb');
     g.addColorStop(1,blobColors[i]+'00');
-    ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+    mctx.fillStyle=g;mctx.fillRect(0,0,mw,mh);
   }
-  // 散りばめた三角形
-  if(triLayer)ctx.drawImage(triLayer,0,0);
+  ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
+  ctx.drawImage(mesh,0,0,W,H);
+  // 散りばめた三角形（ゆっくり漂って回る）
+  for(const r of tris){
+    const x=r.x+Math.sin(t*r.sp+r.ph)*r.ax,y=r.y+Math.cos(t*r.sp*0.8+r.ph)*r.ay;
+    ctx.save();ctx.translate(x,y);ctx.rotate(r.rot+t*r.vr);ctx.drawImage(r.img,-r.S/2,-r.S/2);ctx.restore();
+  }
 }
 let st=null;function loop(ts){if(!st)st=ts;draw(ts-st);requestAnimationFrame(loop);}requestAnimationFrame(loop);
 </script>

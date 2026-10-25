@@ -18,11 +18,11 @@
     --text-muted: #94a3b8;
     --text-dim: #64748b;
     --border: rgba(100,180,255,0.1);
-    --card-bg: rgba(6,10,15,0.82);
+    --card-bg: rgba(14,24,50,0.80);
   }
   * { margin:0; padding:0; box-sizing:border-box; }
   body { background:#060a0f; color:var(--text); font-family:'Noto Sans JP',sans-serif; font-weight:300; line-height:1.8; min-height:100vh; overflow-x:hidden; }
-  #bg { position:fixed; inset:0; z-index:0; }
+  #bg { position:fixed; inset:0; z-index:0; background:radial-gradient(1100px 520px at 50% -8%, rgba(59,130,246,0.34), transparent 62%), radial-gradient(700px 480px at 92% 40%, rgba(212,175,55,0.12), transparent 60%), radial-gradient(700px 520px at 6% 75%, rgba(16,185,129,0.12), transparent 60%), linear-gradient(180deg, #10224a 0%, #0c1a3a 45%, #081329 100%); }
   .container { position:relative; z-index:1; max-width:720px; margin:0 auto; padding:60px 24px 80px; }
   .back-link { display:inline-flex; align-items:center; gap:6px; color:var(--accent); font-size:13px; text-decoration:none; border-bottom:none; margin-bottom:40px; padding:8px 16px; background:rgba(100,180,255,0.08); border:1px solid rgba(100,180,255,0.25); border-radius:8px; transition:background 0.2s,border-color 0.2s; }
   .back-link:hover { background:rgba(100,180,255,0.15); border-color:rgba(100,180,255,0.45); }
@@ -237,12 +237,12 @@ function drawShard(g,pts,shade,alpha){
   let minx=1e9,miny=1e9,maxx=-1e9,maxy=-1e9;
   for(const p of pts){if(p[0]<minx)minx=p[0];if(p[1]<miny)miny=p[1];if(p[0]>maxx)maxx=p[0];if(p[1]>maxy)maxy=p[1];}
   const gr=g.createLinearGradient(minx,miny,maxx,maxy);
-  const hi=Math.min(255,shade+55),lo=Math.max(18,shade-75);
-  gr.addColorStop(0,`rgba(${hi},${hi},${hi},${alpha})`);
-  gr.addColorStop(0.5,`rgba(${shade},${shade},${shade},${alpha})`);
-  gr.addColorStop(1,`rgba(${lo},${lo},${lo},${alpha})`);
+  const k=Math.max(0,Math.min(1,(shade-90)/165));   // 明るさの度合い（0〜1）
+  gr.addColorStop(0,`rgba(200,226,255,${alpha*(0.26+0.22*k)})`);
+  gr.addColorStop(0.5,`rgba(110,160,235,${alpha*(0.14+0.12*k)})`);
+  gr.addColorStop(1,`rgba(40,80,170,${alpha*0.08})`);
   g.fillStyle=gr;g.fill();
-  g.lineWidth=1;g.strokeStyle=`rgba(255,255,255,${0.3*alpha})`;g.stroke();
+  g.lineWidth=1;g.strokeStyle=(shade%9===0)?`rgba(232,200,110,${0.55*alpha})`:`rgba(190,225,255,${0.42*alpha})`;g.stroke();
 }
 
 // 破片レイヤーを一度だけ生成
@@ -251,14 +251,13 @@ function build(){
   shardLayer=document.createElement('canvas');
   shardLayer.width=W;shardLayer.height=H;
   const g=shardLayer.getContext('2d');
-  g.fillStyle='#000';g.fillRect(0,0,W,H);
   g.lineJoin='round';
-  const chunks=Math.round(W*H/13000);
+  const chunks=Math.round(W*H/26000);
   for(let i=0;i<chunks;i++){
     const cx=rf()*W,cy=rf()*H,size=14+rf()*58,shade=Math.floor(90+rf()*150);
     drawShard(g,chunkPts(rf,cx,cy,size,rf()*Math.PI*2),shade,1);
   }
-  const slivers=Math.round(W*H/8000);
+  const slivers=Math.round(W*H/17000);
   for(let i=0;i<slivers;i++){
     const cx=rf()*W,cy=rf()*H,len=22+rf()*120,shade=Math.floor(120+rf()*135);
     drawShard(g,sliverPts(rf,cx,cy,len,rf()*Math.PI*2),shade,1);
@@ -317,9 +316,9 @@ function draw(t){
 
   // 中央を暗くして可読性確保＋参考画像の雰囲気
   const vg=ctx.createRadialGradient(W/2,H*0.42,0,W/2,H*0.42,Math.max(W,H)*0.6);
-  vg.addColorStop(0,'rgba(0,0,0,0.82)');
-  vg.addColorStop(0.55,'rgba(0,0,0,0.4)');
-  vg.addColorStop(1,'rgba(0,0,0,0)');
+  vg.addColorStop(0,'rgba(8,16,40,0.80)');
+  vg.addColorStop(0.55,'rgba(8,16,40,0.38)');
+  vg.addColorStop(1,'rgba(8,16,40,0)');
   ctx.fillStyle=vg;ctx.fillRect(0,0,W,H);
 
   requestAnimationFrame(draw);

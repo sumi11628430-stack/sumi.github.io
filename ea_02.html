@@ -39,6 +39,17 @@
   .card-accent{border-left:4px solid var(--accent);}
   .card-green{border-left:4px solid var(--accent2);}
   .card-gold{border-left:4px solid var(--accent3);}
+  .bt-c-normal{border-left:4px solid #3b82f6;} .bt-c-auto{border-left:4px solid #d4af37;} .bt-c-magic{border-left:4px solid #10b981;}
+  .bt-intro{font-size:13px;color:#cbd5e1;margin:-6px 0 10px;line-height:1.7;}
+  .bt-nav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px;}
+  .bt-nav a{flex:1 1 180px;text-align:center;padding:9px 12px;border-radius:12px;font-size:13px;font-weight:700;line-height:1.5;text-decoration:none;transition:transform .2s,background .2s;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 4px 14px rgba(0,0,0,0.35);}
+  .bt-nav a small{display:block;font-size:11px;font-weight:400;opacity:0.85;}
+  .bt-nav a:hover{transform:translateY(-1px);}
+  .bt-nav .n{background:linear-gradient(rgba(59,130,246,0.20),rgba(59,130,246,0.20)),rgba(10,16,32,0.92);border:1px solid rgba(96,165,250,0.6);color:#bfdbfe;}
+  .bt-nav .a{background:linear-gradient(rgba(212,175,55,0.18),rgba(212,175,55,0.18)),rgba(10,16,32,0.92);border:1px solid rgba(212,175,55,0.6);color:#f3d98b;}
+  .bt-nav .m{background:linear-gradient(rgba(16,185,129,0.18),rgba(16,185,129,0.18)),rgba(10,16,32,0.92);border:1px solid rgba(52,211,153,0.6);color:#a7f3d0;}
+  .param-btn{display:block;text-align:center;margin-top:6px;padding:14px 18px;background:rgba(212,175,55,0.16);border:1.5px solid rgba(212,175,55,0.7);border-radius:10px;color:#f3d98b;font-size:16px;font-weight:700;text-decoration:none;box-shadow:0 6px 18px rgba(0,0,0,0.35);transition:transform .2s,background .2s,box-shadow .2s;}
+  .param-btn:hover{transform:translateY(-2px);background:rgba(212,175,55,0.26);box-shadow:0 10px 24px rgba(0,0,0,0.4);}
   
   .section-label{display:flex;align-items:center;gap:10px;font-size:11px;letter-spacing:0.15em;color:var(--accent);text-transform:uppercase;margin-bottom:14px;font-weight:500;}
   .section-label::after{content:'';flex:1;height:1px;background:var(--border);}
@@ -122,12 +133,20 @@
         <tr><td>対応通貨ペア</td><td>GOLD専用</td></tr>
         <tr><td>対応時間足</td><td>全時間足対応（ロジック固定仕様）<br><span style="font-size:11px;color:var(--text-dim);">※チャートの時間足を変更しても内部ロジックの計算には一切影響しません</span></td></tr>
       </table>
-      <a href="ea_02_params.html" class="backtest-link" style="margin-top:14px;">🔧 パラメーター画面（MT5）と各項目の説明 →</a>
     </div>
   </div>
 
   <div class="section">
-    <div class="section-label">02 — EA Type</div>
+    <div class="section-label">02 — Parameters</div>
+    <div class="card card-gold">
+      <h2>パラメーター（設定画面）の説明</h2>
+      <p>MT5 の設定画面を再現しています。項目を押すと、それぞれの意味と初期値が分かります（MT4 版も同じ項目です）。</p>
+      <a href="ea_02_params.html" class="param-btn">🔧 パラメーター画面と各項目の説明を見る →</a>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">03 — EA Type</div>
     <div class="card">
       <h2>EA タイプ・戦略概要</h2>
       <div class="type-box">
@@ -148,7 +167,7 @@
   </div>
 
   <div class="section">
-    <div class="section-label">03 — Deposit</div>
+    <div class="section-label">04 — Deposit</div>
     <div class="card card-gold">
       <h2>推奨証拠金</h2>
       <div class="deposit-item"><div class="deposit-label">standard口座・KIWAMI口座</div><div class="deposit-value">100〜200万円 / 0.01ロット</div></div>
@@ -158,9 +177,15 @@
   </div>
 
   <div class="section">
-    <div class="section-label">04 — Performance</div>
-    <div class="card">
+    <div class="section-label">05 — Performance</div>
+    <div class="bt-nav">
+      <a href="#bt-normal" class="n">通常のバックテスト<small>ロット固定・全マジックを動かす</small></a>
+      <a href="#bt-auto" class="a">ロット自動増加のバックテスト<small>資金に応じてロットが増える設定</small></a>
+      <a href="#bt-magic" class="m">マジック別のバックテスト<small>1つのマジックだけを動かす</small></a>
+    </div>
+    <div class="card bt-c-normal" id="bt-normal">
       <h2>実績・バックテスト結果</h2>
+      <p class="bt-intro">ロットは固定のまま（ロット自動増加なし）、全マジックを動かした結果です。</p>
       <p class="bt-legend">データ：<span class="bt-data bt-xm">XM</span> XMTrading のヒストリカルデータ　<span class="bt-data bt-dk">デューカスコピー</span> デューカスコピー・ジャパン株式会社のヒストリカルデータ</p>
       <div class="bt-acct">standard口座</div>
       <a href="ea_02_backtest1.html" class="backtest-link bt-row"><span class="bt-data bt-xm">XM</span><span class="bt-set">初期値（デフォルト）設定</span><span class="bt-period">2015年1月〜2026年10月</span></a>
@@ -172,8 +197,9 @@
       <div class="bt-acct">micro口座（MT4）</div>
       <a href="ea_02_backtest10.html" class="backtest-link bt-row"><span class="bt-data bt-xm">XM</span><span class="bt-set">初期値（デフォルト）設定・0.1ロット換算</span><span class="bt-period">2015年1月〜2026年10月</span></a>
     </div>
-    <div class="card" style="margin-top:16px;">
+    <div class="card bt-c-auto" id="bt-auto" style="margin-top:16px;">
       <h2>実績・バックテスト結果（ロット自動増加）</h2>
+      <p class="bt-intro">口座の資金に応じてロットが増える設定（ロット自動増加）で回した結果です。</p>
       <div class="bt-acct">standard口座</div>
       <a href="ea_02_backtest12.html" class="backtest-link bt-row"><span class="bt-data bt-xm">XM</span><span class="bt-set">初期値＋ロット自動増加（第１・第２・第４マジック）・初期証拠金300万円</span><span class="bt-period">2015年1月〜2026年9月</span></a>
       <a href="ea_02_backtest11.html" class="backtest-link bt-row"><span class="bt-data bt-dk">デューカスコピー</span><span class="bt-set">初期値＋ロット自動増加（全4マジック）・初期証拠金300万円</span><span class="bt-period">2010年1月〜2026年7月</span></a>
@@ -189,7 +215,7 @@
         <p class="warning-line">※各マジックの「初期ロット」と「増加ロット」は、同じ数字にしてください（例：0.01と0.01）</p>
       </div>
     </div>
-    <div class="card" style="margin-top:16px;">
+    <div class="card bt-c-magic" id="bt-magic" style="margin-top:16px;">
       <h2>マジック別のバックテスト結果</h2>
       <p class="bt-legend">1つのマジックだけを動かし、ほかの3つを「停止」にしたテストです（ほかの設定は初期値）。</p>
       <div class="bt-acct">standard口座</div>
@@ -201,7 +227,7 @@
   </div>
 
   <div class="section">
-    <div class="section-label">05 — Live Demo</div>
+    <div class="section-label">06 — Live Demo</div>
     <div class="card card-green">
       <h2>デモ口座（フォワードテスト公開中）</h2>
       <a href="ea_intro.html#demo" class="backtest-link">🔗 デモ口座のログイン情報と稼働中の EA は「配布中 EA 一覧」にまとめています →</a>

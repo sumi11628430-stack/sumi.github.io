@@ -155,19 +155,6 @@
       <div class="deposit-item"><div class="deposit-label">micro口座</div><div class="deposit-value">10〜20万円 / 0.1ロット</div></div>
       <div class="deposit-item"><div class="deposit-label">micro口座（MT4 限定）</div><div class="deposit-value">1〜2万円 / 0.01ロット<span class="deposit-note">※ MT4 のみ対応</span></div></div>
     </div>
-    <div class="card" style="margin-top:16px;">
-      <h2>ロット自動増加と損切の関係</h2>
-      <div class="type-desc">
-        <p>「損切金額もロットの増え方に合わせる」をONにすると、ロットが増えても、損切になる値動きの深さは変わりません。</p>
-        <ul class="change-list">
-          <li><strong>ロット自動増加がONのマジック</strong><span>ロットが2倍になったら、損切も2倍の金額まで待ちます（150万円の設定なら300万円）。</span></li>
-          <li><strong>ロット自動増加がOFFのマジック</strong><span>設定した金額（150万円）のままです。</span></li>
-          <li><strong>ONとOFFのマジックが両方とも含み損を抱えている時</strong><span>その間の金額（150万〜300万円）で損切になります。</span></li>
-          <li><strong>損切になると、全マジックをまとめて決済します。</strong></li>
-        </ul>
-        <p class="warning-line">※各マジックの「初期ロット」と「増加ロット」は、同じ数字にしてください（例：0.01と0.01）</p>
-      </div>
-    </div>
   </div>
 
   <div class="section">
@@ -178,14 +165,29 @@
       <div class="bt-acct">standard口座</div>
       <a href="ea_02_backtest1.html" class="backtest-link bt-row"><span class="bt-data bt-xm">XM</span><span class="bt-set">初期値（デフォルト）設定</span><span class="bt-period">2015年1月〜2026年10月</span></a>
       <a href="ea_02_backtest3.html" class="backtest-link bt-row"><span class="bt-data bt-xm">XM</span><span class="bt-set">初期値＋救済利確使用</span><span class="bt-period">2015年1月〜2026年9月</span></a>
-      <a href="ea_02_backtest12.html" class="backtest-link bt-row"><span class="bt-data bt-xm">XM</span><span class="bt-set">初期値＋ロット自動増加（第１・第２・第４マジック）・初期証拠金300万円</span><span class="bt-period">2015年1月〜2026年9月</span></a>
       <a href="ea_02_backtest2.html" class="backtest-link bt-row"><span class="bt-data bt-dk">デューカスコピー</span><span class="bt-set">初期値（デフォルト）設定・ランダム遅延</span><span class="bt-period">2010年1月〜2026年7月</span></a>
-      <a href="ea_02_backtest11.html" class="backtest-link bt-row"><span class="bt-data bt-dk">デューカスコピー</span><span class="bt-set">初期値＋ロット自動増加（全4マジック）・初期証拠金300万円</span><span class="bt-period">2010年1月〜2026年7月</span></a>
       <div class="bt-acct">極口座</div>
       <a href="ea_02_backtest4.html" class="backtest-link bt-row"><span class="bt-data bt-xm">XM</span><span class="bt-set">初期値（デフォルト）設定</span><span class="bt-period">2015年1月〜2026年10月</span></a>
       <a href="ea_02_backtest5.html" class="backtest-link bt-row"><span class="bt-data bt-dk">デューカスコピー</span><span class="bt-set">初期値（デフォルト）設定</span><span class="bt-period">2003年5月〜2026年7月</span></a>
       <div class="bt-acct">micro口座（MT4）</div>
       <a href="ea_02_backtest10.html" class="backtest-link bt-row"><span class="bt-data bt-xm">XM</span><span class="bt-set">初期値（デフォルト）設定・0.1ロット換算</span><span class="bt-period">2015年1月〜2026年10月</span></a>
+    </div>
+    <div class="card" style="margin-top:16px;">
+      <h2>実績・バックテスト結果（ロット自動増加）</h2>
+      <div class="bt-acct">standard口座</div>
+      <a href="ea_02_backtest12.html" class="backtest-link bt-row"><span class="bt-data bt-xm">XM</span><span class="bt-set">初期値＋ロット自動増加（第１・第２・第４マジック）・初期証拠金300万円</span><span class="bt-period">2015年1月〜2026年9月</span></a>
+      <a href="ea_02_backtest11.html" class="backtest-link bt-row"><span class="bt-data bt-dk">デューカスコピー</span><span class="bt-set">初期値＋ロット自動増加（全4マジック）・初期証拠金300万円</span><span class="bt-period">2010年1月〜2026年7月</span></a>
+      <div class="bt-acct">ロット自動増加と損切の関係</div>
+      <div class="type-desc">
+        <p>「損切金額もロットの増え方に合わせる」をONにすると、ロットが増えても、損切になる値動きの深さは変わりません。</p>
+        <ul class="change-list">
+          <li><strong>ロット自動増加がONのマジック</strong><span>ロットが2倍になったら、損切も2倍の金額まで待ちます（150万円の設定なら300万円）。</span></li>
+          <li><strong>ロット自動増加がOFFのマジック</strong><span>設定した金額（150万円）のままです。</span></li>
+          <li><strong>ONとOFFのマジックが両方とも含み損を抱えている時</strong><span>その間の金額（150万〜300万円）で損切になります。</span></li>
+          <li><strong>損切になると、全マジックをまとめて決済します。</strong></li>
+        </ul>
+        <p class="warning-line">※各マジックの「初期ロット」と「増加ロット」は、同じ数字にしてください（例：0.01と0.01）</p>
+      </div>
     </div>
     <div class="card" style="margin-top:16px;">
       <h2>マジック別のバックテスト結果</h2>

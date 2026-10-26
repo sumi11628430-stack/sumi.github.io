@@ -61,6 +61,27 @@
   .pn{padding-left:28px!important;}
   .pc{display:inline-block;width:11px;height:11px;border:1px solid #8a8a8a;background:#fff;margin:0 8px -1px 0;}
   .pd td{background:#fffbe6;color:#333;font-size:12.5px;line-height:1.8;padding:8px 12px 10px 48px;border-top:1px solid #efe3b0;border-bottom:1px solid #efe3b0;}
+  /* チャートの表示（押せる所） */
+  .cwrap{overflow-x:auto;border-radius:6px;border:1px solid rgba(255,255,255,0.12);background:#000;}
+  .cfig{position:relative;min-width:620px;}
+  .cfig img{display:block;width:100%;height:auto;}
+  .hs{position:absolute;border:2px solid rgba(253,224,71,0.55);border-radius:4px;background:rgba(253,224,71,0.06);cursor:pointer;padding:0;box-shadow:0 0 8px rgba(253,224,71,0.35);animation:hsp 2.6s ease-in-out infinite;}
+  .hs:hover,.hs:focus{background:rgba(253,224,71,0.18);outline:none;}
+  .hs.on{border-color:#fde047;background:rgba(253,224,71,0.24);box-shadow:0 0 14px rgba(253,224,71,0.8);animation:none;}
+  @keyframes hsp{0%,100%{box-shadow:0 0 6px rgba(253,224,71,0.25)}50%{box-shadow:0 0 12px rgba(253,224,71,0.6)}}
+  @media(prefers-reduced-motion:reduce){.hs{animation:none}}
+  .cbox{margin-top:12px;min-height:58px;background:#fffbe6;color:#1f2937;border:1px solid #efe3b0;border-radius:8px;padding:10px 14px;font-size:13.5px;line-height:1.8;}
+  .cbox .cbn{color:#6b7280;}
+  .cbox span{color:#1f2937;font-weight:500;}
+  .cbox b{display:block;font-size:14px;font-weight:700;color:#111827;margin-bottom:2px;}
+  .clist{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:6px;}
+  .cl{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-left:3px solid rgba(253,224,71,0.6);border-radius:8px;padding:9px 12px;cursor:pointer;}
+  .cl:hover,.cl:focus{background:rgba(253,224,71,0.08);outline:none;}
+  .cl .cn{display:block;font-size:13.5px;font-weight:600;color:#e2e8f0;}
+  .cl .cd[hidden]{display:none;}
+  .cl .cd{display:block;font-size:13px;color:var(--text-muted);line-height:1.8;margin-top:4px;}
+  .cl.on{border-left-color:#fde047;background:rgba(253,224,71,0.1);}
+  @media(max-width:560px){.cfig{min-width:520px}}
   .pcap{font-size:12px;color:var(--text-muted);text-align:center;margin-top:10px;}
   .phint{font-size:14px;font-weight:700;color:#1f2937;background:#fde047;border:2px solid #facc15;border-radius:8px;padding:10px 14px;margin:0 0 14px;line-height:1.7;box-shadow:0 0 0 3px rgba(253,224,71,0.25);}
   @media(max-width:560px){.ptab{font-size:12px}.pn{padding-left:14px!important}.pd td{padding-left:16px}.pf{display:none}}
@@ -232,6 +253,62 @@
       <p class="pcap">MT5のパラメーター画面（再現）</p>
     </div>
   </div>
+
+
+
+  <!-- チャートの表示（ここから） -->
+  <div class="section" id="chart-display">
+    <div class="section-label">02 — Chart Display</div>
+    <div class="card card-cyan">
+      <h2>チャートの表示とボタンの説明</h2>
+      <p class="phint">👆 画面の気になる所を押すと、説明が出ます（下に一覧もあります）</p>
+      <div class="cwrap">
+        <div class="cfig">
+          <img src="icons/ea_02_panel.webp" width="1487" height="546" alt="EAをチャートに付けた時の画面">
+          <button type="button" class="hs" data-i="0" aria-label="EA名" style="left:86.752%;top:0.733%;width:13.248%;height:4.396%;"></button>
+          <button type="button" class="hs" data-i="1" aria-label="MTサーバー時刻" style="left:39.543%;top:1.099%;width:21.789%;height:6.960%;"></button>
+          <button type="button" class="hs" data-i="2" aria-label="保有中合計損益" style="left:6.187%;top:4.396%;width:20.847%;height:5.861%;"></button>
+          <button type="button" class="hs" data-i="3" aria-label="保有中損益（BUY）" style="left:6.187%;top:10.256%;width:18.830%;height:3.480%;"></button>
+          <button type="button" class="hs" data-i="4" aria-label="保有中損益（SELL）" style="left:6.187%;top:13.736%;width:18.830%;height:3.663%;"></button>
+          <button type="button" class="hs" data-i="5" aria-label="本日合計損益" style="left:6.187%;top:17.399%;width:19.233%;height:5.311%;"></button>
+          <button type="button" class="hs" data-i="6" aria-label="本日最大DD" style="left:6.187%;top:22.711%;width:18.426%;height:4.579%;"></button>
+          <button type="button" class="hs" data-i="7" aria-label="前日最大DD" style="left:6.187%;top:27.289%;width:13.046%;height:3.297%;"></button>
+          <button type="button" class="hs" data-i="8" aria-label="稼働A・稼働B" style="left:6.187%;top:38.095%;width:7.263%;height:6.777%;"></button>
+          <button type="button" class="hs" data-i="9" aria-label="RSI" style="left:6.187%;top:44.872%;width:6.590%;height:3.297%;"></button>
+          <button type="button" class="hs" data-i="10" aria-label="相対平均監視" style="left:6.187%;top:50.733%;width:15.736%;height:4.396%;"></button>
+          <button type="button" class="hs" data-i="11" aria-label="Close Buy" style="left:6.389%;top:55.495%;width:8.810%;height:7.326%;"></button>
+          <button type="button" class="hs" data-i="12" aria-label="Close Sell" style="left:15.467%;top:55.495%;width:8.810%;height:7.326%;"></button>
+          <button type="button" class="hs" data-i="13" aria-label="Close All" style="left:24.546%;top:55.495%;width:8.810%;height:7.326%;"></button>
+          <button type="button" class="hs" data-i="14" aria-label="新規注文許可／停止" style="left:6.389%;top:63.004%;width:8.810%;height:7.143%;"></button>
+          <button type="button" class="hs" data-i="15" aria-label="救済利確①" style="left:15.467%;top:63.004%;width:8.810%;height:7.143%;"></button>
+          <button type="button" class="hs" data-i="16" aria-label="救済利確②" style="left:24.546%;top:63.004%;width:8.810%;height:7.143%;"></button>
+        </div>
+      </div>
+      <div class="cbox" id="cbox" aria-live="polite"><span class="cbn">押した所の説明がここに出ます</span></div>
+      <p class="pcap">MT5のチャートの表示（実際の画面）</p>
+      <ul class="clist">
+          <li class="cl" data-i="0" tabindex="0"><span class="cn">EA名</span><span class="cd" hidden>このチャートで動いているEAの名前です（MT5の表示）。名前の横の帽子の印は、EAがこのチャートに付いている印です。</span></li>
+          <li class="cl" data-i="1" tabindex="0"><span class="cn">MTサーバー時刻</span><span class="cd" hidden>MT5のサーバーの時計です。稼働A・稼働Bの時刻や、「本日」の区切り（0時で切り替わる）は、この時計で決まります。</span></li>
+          <li class="cl" data-i="2" tabindex="0"><span class="cn">保有中合計損益</span><span class="cd" hidden>この銘柄で今持っているポジションの、含み損益の合計です。プラスの時は緑と黄色で点滅、マイナスの時は赤、0の時は白で表示します。</span></li>
+          <li class="cl" data-i="3" tabindex="0"><span class="cn">保有中損益（BUY）</span><span class="cd" hidden>今持っている買いポジションだけの含み損益です。プラスは緑、マイナスは赤で表示します。</span></li>
+          <li class="cl" data-i="4" tabindex="0"><span class="cn">保有中損益（SELL）</span><span class="cd" hidden>今持っている売りポジションだけの含み損益です。プラスは緑、マイナスは赤で表示します。</span></li>
+          <li class="cl" data-i="5" tabindex="0"><span class="cn">本日合計損益</span><span class="cd" hidden>今日（サーバー時刻の0時から）決済した分の損益の合計です。今日の利確の回数で色が変わります：0〜1回＝白、2回＝青、3回＝黄、4回＝緑、5回＝赤、6回以上＝虹色。</span></li>
+          <li class="cl" data-i="6" tabindex="0"><span class="cn">本日最大DD</span><span class="cd" hidden>今日の中で、含み損がいちばん大きかった時の額です。サーバー時刻の0時に0へ戻ります。</span></li>
+          <li class="cl" data-i="7" tabindex="0"><span class="cn">前日最大DD</span><span class="cd" hidden>前の日の「本日最大DD」です。0時に、その日の本日最大DDがここへ移ります。</span></li>
+          <li class="cl" data-i="8" tabindex="0"><span class="cn">稼働A・稼働B</span><span class="cd" hidden>パラメーターの「稼働A」「稼働B」の状態です。OFFの時は「無効」、ONの時は「開始 00:30 / 終了 20:30」のように時間帯を表示します。</span></li>
+          <li class="cl" data-i="9" tabindex="0"><span class="cn">RSI</span><span class="cd" hidden>ナンピンの判断に使うRSI（期間14）の今の値です。値がまだ取れない時は「--」と表示します。救済利確をONにすると、この下に「救済①：10段10.0Pips」のように内容が出ます。</span></li>
+          <li class="cl" data-i="10" tabindex="0"><span class="cn">相対平均監視</span><span class="cd" hidden>値動きが急に大きくなった時の見張りです。今の1分足の値幅が、直近5本の平均の値幅より大きい間は「ナンピン停止中」（赤）になり、ナンピン（と第１マジックの最初の1本）を一時的に止めます。落ち着くと自動で「ナンピン許可中」（緑）に戻ります。故障ではありません。</span></li>
+          <li class="cl" data-i="11" tabindex="0"><span class="cn">Close Buy</span><span class="cd" hidden>押すとすぐに、このEAの買いポジションを全部決済します（確認は出ません）。</span></li>
+          <li class="cl" data-i="12" tabindex="0"><span class="cn">Close Sell</span><span class="cd" hidden>押すとすぐに、このEAの売りポジションを全部決済します（確認は出ません）。</span></li>
+          <li class="cl" data-i="13" tabindex="0"><span class="cn">Close All</span><span class="cd" hidden>押すとすぐに、このEAの買いと売りのポジションを全部決済します（確認は出ません）。</span></li>
+          <li class="cl" data-i="14" tabindex="0"><span class="cn">新規注文許可／停止</span><span class="cd" hidden>押すたびに「許可」と「停止」が切り替わります。「停止」にすると、全マジックの最初の1本を出さなくなります（持っているポジションのナンピンと決済は続きます）。損切の「完全停止」から再開する時も、このボタンで「許可」に戻します。EAを入れ直しても、この状態は残ります。</span></li>
+          <li class="cl" data-i="15" tabindex="0"><span class="cn">救済利確①</span><span class="cd" hidden>押すたびに、救済利確①のON・OFFが切り替わります。EAを入れ直すと、パラメーターの「救済利確の使用」の設定に戻ります。</span></li>
+          <li class="cl" data-i="16" tabindex="0"><span class="cn">救済利確②</span><span class="cd" hidden>押すたびに、救済利確②のON・OFFが切り替わります。EAを入れ直すと、パラメーターの「救済利確の使用」の設定に戻ります。</span></li>
+      </ul>
+    </div>
+  </div>
+  <!-- チャートの表示（ここまで） -->
+
   <div class="section">
     <div class="summary-card">
       <p>ご質問は<strong>公式 LINE</strong> よりお気軽にどうぞ。</p>
@@ -450,6 +527,20 @@ document.querySelectorAll('.pr').forEach(function(tr){
   tr.addEventListener('click', t);
   tr.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); t(); } });
 });
+</script>
+<script>
+(function(){
+  var D = [{"n":"EA名","d":"このチャートで動いているEAの名前です（MT5の表示）。名前の横の帽子の印は、EAがこのチャートに付いている印です。"},{"n":"MTサーバー時刻","d":"MT5のサーバーの時計です。稼働A・稼働Bの時刻や、「本日」の区切り（0時で切り替わる）は、この時計で決まります。"},{"n":"保有中合計損益","d":"この銘柄で今持っているポジションの、含み損益の合計です。プラスの時は緑と黄色で点滅、マイナスの時は赤、0の時は白で表示します。"},{"n":"保有中損益（BUY）","d":"今持っている買いポジションだけの含み損益です。プラスは緑、マイナスは赤で表示します。"},{"n":"保有中損益（SELL）","d":"今持っている売りポジションだけの含み損益です。プラスは緑、マイナスは赤で表示します。"},{"n":"本日合計損益","d":"今日（サーバー時刻の0時から）決済した分の損益の合計です。今日の利確の回数で色が変わります：0〜1回＝白、2回＝青、3回＝黄、4回＝緑、5回＝赤、6回以上＝虹色。"},{"n":"本日最大DD","d":"今日の中で、含み損がいちばん大きかった時の額です。サーバー時刻の0時に0へ戻ります。"},{"n":"前日最大DD","d":"前の日の「本日最大DD」です。0時に、その日の本日最大DDがここへ移ります。"},{"n":"稼働A・稼働B","d":"パラメーターの「稼働A」「稼働B」の状態です。OFFの時は「無効」、ONの時は「開始 00:30 / 終了 20:30」のように時間帯を表示します。"},{"n":"RSI","d":"ナンピンの判断に使うRSI（期間14）の今の値です。値がまだ取れない時は「--」と表示します。救済利確をONにすると、この下に「救済①：10段10.0Pips」のように内容が出ます。"},{"n":"相対平均監視","d":"値動きが急に大きくなった時の見張りです。今の1分足の値幅が、直近5本の平均の値幅より大きい間は「ナンピン停止中」（赤）になり、ナンピン（と第１マジックの最初の1本）を一時的に止めます。落ち着くと自動で「ナンピン許可中」（緑）に戻ります。故障ではありません。"},{"n":"Close Buy","d":"押すとすぐに、このEAの買いポジションを全部決済します（確認は出ません）。"},{"n":"Close Sell","d":"押すとすぐに、このEAの売りポジションを全部決済します（確認は出ません）。"},{"n":"Close All","d":"押すとすぐに、このEAの買いと売りのポジションを全部決済します（確認は出ません）。"},{"n":"新規注文許可／停止","d":"押すたびに「許可」と「停止」が切り替わります。「停止」にすると、全マジックの最初の1本を出さなくなります（持っているポジションのナンピンと決済は続きます）。損切の「完全停止」から再開する時も、このボタンで「許可」に戻します。EAを入れ直しても、この状態は残ります。"},{"n":"救済利確①","d":"押すたびに、救済利確①のON・OFFが切り替わります。EAを入れ直すと、パラメーターの「救済利確の使用」の設定に戻ります。"},{"n":"救済利確②","d":"押すたびに、救済利確②のON・OFFが切り替わります。EAを入れ直すと、パラメーターの「救済利確の使用」の設定に戻ります。"}];
+  var box = document.getElementById('cbox'), hs = document.querySelectorAll('.hs'), li = document.querySelectorAll('.cl');
+  function mark(i){ hs.forEach(function(h){ h.classList.toggle('on', +h.dataset.i===i); }); li.forEach(function(l){ l.classList.toggle('on', +l.dataset.i===i); }); }
+  function show(i){ box.innerHTML = '<b></b><span></span>'; box.firstChild.textContent = D[i].n; box.lastChild.textContent = D[i].d; mark(i); }
+  hs.forEach(function(h){ h.addEventListener('click', function(){ show(+h.dataset.i); }); });
+  li.forEach(function(l){
+    function t(){ var d = l.querySelector('.cd'), o = d.hidden; d.hidden = !o; if(o){ show(+l.dataset.i); } else { mark(-1); } }
+    l.addEventListener('click', t);
+    l.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); t(); } });
+  });
+})();
 </script>
 <script src="bgm.js"></script>
 </body>

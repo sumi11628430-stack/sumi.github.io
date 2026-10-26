@@ -72,14 +72,14 @@
   @media(prefers-reduced-motion:reduce){.hs{animation:none}}
   .cbox{margin-top:12px;min-height:58px;background:#fffbe6;color:#1f2937;border:1px solid #efe3b0;border-radius:8px;padding:10px 14px;font-size:13.5px;line-height:1.8;}
   .cbox .cbn{color:#6b7280;}
-  .cbox span{color:#1f2937;font-weight:500;}
+  .cbox span{color:#1f2937;font-weight:500;white-space:pre-line;}
   .cbox b{display:block;font-size:14px;font-weight:700;color:#111827;margin-bottom:2px;}
   .clist{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:6px;}
   .cl{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-left:3px solid rgba(253,224,71,0.6);border-radius:8px;padding:9px 12px;cursor:pointer;}
   .cl:hover,.cl:focus{background:rgba(253,224,71,0.08);outline:none;}
   .cl .cn{display:block;font-size:13.5px;font-weight:600;color:#e2e8f0;}
   .cl .cd[hidden]{display:none;}
-  .cl .cd{display:block;font-size:13px;color:var(--text-muted);line-height:1.8;margin-top:4px;}
+  .cl .cd{white-space:pre-line;display:block;font-size:13px;color:var(--text-muted);line-height:1.8;margin-top:4px;}
   .cl.on{border-left-color:#fde047;background:rgba(253,224,71,0.1);}
   @media(max-width:560px){.cfig{min-width:520px}}
   .pcap{font-size:12px;color:var(--text-muted);text-align:center;margin-top:10px;}
@@ -254,8 +254,6 @@
     </div>
   </div>
 
-
-
   <!-- チャートの表示（ここから） -->
   <div class="section" id="chart-display">
     <div class="section-label">02 — Chart Display</div>
@@ -298,12 +296,16 @@
           <li class="cl" data-i="8" tabindex="0"><span class="cn">稼働A・稼働B</span><span class="cd" hidden>パラメーターの「稼働A」「稼働B」の状態です。OFFの時は「無効」、ONの時は「開始 00:30 / 終了 20:30」のように時間帯を表示します。</span></li>
           <li class="cl" data-i="9" tabindex="0"><span class="cn">RSI</span><span class="cd" hidden>ナンピンの判断に使うRSI（期間14）の今の値です。値がまだ取れない時は「--」と表示します。救済利確をONにすると、この下に「救済①：10段10.0Pips」のように内容が出ます。</span></li>
           <li class="cl" data-i="10" tabindex="0"><span class="cn">相対平均監視</span><span class="cd" hidden>値動きが急に大きくなった時の見張りです。今の1分足の値幅が、直近5本の平均の値幅より大きい間は「ナンピン停止中」（赤）になり、ナンピン（と第１マジックの最初の1本）を一時的に止めます。落ち着くと自動で「ナンピン許可中」（緑）に戻ります。故障ではありません。</span></li>
-          <li class="cl" data-i="11" tabindex="0"><span class="cn">Close Buy</span><span class="cd" hidden>押すとすぐに、このEAの買いポジションを全部決済します（確認は出ません）。</span></li>
-          <li class="cl" data-i="12" tabindex="0"><span class="cn">Close Sell</span><span class="cd" hidden>押すとすぐに、このEAの売りポジションを全部決済します（確認は出ません）。</span></li>
-          <li class="cl" data-i="13" tabindex="0"><span class="cn">Close All</span><span class="cd" hidden>押すとすぐに、このEAの買いと売りのポジションを全部決済します（確認は出ません）。</span></li>
+          <li class="cl" data-i="11" tabindex="0"><span class="cn">Close Buy</span><span class="cd" hidden>押すとすぐに、このEAの「買い」ポジションを全部決済します（確認は出ません）。</span></li>
+          <li class="cl" data-i="12" tabindex="0"><span class="cn">Close Sell</span><span class="cd" hidden>押すとすぐに、このEAの「売り」ポジションを全部決済します（確認は出ません）。</span></li>
+          <li class="cl" data-i="13" tabindex="0"><span class="cn">Close All</span><span class="cd" hidden>押すとすぐに、このEAの「買い」と「売り」のポジションを全部決済します（確認は出ません）。</span></li>
           <li class="cl" data-i="14" tabindex="0"><span class="cn">新規注文許可／停止</span><span class="cd" hidden>押すたびに「許可」と「停止」が切り替わります。「停止」にすると、全マジックの最初の1本を出さなくなります（持っているポジションのナンピンと決済は続きます）。損切の「完全停止」から再開する時も、このボタンで「許可」に戻します。EAを入れ直しても、この状態は残ります。</span></li>
-          <li class="cl" data-i="15" tabindex="0"><span class="cn">救済利確①</span><span class="cd" hidden>押すたびに、救済利確①のON・OFFが切り替わります。EAを入れ直すと、パラメーターの「救済利確の使用」の設定に戻ります。</span></li>
-          <li class="cl" data-i="16" tabindex="0"><span class="cn">救済利確②</span><span class="cd" hidden>押すたびに、救済利確②のON・OFFが切り替わります。EAを入れ直すと、パラメーターの「救済利確の使用」の設定に戻ります。</span></li>
+          <li class="cl" data-i="15" tabindex="0"><span class="cn">救済利確①</span><span class="cd" hidden>押すたびに、救済利確①のON・OFFが切り替わります。
+パラメーター画面で「救済利確の使用」を「使用しない」に設定していても、このボタンでONにすれば、救済利確①は働きます。その時は、パラメーター画面で設定した「救済利確条件①」「発動段数①」「救済利確値①」などの値を使います。
+ただし、ボタンでの切り替えは、その場かぎりです。EAを入れ直した時や、MT5を起動し直した時などは、パラメーター画面で設定した状態に戻ります（「使用しない」ならOFFに戻ります）。</span></li>
+          <li class="cl" data-i="16" tabindex="0"><span class="cn">救済利確②</span><span class="cd" hidden>押すたびに、救済利確②のON・OFFが切り替わります。
+パラメーター画面で「救済利確の使用」を「使用しない」に設定していても、このボタンでONにすれば、救済利確②は働きます。その時は、パラメーター画面で設定した「救済利確条件②」「発動段数②」「救済利確値②」などの値を使います。
+ただし、ボタンでの切り替えは、その場かぎりです。EAを入れ直した時や、MT5を起動し直した時などは、パラメーター画面で設定した状態に戻ります（「使用しない」ならOFFに戻ります）。</span></li>
       </ul>
     </div>
   </div>
@@ -530,7 +532,7 @@ document.querySelectorAll('.pr').forEach(function(tr){
 </script>
 <script>
 (function(){
-  var D = [{"n":"EA名","d":"このチャートで動いているEAの名前です（MT5の表示）。名前の横の帽子の印は、EAがこのチャートに付いている印です。"},{"n":"MTサーバー時刻","d":"MT5のサーバーの時計です。稼働A・稼働Bの時刻や、「本日」の区切り（0時で切り替わる）は、この時計で決まります。"},{"n":"保有中合計損益","d":"この銘柄で今持っているポジションの、含み損益の合計です。プラスの時は緑と黄色で点滅、マイナスの時は赤、0の時は白で表示します。"},{"n":"保有中損益（BUY）","d":"今持っている買いポジションだけの含み損益です。プラスは緑、マイナスは赤で表示します。"},{"n":"保有中損益（SELL）","d":"今持っている売りポジションだけの含み損益です。プラスは緑、マイナスは赤で表示します。"},{"n":"本日合計損益","d":"今日（サーバー時刻の0時から）決済した分の損益の合計です。今日の利確の回数で色が変わります：0〜1回＝白、2回＝青、3回＝黄、4回＝緑、5回＝赤、6回以上＝虹色。"},{"n":"本日最大DD","d":"今日の中で、含み損がいちばん大きかった時の額です。サーバー時刻の0時に0へ戻ります。"},{"n":"前日最大DD","d":"前の日の「本日最大DD」です。0時に、その日の本日最大DDがここへ移ります。"},{"n":"稼働A・稼働B","d":"パラメーターの「稼働A」「稼働B」の状態です。OFFの時は「無効」、ONの時は「開始 00:30 / 終了 20:30」のように時間帯を表示します。"},{"n":"RSI","d":"ナンピンの判断に使うRSI（期間14）の今の値です。値がまだ取れない時は「--」と表示します。救済利確をONにすると、この下に「救済①：10段10.0Pips」のように内容が出ます。"},{"n":"相対平均監視","d":"値動きが急に大きくなった時の見張りです。今の1分足の値幅が、直近5本の平均の値幅より大きい間は「ナンピン停止中」（赤）になり、ナンピン（と第１マジックの最初の1本）を一時的に止めます。落ち着くと自動で「ナンピン許可中」（緑）に戻ります。故障ではありません。"},{"n":"Close Buy","d":"押すとすぐに、このEAの買いポジションを全部決済します（確認は出ません）。"},{"n":"Close Sell","d":"押すとすぐに、このEAの売りポジションを全部決済します（確認は出ません）。"},{"n":"Close All","d":"押すとすぐに、このEAの買いと売りのポジションを全部決済します（確認は出ません）。"},{"n":"新規注文許可／停止","d":"押すたびに「許可」と「停止」が切り替わります。「停止」にすると、全マジックの最初の1本を出さなくなります（持っているポジションのナンピンと決済は続きます）。損切の「完全停止」から再開する時も、このボタンで「許可」に戻します。EAを入れ直しても、この状態は残ります。"},{"n":"救済利確①","d":"押すたびに、救済利確①のON・OFFが切り替わります。EAを入れ直すと、パラメーターの「救済利確の使用」の設定に戻ります。"},{"n":"救済利確②","d":"押すたびに、救済利確②のON・OFFが切り替わります。EAを入れ直すと、パラメーターの「救済利確の使用」の設定に戻ります。"}];
+  var D = [{"n":"EA名","d":"このチャートで動いているEAの名前です（MT5の表示）。名前の横の帽子の印は、EAがこのチャートに付いている印です。"},{"n":"MTサーバー時刻","d":"MT5のサーバーの時計です。稼働A・稼働Bの時刻や、「本日」の区切り（0時で切り替わる）は、この時計で決まります。"},{"n":"保有中合計損益","d":"この銘柄で今持っているポジションの、含み損益の合計です。プラスの時は緑と黄色で点滅、マイナスの時は赤、0の時は白で表示します。"},{"n":"保有中損益（BUY）","d":"今持っている買いポジションだけの含み損益です。プラスは緑、マイナスは赤で表示します。"},{"n":"保有中損益（SELL）","d":"今持っている売りポジションだけの含み損益です。プラスは緑、マイナスは赤で表示します。"},{"n":"本日合計損益","d":"今日（サーバー時刻の0時から）決済した分の損益の合計です。今日の利確の回数で色が変わります：0〜1回＝白、2回＝青、3回＝黄、4回＝緑、5回＝赤、6回以上＝虹色。"},{"n":"本日最大DD","d":"今日の中で、含み損がいちばん大きかった時の額です。サーバー時刻の0時に0へ戻ります。"},{"n":"前日最大DD","d":"前の日の「本日最大DD」です。0時に、その日の本日最大DDがここへ移ります。"},{"n":"稼働A・稼働B","d":"パラメーターの「稼働A」「稼働B」の状態です。OFFの時は「無効」、ONの時は「開始 00:30 / 終了 20:30」のように時間帯を表示します。"},{"n":"RSI","d":"ナンピンの判断に使うRSI（期間14）の今の値です。値がまだ取れない時は「--」と表示します。救済利確をONにすると、この下に「救済①：10段10.0Pips」のように内容が出ます。"},{"n":"相対平均監視","d":"値動きが急に大きくなった時の見張りです。今の1分足の値幅が、直近5本の平均の値幅より大きい間は「ナンピン停止中」（赤）になり、ナンピン（と第１マジックの最初の1本）を一時的に止めます。落ち着くと自動で「ナンピン許可中」（緑）に戻ります。故障ではありません。"},{"n":"Close Buy","d":"押すとすぐに、このEAの「買い」ポジションを全部決済します（確認は出ません）。"},{"n":"Close Sell","d":"押すとすぐに、このEAの「売り」ポジションを全部決済します（確認は出ません）。"},{"n":"Close All","d":"押すとすぐに、このEAの「買い」と「売り」のポジションを全部決済します（確認は出ません）。"},{"n":"新規注文許可／停止","d":"押すたびに「許可」と「停止」が切り替わります。「停止」にすると、全マジックの最初の1本を出さなくなります（持っているポジションのナンピンと決済は続きます）。損切の「完全停止」から再開する時も、このボタンで「許可」に戻します。EAを入れ直しても、この状態は残ります。"},{"n":"救済利確①","d":"押すたびに、救済利確①のON・OFFが切り替わります。\nパラメーター画面で「救済利確の使用」を「使用しない」に設定していても、このボタンでONにすれば、救済利確①は働きます。その時は、パラメーター画面で設定した「救済利確条件①」「発動段数①」「救済利確値①」などの値を使います。\nただし、ボタンでの切り替えは、その場かぎりです。EAを入れ直した時や、MT5を起動し直した時などは、パラメーター画面で設定した状態に戻ります（「使用しない」ならOFFに戻ります）。"},{"n":"救済利確②","d":"押すたびに、救済利確②のON・OFFが切り替わります。\nパラメーター画面で「救済利確の使用」を「使用しない」に設定していても、このボタンでONにすれば、救済利確②は働きます。その時は、パラメーター画面で設定した「救済利確条件②」「発動段数②」「救済利確値②」などの値を使います。\nただし、ボタンでの切り替えは、その場かぎりです。EAを入れ直した時や、MT5を起動し直した時などは、パラメーター画面で設定した状態に戻ります（「使用しない」ならOFFに戻ります）。"}];
   var box = document.getElementById('cbox'), hs = document.querySelectorAll('.hs'), li = document.querySelectorAll('.cl');
   function mark(i){ hs.forEach(function(h){ h.classList.toggle('on', +h.dataset.i===i); }); li.forEach(function(l){ l.classList.toggle('on', +l.dataset.i===i); }); }
   function show(i){ box.innerHTML = '<b></b><span></span>'; box.firstChild.textContent = D[i].n; box.lastChild.textContent = D[i].d; mark(i); }

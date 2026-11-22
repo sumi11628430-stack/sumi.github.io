@@ -185,6 +185,13 @@
   .ea-card.glow-sage:hover { border-color: #60a5fa; box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(96,165,250,0.5), 0 0 70px rgba(59,130,246,0.38); }
   .ea-card.glow-grand { box-shadow: 0 0 0 1px rgba(212,175,55,0.45), 0 0 50px rgba(212,175,55,0.22); }
   .ea-card.glow-grand:hover { border-color: #d4af37; box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(212,175,55,0.6), 0 0 70px rgba(212,175,55,0.34); }
+  /* 配布停止の札（押せない・灰色・動かない） */
+  .ea-card.ea-stopped { cursor: default; background: rgba(15,23,42,0.55); border-color: rgba(255,255,255,0.08); box-shadow: none; }
+  .ea-card.ea-stopped:hover { transform: none; border-color: rgba(255,255,255,0.08); box-shadow: none; }
+  .ea-card.ea-stopped::before { display: none; }
+  .ea-card.ea-stopped .ea-icon, .ea-card.ea-stopped .ea-name, .ea-card.ea-stopped .ea-desc, .ea-card.ea-stopped .badge:not(.badge-stop) { opacity: 0.45; filter: grayscale(1); }
+  .badge-stop { background: rgba(239,68,68,0.16); border: 1px solid #f87171; color: #fecaca; font-weight: 600; }
+  .demo-ea-name { color: #fff; font-weight: 500; }
   .ea-card-coming.glow-crystal { border-color: rgba(103,232,249,0.35); box-shadow: 0 0 50px rgba(34,211,238,0.2); }
   .ea-card-coming {
     background: rgba(15, 23, 42, 0.4);
@@ -264,18 +271,18 @@
     <p class="header-sub"></p>
   </div>
   <div class="ea-list">
-    <a href="ea_01.html" class="ea-card glow-sage">
+    <div class="ea-card glow-sage ea-stopped" aria-disabled="true">
       <div class="ea-icon" data-shards="sage"><img src="icons/icon_ea_sage.webp" alt=""></div>
       <div class="ea-body">
         <div class="ea-name">Re：【STYLE】クラスター_iF~</div>
         <div class="ea-meta">
+          <span class="badge badge-stop">配布停止</span>
           <span class="badge badge-blue">MT4 / MT5</span>
           <span class="badge badge-gold">GOLD SPECIALIZED</span>
         </div>
         <div class="ea-desc">旧EAでは利点でもあり、現EAでは弱点でもある「インターバル」の概念を撤廃し時間足とインジケーターと静観モードにより過去数年～十数年間のボラティリティと2025~26年の異常ボラティリティに対応した「静観モードにより長期保有する時もあるんですナンピンEA」</div>
       </div>
-      <div class="ea-arrow">›</div>
-    </a>
+    </div>
     <a href="ea_02.html" class="ea-card glow-grand">
       <div class="ea-icon" data-shards="grand"><img src="icons/icon_ea_grandsage.webp" alt=""></div>
       <div class="ea-body">
@@ -306,7 +313,7 @@
     <div class="demo-group">
         <div class="demo-account">
           <div class="demo-head"><span class="badge badge-blue">MT5</span>chimachima</div>
-          <div class="demo-ea"><span class="demo-ea-label">稼働中の EA</span><a href="ea_01.html">Re：【STYLE】クラスター_iF~</a></div>
+          <div class="demo-ea"><span class="demo-ea-label">稼働中の EA</span><span class="demo-ea-name">Re：【STYLE】クラスター_iF~</span></div>
           <p class="demo-ea-note">ver2 との比較のため、この口座は ver1 で動かしています。</p>
           <div class="cred-row"><span class="cred-label">ログインID</span><span class="cred-value">75509211</span></div>
           <div class="cred-row"><span class="cred-label">パスワード</span><span class="cred-value">@Rakunou1000ml</span></div>

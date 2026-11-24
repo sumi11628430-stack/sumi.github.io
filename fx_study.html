@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FX用語の勉強部屋</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--accent:#2563eb;--text:#1e293b;--text-muted:#475569;--line:#e2e8f0}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{color:var(--text);font-family:'Noto Sans JP',sans-serif;font-weight:400;line-height:1.85;min-height:100vh;overflow-x:hidden;
+    background:#f6f9fd linear-gradient(180deg,#e3efff 0,#f6f9fd 420px) no-repeat}
+  .container{max-width:760px;margin:0 auto;padding:48px 20px 80px}
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--accent);font-size:14px;text-decoration:none;margin-bottom:32px;padding:8px 16px;background:#fff;border:1px solid rgba(37,99,235,0.25);border-radius:999px}
+  .back-link:hover{border-color:var(--accent)}
+
+  .header{text-align:center;margin-bottom:28px}
+  .header-icon{width:72px;height:72px;border-radius:22%;display:block;margin:0 auto 16px;box-shadow:0 8px 24px rgba(37,99,235,0.18)}
+  .header-badge{display:inline-block;background:#fff;border:1px solid rgba(37,99,235,0.2);color:var(--accent);font-size:12px;letter-spacing:0.1em;padding:4px 14px;border-radius:999px;margin-bottom:14px}
+  h1{font-family:'Noto Serif JP',serif;font-weight:600;font-size:clamp(22px,5vw,30px);letter-spacing:0.05em;margin-bottom:8px}
+  .header-sub{color:var(--text-muted);font-size:15px}
+  .howto{display:flex;align-items:center;gap:10px;background:#fff;border:1px dashed rgba(37,99,235,0.35);border-radius:12px;padding:12px 16px;margin:0 0 20px;font-size:14px;color:var(--text-muted)}
+  .howto b{color:var(--accent);font-weight:700}
+
+  /* 言葉の一覧（押すと開く） */
+  .term{background:#fff;border:1px solid var(--line);border-radius:14px;margin-bottom:12px;box-shadow:0 4px 14px rgba(30,64,120,0.06);transition:border-color .2s,box-shadow .2s}
+  .term[open]{border-color:rgba(37,99,235,0.45);box-shadow:0 8px 24px rgba(37,99,235,0.10)}
+  .term > summary{display:flex;align-items:center;gap:12px;padding:16px 18px;cursor:pointer;list-style:none;border-radius:14px}
+  .term > summary::-webkit-details-marker,.exbox > summary::-webkit-details-marker{display:none}
+  .term > summary:hover{background:#f8fbff}
+  .t-text{flex:1;min-width:0}
+  .t-name{display:block;font-family:'Noto Serif JP',serif;font-size:18px;font-weight:600;color:var(--text)}
+  .t-hint{display:block;font-size:13px;color:#64748b}
+  .t-btn{flex-shrink:0;font-size:12px;font-weight:700;color:var(--accent);background:#eff6ff;border:1px solid rgba(37,99,235,0.25);border-radius:999px;padding:4px 12px;white-space:nowrap}
+  .t-btn .c{display:none}
+  details[open] > summary .t-btn .o{display:none}
+  details[open] > summary .t-btn .c{display:inline}
+  .t-body{padding:2px 20px 20px;border-top:1px solid #f1f5f9}
+  .t-body > p{font-size:15px;color:#334155;margin-top:12px}
+  .t-body > p b{color:var(--text)}
+  .t-body .ex1{background:#f8fafc;border-radius:8px;padding:8px 12px;font-size:14px}
+  .formula{margin-top:12px;padding:12px 14px;border-radius:10px;background:#fffbeb;border:1px solid #fcd34d;color:#78350f;font-size:15px;line-height:1.8}
+  .formula b{font-weight:700}
+  .formula small{display:block;font-size:13px;color:#92400e}
+
+  /* 例で見る（レバレッジの中） */
+  .exbox{margin-top:16px;border:1px solid rgba(37,99,235,0.3);border-radius:12px;background:#f8fbff}
+  .exbox > summary{display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;list-style:none;font-weight:700;color:#1e3a8a;font-size:15px}
+  .exbox > summary > span:first-child{flex:1}
+  .exbox[open] > summary{border-bottom:1px solid rgba(37,99,235,0.15)}
+
+  /* 25倍と1000倍の比較 */
+  .lev{--accent2:#059669;--accent3:#d97706;--danger:#dc2626;--dep:#3b82f6;--free:#34d399;padding:12px}
+  .lev .blk{background:#fff;border-radius:12px;padding:18px 18px;margin-bottom:12px;border:1px solid var(--line);border-left:4px solid var(--accent)}
+  .lev .blk:last-child{margin-bottom:0}
+  .lev .blk.good{border-left-color:var(--accent2)} .lev .blk.warn{border-left-color:var(--danger)} .lev .blk.sum{border-left-color:var(--accent3)}
+  .lev h4{font-family:'Noto Serif JP',serif;font-size:17px;font-weight:600;margin-bottom:8px;line-height:1.6}
+  .lev .tag{display:inline-block;font-family:'Noto Sans JP',sans-serif;font-size:12px;font-weight:700;color:#fff;border-radius:999px;padding:1px 12px;margin-right:8px;vertical-align:2px}
+  .lev .tag.g{background:var(--accent2)} .lev .tag.r{background:var(--danger)}
+  .lev .lead{font-size:14px;color:var(--text-muted);margin-bottom:12px}
+  .lev .lead b,.lev .note b{color:var(--text);font-weight:700}
+  .lev .note{font-size:13px;color:var(--text-muted);background:#eef4ff;border-radius:8px;padding:8px 12px;margin-top:10px}
+  .lev .note.g{background:#ecfdf5} .lev .note.r{background:#fef2f2}
+  .lev .foot{font-size:12px;color:#64748b;margin-top:10px}
+  .lev .premise{display:flex;flex-wrap:wrap;gap:8px}
+  .lev .chip{background:#f1f5f9;border-radius:999px;padding:3px 13px;font-size:13px;font-weight:500}
+  .lev .box2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .lev .pane{border-radius:12px;padding:14px;background:#f8fafc;text-align:center}
+  .lev .pane h3{font-size:15px;font-weight:700;margin-bottom:6px}
+  .lev .big{font-size:30px;font-weight:700;line-height:1.3} .lev .big.b{color:#1d4ed8} .lev .big.o{color:#b45309}
+  .lev .pane small{display:block;font-size:12px;color:var(--text-muted)}
+  .lev .result{border-radius:10px;padding:10px 12px;font-size:14px;font-weight:700;text-align:center}
+  .lev .result small{display:block;font-weight:400;font-size:12px}
+  .lev .result.ok{background:#ecfdf5;color:#047857} .lev .result.mid{background:#fff7ed;color:#b45309}
+  .lev .same{text-align:center;font-size:15px;font-weight:700;background:#f1f5f9;border-radius:10px;padding:10px;margin-top:12px}
+  .lev .same small{display:block;font-size:12px;font-weight:400;color:var(--text-muted)}
+  .lev .legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;margin-bottom:12px}
+  .lev .legend i{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:5px}
+  .lev .cp{border-top:1px solid var(--line);padding:12px 0 6px}
+  .lev .cp-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;font-size:13px;color:var(--text-muted);margin-bottom:6px}
+  .lev .cp-h b{font-size:16px;color:var(--text)} .lev .cp-loss{margin-left:auto;color:#64748b}
+  .lev .row{display:grid;grid-template-columns:52px 1fr;align-items:center;gap:8px}
+  .lev .lv{font-size:13px;font-weight:700}
+  .lev .bar{display:flex;height:22px;border-radius:6px;overflow:hidden;background:#f8fafc}
+  .lev .bar i{display:block;height:100%} .lev .bar .dep{background:var(--dep);min-width:3px} .lev .bar .free{background:var(--free)} .lev .bar .loss{background:repeating-linear-gradient(45deg,#e2e8f0 0 6px,#cbd5e1 6px 12px)}
+  .lev .nums{font-size:12px;color:var(--text-muted);margin:2px 0 8px 60px}
+  .lev .nums b.g{color:#047857} .lev .nums b.r{color:var(--danger)}
+  .lev .verdict{font-weight:700;margin-left:6px} .lev .verdict.g{color:#047857} .lev .verdict.r{color:var(--danger)}
+  .lev .ud{width:100%;border-collapse:separate;border-spacing:6px;font-size:14px}
+  .lev .ud th{font-size:13px;font-weight:700}
+  .lev .ud td{text-align:center;border-radius:10px;padding:9px 6px;font-weight:700;background:#f1f5f9}
+  .lev .ud td small{display:block;font-size:11px;font-weight:400;color:var(--text-muted)}
+  .lev .ud .lab{text-align:left;font-weight:500;background:none}
+  .lev .ud .b,.lev .ud .o,.lev .ud .minus{word-break:keep-all}
+  .lev .ud .b{background:#eff6ff;color:#1d4ed8} .lev .ud .o{background:#fff7ed;color:#b45309} .lev .ud .minus{background:#fef2f2;color:var(--danger)}
+  .lev .sum p{font-size:15px;margin-bottom:6px}
+
+  @media(max-width:600px){
+    .container{padding:32px 14px 64px}
+    .term > summary{padding:14px 14px}
+    .t-body{padding:2px 14px 16px}
+    .lev{padding:8px}
+    .lev .blk{padding:14px 12px}
+    .lev .box2{grid-template-columns:1fr} .lev .cp-loss{margin-left:0} .lev .nums{margin-left:0} .lev .ud{font-size:13px;border-spacing:4px}
+  }
+</style>
+<link rel="stylesheet" href="icon-anim.css">
+</head>
+<body>
+<div class="container">
+
+  <a href="index.html" class="back-link">← トップへ戻る</a>
+
+  <div class="header">
+    <img class="header-icon" src="icons/icon_clipboard.webp" alt="">
+    <div class="header-badge">はじめての方へ</div>
+    <h1>FX用語の勉強部屋</h1>
+    <p class="header-sub">FXで出てくる言葉を、やさしく説明します</p>
+  </div>
+
+  <p class="howto">👆 <span>知りたい言葉を<b>押すと、説明が開きます</b>。もう一度押すと閉じます。</span></p>
+
+  <div class="terms">
+    <details class="term" id="lot">
+      <summary><span class="t-text"><span class="t-name">ロット</span><span class="t-hint">取引の量の単位</span></span><span class="t-btn"><span class="o">説明を見る</span><span class="c">閉じる</span></span></summary>
+      <div class="t-body">
+        <p>「どれだけ買うか（売るか）」を表す単位です。0.1ロットなら、1ロットの10分の1の量です。</p>
+        <p>1ロットが金何オンスかは、口座によって変わります（micro口座は、1ロット ＝ 金1オンス）。</p>
+      </div>
+    </details>
+    <details class="term" id="pips">
+      <summary><span class="t-text"><span class="t-name">pips（ピップス）</span><span class="t-hint">値動きの大きさの単位</span></span><span class="t-btn"><span class="o">説明を見る</span><span class="c">閉じる</span></span></summary>
+      <div class="t-body">
+        <p>値段がどれだけ動いたかを表す単位です。このサイトでは、金の値段が1ドル動くことを10pipsと数えます。</p>
+        <p class="ex1">例：金が4,000ドルから3,990ドルに下がったら、10ドル ＝ 100pipsの下がりです。</p>
+      </div>
+    </details>
+    <details class="term" id="margin">
+      <summary><span class="t-text"><span class="t-name">証拠金（しょうこきん）</span><span class="t-hint">取引の間、預けておくお金</span></span><span class="t-btn"><span class="o">説明を見る</span><span class="c">閉じる</span></span></summary>
+      <div class="t-body">
+        <p>取引をする時に、口座のお金から預けておくお金です。</p>
+        <p>部屋を借りる時の<b>敷金</b>のようなものです。借りる部屋が増えるほど敷金が多くなるように、持つ量（ロット）が増えるほど多くなります。取引を終えると戻ってきます。</p>
+        <div class="formula"><b>証拠金 ＝ 買った値段 × ロット × 150円 ÷ レバレッジ</b><small>例：金が4,000ドルの時に0.1ロット、レバレッジ25倍なら　4,000 × 0.1 × 150 ÷ 25 ＝ 2,400円</small><small>※ micro口座の金で、1ドル＝150円の場合です。今の値段で数え直す会社もあります。</small></div>
+      </div>
+    </details>
+    <details class="term" id="leverage">
+      <summary><span class="t-text"><span class="t-name">レバレッジ</span><span class="t-hint">預けたお金の何倍まで取引できるか</span></span><span class="t-btn"><span class="o">説明を見る</span><span class="c">閉じる</span></span></summary>
+      <div class="t-body">
+        <p>少ないお金を預けて、その何倍もの金額の取引ができる仕組みです。25倍なら取引の額の25分の1、1000倍なら1000分の1を預けます。</p>
+        <p>部屋の<b>敷金</b>にたとえると、同じ部屋でも敷金が安く済むのが1000倍、高いのが25倍、というちがいです。</p>
+        <details class="exbox" id="leverage-example">
+          <summary><span>例で見る：レバレッジ25倍と1000倍のちがい</span><span class="t-btn"><span class="o">開く</span><span class="c">閉じる</span></span></summary>
+          <div class="lev">
+            <div class="blk">
+              <h4>この例の前提</h4>
+              <div class="premise">
+                <span class="chip">口座のお金：10万円</span>
+                <span class="chip">1ロット ＝ 金1オンス（micro口座）</span>
+                <span class="chip">1回の注文：0.1ロット（＝1本）</span>
+                <span class="chip">金の値段：1ロット ＝ 4,000ドル</span>
+                <span class="chip">1ドル ＝ 150円</span>
+                <span class="chip">強制決済：口座のお金が、預けているお金の20%を下回った時</span>
+              </div>
+              <p class="foot">※ 説明のための例です。数字は丸め、取引の手数料などは入れていません。預けるお金は買った時の値段で数えています。</p>
+              <p class="lead" style="margin-top:12px">出てくる言葉の意味は、このページのほかの言葉を押すと見られます。</p>
+            </div>
+
+            <div class="blk">
+              <h4>① 1本ずつ見ると、変わるのは「預けるお金」だけ</h4>
+              <p class="lead">0.1ロットは、<b>6万円分の金</b>です（4,000ドル × 0.1ロット × 150円）。<br>これを買う時に、口座のお金から預けるお金は：</p>
+              <div class="box2">
+                <div class="pane"><h3>レバレッジ 25倍</h3><div class="big b">2,400円</div><small>6万円 ÷ 25</small></div>
+                <div class="pane"><h3>レバレッジ 1000倍</h3><div class="big o">60円</div><small>6万円 ÷ 1000</small></div>
+              </div>
+              <div class="same">金が1ドル（10pips）下がった時の損は、どちらも −15円<small>持っている金は同じ6万円分なので、損も得も同じだけ動きます</small></div>
+              <p class="note">レバレッジ＝<b>6万円分の金を、何分の1のお金を預けて買えるか</b>です。同じ量を持っているなら、損も得も同じだけ動きます。<br>ちがいが出るのは、<b>買い足して持つ量が変わる時</b>です（②）。</p>
+            </div>
+
+            <div class="blk">
+              <h4>② 下がるたびに買い足すと（ナンピン）</h4>
+              <p class="lead">ナンピン（値段が下がった所で、同じものを買い足すこと）をします。4,000ドルから、<b>10ドル（100pips）下がるごとに0.1ロットずつ買い足す</b>とします。口座のお金10万円が、どう使われていくかを見ます。<br>棒の全体が<b>最初の10万円</b>です。青＋緑＋しま模様で10万円になります。</p>
+              <div class="legend"><span><i style="background:var(--dep)"></i>預けているお金（買うたびに増える）</span><span><i style="background:var(--free)"></i>まだ使えるお金（次を買うのに使う）</span><span><i style="background:repeating-linear-gradient(45deg,#e2e8f0 0 4px,#cbd5e1 4px 8px)"></i>含み損で減った分</span></div>
+                <div class="cp">
+                  <div class="cp-h"><b>4,000ドル</b><span>1本目を買った所・1本</span><span class="cp-loss">含み損 0円（どちらも同じ）</span></div>
+                  <div class="row"><span class="lv">25倍</span><div class="bar"><i class="dep" style="width:2.40%"></i><i class="free" style="width:97.60%"></i><i class="loss" style="width:0.00%"></i></div></div><div class="nums">預けている 2,400円／まだ使える <b class="g">97,600円</b></div>
+                  <div class="row"><span class="lv">1000倍</span><div class="bar"><i class="dep" style="width:0.06%"></i><i class="free" style="width:99.94%"></i><i class="loss" style="width:0.00%"></i></div></div><div class="nums">預けている 60円／まだ使える <b class="g">99,940円</b></div>
+                </div>
+                <div class="cp">
+                  <div class="cp-h"><b>3,900ドル</b><span>100ドル（1,000pips）下がった所・11本</span><span class="cp-loss">含み損 8,250円（どちらも同じ）</span></div>
+                  <div class="row"><span class="lv">25倍</span><div class="bar"><i class="dep" style="width:26.07%"></i><i class="free" style="width:65.68%"></i><i class="loss" style="width:8.25%"></i></div></div><div class="nums">預けている 26,070円／まだ使える <b class="g">65,680円</b></div>
+                  <div class="row"><span class="lv">1000倍</span><div class="bar"><i class="dep" style="width:0.65%"></i><i class="free" style="width:91.10%"></i><i class="loss" style="width:8.25%"></i></div></div><div class="nums">預けている 652円／まだ使える <b class="g">91,098円</b></div>
+                </div>
+                <div class="cp">
+                  <div class="cp-h"><b>3,800ドル</b><span>200ドル（2,000pips）下がった所・21本</span><span class="cp-loss">含み損 31,500円（どちらも同じ）</span></div>
+                  <div class="row"><span class="lv">25倍</span><div class="bar"><i class="dep" style="width:49.14%"></i><i class="free" style="width:19.36%"></i><i class="loss" style="width:31.50%"></i></div></div><div class="nums">預けている 49,140円／まだ使える <b class="g">19,360円</b></div>
+                  <div class="row"><span class="lv">1000倍</span><div class="bar"><i class="dep" style="width:1.23%"></i><i class="free" style="width:67.27%"></i><i class="loss" style="width:31.50%"></i></div></div><div class="nums">預けている 1,228円／まだ使える <b class="g">67,272円</b></div>
+                </div>
+                <div class="cp">
+                  <div class="cp-h"><b>3,760ドル</b><span>240ドル（2,400pips）下がった所・25倍 24本・1000倍 25本</span><span class="cp-loss">含み損 45,000円（どちらも同じ）</span></div>
+                  <div class="row"><span class="lv">25倍</span><div class="bar"><i class="dep" style="width:55.00%"></i><i class="free" style="width:0.00%"></i><i class="loss" style="width:45.00%"></i></div></div><div class="nums">預けている 55,944円／まだ使える <b class="r">なし</b>（預けるお金が口座のお金をこえた）<span class="verdict r">→ 次を買い足せない（2,256円要る）</span></div>
+                  <div class="row"><span class="lv">1000倍</span><div class="bar"><i class="dep" style="width:1.46%"></i><i class="free" style="width:53.55%"></i><i class="loss" style="width:45.00%"></i></div></div><div class="nums">預けている 1,455円／まだ使える <b class="g">53,545円</b><span class="verdict g">→ 買い足せた</span></div>
+                </div>
+              <p class="note"><b>含み損（しま模様）は、25倍も1000倍も同じ</b>です。ちがうのは<b>青（預けているお金）</b>だけ。25倍は1本ごとに約2,300円ずつ増え、1000倍は約60円ずつしか増えません。<br>25倍は3,760ドルで緑がなくなり、<b>24本で買い足せなくなります</b>。1000倍は、まだ5万円以上使えるので<b>買い足し続けられます</b>。<br>ここから先は、<b>1000倍だけ持つ量が増えていきます</b>。そのため、下げ止まってもどった時（いいところ）と、下がり続けた時（こわいところ）で、結果が分かれます。</p>
+            </div>
+
+            <div class="blk good">
+              <h4><span class="tag g">1000倍のいいところ</span>もどった時に、早く損がなくなる</h4>
+              <p class="lead">3,700ドルで下げ止まり、そこから値段がもどってきた場合：</p>
+              <div class="box2">
+                <div class="pane"><h3>25倍（24本・平均3,885ドル）</h3><div class="result mid">3,885ドルまでもどれば ±0<small>3,700ドルから 185ドル（1,850pips）上がる必要がある</small></div></div>
+                <div class="pane"><h3>1000倍（31本・平均3,850ドル）</h3><div class="result ok">3,850ドルまでもどれば ±0<small>3,700ドルから 150ドル（1,500pips）上がれば足りる</small></div></div>
+              </div>
+              <p class="note g">安い所でも買い足せたぶん、買った値段の平均が下がり、<b>35ドル（350pips）少ないもどりで損がなくなります</b>。</p>
+            </div>
+
+            <div class="blk warn">
+              <h4><span class="tag r">1000倍のこわいところ</span>持つ量が増えて重くなる</h4>
+              <p class="lead">下がり続けた場合です。1000倍は買い足し続けるので持つ量が増え、<b>1ドル（10pips）下がった時の損</b>が大きくなっていきます。</p>
+              <table class="ud">
+                <tr><th></th><th>25倍</th><th>1000倍</th></tr>
+                <tr><td class="lab">3,700ドルの時に持っている量</td><td class="b">24本</td><td class="o">31本</td></tr>
+                <tr><td class="lab">そこから1ドル下がると</td><td class="b">−360円</td><td class="minus">−465円</td></tr>
+                <tr><td class="lab">3,700ドルの時の口座のお金</td><td class="b">33,400円</td><td class="minus">30,250円<small>多く持ったぶん、少ない</small></td></tr>
+                <tr><td class="lab">強制決済になる値段</td><td class="b">約3,638ドル<small>24本のまま</small></td><td class="o">約3,641ドル<small>36本まで買い足して、25倍より少し早い</small></td></tr>
+              </table>
+              <p class="note r">（例を変えて）1回の注文を10倍の<b>1ロット</b>にすると、差がはっきり出ます。1ロットずつ買い足す場合、1000倍は11本まで買い足せてしまい、<b>約110ドル（1,100pips）下で強制決済</b>。25倍は3本で止まるので、約200ドル（2,000pips）下まで持ちこたえます。<br>1000倍は買い足しの上限がほとんどないので、<b>何回まで買い足すかを自分で決めておく</b>ことが大事です。</p>
+            </div>
+
+            <div class="blk sum">
+              <h4>まとめ</h4>
+              <div class="sum">
+                <p>・レバレッジで変わるのは<b>預けるお金</b>だけ。値動きの損益は、25倍でも1000倍でも同じ。</p>
+                <p>・1000倍は預けるお金が少ないので、下がっても<b>買い足し続けられる</b>。もどれば早く損がなくなる。</p>
+                <p>・そのかわり、持つ量が増えて<b>重くなる</b>。下がり続けると、25倍より早く強制決済になることもある。</p>
+                <p>・1000倍を使う時は、<b>1回の注文の大きさ</b>と、<b>何本まで買い足すか</b>を先に決めておく。</p>
+              </div>
+            </div>
+          </div>
+        </details>
+      </div>
+    </details>
+    <details class="term" id="unrealized-loss">
+      <summary><span class="t-text"><span class="t-name">含み損（ふくみぞん）</span><span class="t-hint">まだ確定していない損</span></span><span class="t-btn"><span class="o">説明を見る</span><span class="c">閉じる</span></span></summary>
+      <div class="t-body">
+        <p>まだ取引を終えていないけれど、今終えたら出る損です。値段がもどれば減り、取引を終えた時に確定します。</p>
+      </div>
+    </details>
+    <details class="term" id="equity">
+      <summary><span class="t-text"><span class="t-name">口座のお金</span><span class="t-hint">今、口座にあるお金</span></span><span class="t-btn"><span class="o">説明を見る</span><span class="c">閉じる</span></span></summary>
+      <div class="t-body">
+        <p>口座に入れたお金から含み損を引いた（含み益なら足した）、今の口座のお金です。</p>
+      </div>
+    </details>
+    <details class="term" id="stop-out">
+      <summary><span class="t-text"><span class="t-name">強制決済（きょうせいけっさい）</span><span class="t-hint">お金が減りすぎると、自動で取引が終わること</span></span><span class="t-btn"><span class="o">説明を見る</span><span class="c">閉じる</span></span></summary>
+      <div class="t-body">
+        <p>口座のお金が減りすぎると、持っている取引が自動で全部終わり、損が確定することです。どこまで減ると起きるかは、会社や口座によって変わります。</p>
+      </div>
+    </details>
+  </div>
+
+</div>
+<script>
+// URLの#で言葉を指定された時（例：fx_study.html#leverage）、その言葉を開いて見せる
+function openFromHash(){
+  var id = decodeURIComponent(location.hash.slice(1));
+  if (!id) return;
+  var el = document.getElementById(id);
+  if (!el || el.tagName !== 'DETAILS') return;
+  for (var p = el; p; p = p.parentElement) { if (p.tagName === 'DETAILS') p.open = true; }
+  el.scrollIntoView({block: 'start'});
+}
+window.addEventListener('hashchange', openFromHash);
+openFromHash();
+</script>
+</body>
+</html>
